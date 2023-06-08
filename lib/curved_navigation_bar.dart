@@ -3,18 +3,32 @@ import 'package:gradient_borders/gradient_borders.dart';
 
 typedef LetIndexPage = bool Function(int value);
 
-Gradient whiteGradient = LinearGradient(
+const Gradient defaultGradient = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
   colors: [
-    Colors.grey[400]!,
-    Colors.grey[300]!,
-    Colors.grey[100]!,
-    Colors.grey[300]!,
-    Colors.grey[400]!,
+    Colors.white,
+    Colors.grey,
+    Colors.green,
+    Colors.grey,
+    Colors.white,
   ],
-  stops: const [0.1, 0.3, 0.5, 0.7, 1.0],
+  stops: [0.1, 0.3, 0.5, 0.7, 1.0],
 );
+
+Shader defaultGradientShader = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Colors.white,
+      Colors.grey,
+      Colors.green,
+      Colors.grey,
+      Colors.white,
+    ],
+    stops: [0.1, 0.3, 0.5, 0.7, 1.0],
+  ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100));
+
 
 class CurvedNavigationBar extends StatefulWidget {
   final List<Widget> items;
@@ -30,6 +44,9 @@ class CurvedNavigationBar extends StatefulWidget {
   final double navBarWidth;
   final double? strokeBorderWidth;
   final Color strokeBorderColor;
+  final Gradient strokeGradient;
+  final Shader? strokeGradientShader;
+  final bool useShaderStroke;
   final bool showForeGround;
   
   CurvedNavigationBar({
@@ -42,12 +59,15 @@ class CurvedNavigationBar extends StatefulWidget {
     this.backgroundColor = Colors.amber,
     this.borderColor = Colors.yellow,
     this.strokeBorderColor = Colors.white,
+    this.strokeGradient = defaultGradient,
+    this.strokeGradientShader,
     this.strokeBorderWidth=0,
     this.currentIndex=0,
     this.animationDuration = const Duration(milliseconds: 500),
     this.navBarHeight = kBottomNavigationBarHeight,
     this.navBarWidth=double.infinity,
     this.showForeGround=true,
+    this.useShaderStroke=false,
   })  
   : letIndexChange = letIndexChange ?? ((_) => true),
     assert(items.isNotEmpty),
@@ -149,7 +169,8 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
                 _length, 
                 widget.borderColor?? widget.navBarColor, 
                 Directionality.of(context),
-                widget.strokeBorderWidth??1
+                widget.strokeBorderWidth??1,
+                widget.useShaderStroke
               )
               :null,
               child: Container(
@@ -198,10 +219,10 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
                 borderOnForeground : true,
                 child: Container(
                   padding: const EdgeInsets.all(0.0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     border: GradientBoxBorder(
-                      gradient: whiteGradient,
+                      gradient: defaultGradient,
                       width: 1,
                     ),
                   ),
@@ -348,6 +369,7 @@ class NavCustomForeGroundPainter extends CustomPainter {
   late double loc;
   late double s;
   late double strokeBorderWidth;
+  late bool useShaderStroke;
   Color color;
   TextDirection textDirection;
 
@@ -357,6 +379,7 @@ class NavCustomForeGroundPainter extends CustomPainter {
     this.color, 
     this.textDirection,
     this.strokeBorderWidth,
+    this.useShaderStroke,
   ) 
   {
     final span = 1.0 / itemsLength;
@@ -365,26 +388,16 @@ class NavCustomForeGroundPainter extends CustomPainter {
     loc = textDirection == TextDirection.rtl ? 0.8 - l : l;
   }
 
-  dynamic defaultGradientShader = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      Colors.grey[100]!,
-      Colors.grey[200]!,
-      Colors.grey[400]!,
-      Colors.grey[200]!,
-      Colors.grey[100]!,
-    ],
-    stops: const [0.1, 0.3, 0.5, 0.7, 1.0],
-  ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100,));
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      // ..color = color
       ..strokeWidth = strokeBorderWidth
-      ..style = PaintingStyle.stroke
-      ..shader = defaultGradientShader;
+      ..style = PaintingStyle.stroke;
+      if (!useShaderStroke) {
+        paint.color = color; // Set the desired color
+      } else {
+        paint.shader = defaultGradientShader;// Set the desired shader
+      }
 
     final path = Path()
       ..moveTo(-size.height, 0)

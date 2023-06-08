@@ -81,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
         animationCurve: Curves.slowMiddle, // Index change animation curves
         animationDuration: const Duration(milliseconds: 200), //Index Change Animation duration
         showForeGround: true,
+        useShaderStroke: false,
         items: const <Widget>[
           Icon(
             Icons.favorite, 
