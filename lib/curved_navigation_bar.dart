@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gradient_borders/gradient_borders.dart';
 
 typedef LetIndexPage = bool Function(int value);
 
@@ -35,7 +34,6 @@ class CurvedNavigationBar extends StatefulWidget {
   final int currentIndex;
   final Color navBarColor;
   final Color backgroundColor;
-  final Color? borderColor;
   final ValueChanged<int>? onTap;
   final LetIndexPage letIndexChange;
   final Curve animationCurve;
@@ -48,6 +46,14 @@ class CurvedNavigationBar extends StatefulWidget {
   final Shader? strokeGradientShader;
   final bool useShaderStroke;
   final bool showForeGround;
+  final double selectedButtonHeight;
+  final double selectedButtonElevation;
+  final Color selectedButtonColor;
+  final MaterialType selectedButtonMaterialType;
+  final Widget? customSelectedButtonWidget;
+  final Color backgroundStrokeBorderColor;
+  final double backgroundStrokeBorderWidth;
+  final BorderStyle backgroundStrokeBorderStyle;
   
   CurvedNavigationBar({
     Key? key,
@@ -57,7 +63,6 @@ class CurvedNavigationBar extends StatefulWidget {
     LetIndexPage? letIndexChange,
     this.navBarColor = Colors.white,
     this.backgroundColor = Colors.amber,
-    this.borderColor = Colors.yellow,
     this.strokeBorderColor = Colors.white,
     this.strokeGradient = defaultGradient,
     this.strokeGradientShader,
@@ -68,6 +73,14 @@ class CurvedNavigationBar extends StatefulWidget {
     this.navBarWidth=double.infinity,
     this.showForeGround=true,
     this.useShaderStroke=false,
+    this.selectedButtonHeight=18.0,
+    this.selectedButtonElevation=0,
+    this.selectedButtonColor=Colors.blue,
+    this.selectedButtonMaterialType = MaterialType.circle,
+    this.customSelectedButtonWidget,
+    this.backgroundStrokeBorderColor=Colors.black,
+    this.backgroundStrokeBorderWidth=2.0,
+    this.backgroundStrokeBorderStyle=BorderStyle.solid,
   })  
   : letIndexChange = letIndexChange ?? ((_) => true),
     assert(items.isNotEmpty),
@@ -134,11 +147,11 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
     return Container(
       decoration: BoxDecoration(
         color: widget.backgroundColor,
-        border: const Border(
+        border: Border(
           top: BorderSide(
-            color : Colors.blue,
-            width : 4.0,
-            style : BorderStyle.solid,
+            color : widget.backgroundStrokeBorderColor,
+            width : widget.backgroundStrokeBorderWidth,
+            style : widget.backgroundStrokeBorderStyle,
             strokeAlign: BorderSide.strokeAlignInside
           ),
         )
@@ -157,19 +170,20 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
             right: 0,
             bottom: 0 - (75.0 - navBarH),
             child: CustomPaint(
-              painter: NavCustomPainter(
+              painter: NavForeGroundCurvePainter(
                 _pos, 
                 _length, 
                 widget.navBarColor, 
                 Directionality.of(context)
               ),
               foregroundPainter: widget.strokeBorderWidth!=0
-              ?NavCustomForeGroundPainter(
+              ?NavForeGroundStrokeBorderPainter(
                 _pos, 
                 _length, 
-                widget.borderColor?? widget.navBarColor, 
+                widget.strokeBorderColor, 
                 Directionality.of(context),
                 widget.strokeBorderWidth??1,
+                widget.strokeGradientShader,
                 widget.useShaderStroke
               )
               :null,
@@ -202,7 +216,7 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
           // Selected Button
           Positioned(
             top: 0,
-            bottom: 18,
+            bottom: widget.selectedButtonHeight,
             width: navBarW/_length,
             left: Directionality.of(context) == TextDirection.rtl
             ? null
@@ -210,27 +224,16 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
             right: Directionality.of(context) == TextDirection.rtl
             ? _pos * navBarW
             : null,
-            child: Center(
+            child: widget.customSelectedButtonWidget??Center(
               child: Material(
-                elevation: 0,
-                surfaceTintColor:Colors.black,
-                color: Colors.transparent,
-                type: MaterialType.circle,
+                elevation: widget.selectedButtonElevation,
+                surfaceTintColor:widget.selectedButtonColor,
+                color: widget.selectedButtonColor,
+                type: widget.selectedButtonMaterialType,
                 borderOnForeground : true,
-                child: Container(
-                  padding: const EdgeInsets.all(0.0),
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: GradientBoxBorder(
-                      gradient: defaultGradient,
-                      width: 1,
-                    ),
-                  ),
-                  child: CircleAvatar(
-                    radius: 12,
-                    backgroundColor: Colors.transparent,
-                    child: icon
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: icon,
                 ),
               ),
             )
@@ -310,16 +313,16 @@ class NavButton extends StatelessWidget {
 }
 //Navigation Background with curve
 //Control Curves here
-class NavCustomPainter extends CustomPainter {
+class NavForeGroundCurvePainter extends CustomPainter {
   late double loc;
   late double s;
   Color color;
   TextDirection textDirection;
 
-  NavCustomPainter(
+  NavForeGroundCurvePainter(
     double startingLoc, int itemsLength, this.color, this.textDirection) {
     final span = 1.0 / itemsLength;
-    s = 0.14;
+    s = 0.18;
     double l = startingLoc + (span - s) / 2;
     loc = textDirection == TextDirection.rtl ? 0.8 - l : l;
   }
@@ -332,21 +335,21 @@ class NavCustomPainter extends CustomPainter {
 
     final path = Path()
       ..moveTo(0, 0)
-      ..lineTo((loc - 0.1) * size.width, 0)
+      ..lineTo((loc - 0.0) * size.width, 0) //foreground left top curvature 0.05 default 0.1
       ..cubicTo(
         (loc + s * 0.20) * size.width,
         size.height * 0.05,
         loc * size.width,
-        size.height * 0.60,
-        (loc + s * 0.50) * size.width,
-        size.height * 0.60,
+        size.height * 0.60, //foreground curve height left default 0.60
+        (loc + s * 0.50) * size.width, //foreground curve bottom right default 0.50
+        size.height * 0.60, //foreground curve height bottom default 0.60
       )
       ..cubicTo(
         (loc + s) * size.width,
-        size.height * 0.60,
+        size.height * 0.60, //foreground curve height right default 0.60
         (loc + s - s * 0.20) * size.width,
         size.height * 0.05,
-        (loc + s + 0.1) * size.width,
+        (loc + s + 0.0) * size.width, //foreground right top curvature 0.05 default 0.1
         0,
       )
       ..lineTo(size.width, 0)
@@ -365,25 +368,27 @@ class NavCustomPainter extends CustomPainter {
 //Custom Stroke painter for bottom nav with gradient or a solid color
 //Control Curves here 
 //This is a line/Stroke above Bottom Navigation 
-class NavCustomForeGroundPainter extends CustomPainter {
+class NavForeGroundStrokeBorderPainter extends CustomPainter {
   late double loc;
   late double s;
   late double strokeBorderWidth;
   late bool useShaderStroke;
   Color color;
+  Shader? strokeGradientShader;
   TextDirection textDirection;
 
-  NavCustomForeGroundPainter(
+  NavForeGroundStrokeBorderPainter(
     double startingLoc, 
     int itemsLength, 
     this.color, 
     this.textDirection,
     this.strokeBorderWidth,
+    this.strokeGradientShader,
     this.useShaderStroke,
   ) 
   {
     final span = 1.0 / itemsLength;
-    s = 0.14;
+    s = 0.18;
     double l = startingLoc + (span - s) / 2;
     loc = textDirection == TextDirection.rtl ? 0.8 - l : l;
   }
@@ -396,26 +401,26 @@ class NavCustomForeGroundPainter extends CustomPainter {
       if (!useShaderStroke) {
         paint.color = color; // Set the desired color
       } else {
-        paint.shader = defaultGradientShader;// Set the desired shader
+        paint.shader = strokeGradientShader??defaultGradientShader;// Set the desired shader
       }
 
     final path = Path()
       ..moveTo(-size.height, 0)
-      ..lineTo((loc - 0.1) * size.width, 0)
+      ..lineTo((loc - 0.0) * size.width, 0) //foreground left top curvature 0.05 default 0.1
       ..cubicTo(
         (loc + s * 0.20) * size.width,
         size.height * 0.05,
         loc * size.width,
-        size.height * 0.60,
-        (loc + s * 0.50) * size.width,
-        size.height * 0.60,
+        size.height * 0.60, //foreground curve height left default 0.60
+        (loc + s * 0.50) * size.width, //bottom curvature
+        size.height * 0.60, //foreground curve height bottom default 0.60
       )
       ..cubicTo(
         (loc + s) * size.width,
-        size.height * 0.60,
+        size.height * 0.60, //foreground curve height right default 0.60
         (loc + s - s * 0.20) * size.width,
         size.height * 0.05,
-        (loc + s + 0.1) * size.width,
+        (loc + s + 0.0) * size.width, //foreground right top curvature 0.05 default 0.1
         0,
       )
       ..lineTo(size.width, 0)

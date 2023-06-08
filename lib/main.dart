@@ -71,37 +71,78 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: CurvedNavigationBar(
         currentIndex: currentIndex, // current selected index
-        backgroundColor: Colors.red, // nav button behind background
+        backgroundColor: Colors.transparent, // nav button behind background
         navBarColor: Colors.blue, // nav background
         letIndexChange: (index) => true, // true on tap items change index else not change index
         navBarHeight: kBottomNavigationBarHeight, // height of the bottom Nav Bar
         navBarWidth: MediaQuery.of(context).size.width, // width of the bottom Nav Bar 
-        strokeBorderWidth: 5, // Nav bar Stroke Width 
-        strokeBorderColor: Colors.black,
+        strokeBorderWidth: 2, // Nav bar Stroke Width 
+        strokeBorderColor: Colors.red, //stroke border color if useShaderStroke is false else uses shader
+        strokeGradientShader:const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.red,
+            Colors.purple,
+            Colors.green,
+            Colors.yellow,
+            Colors.blue,
+          ],
+          stops: [0.2, 0.4, 0.5, 0.6, 2.0],
+        ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100)),
         animationCurve: Curves.slowMiddle, // Index change animation curves
         animationDuration: const Duration(milliseconds: 200), //Index Change Animation duration
         showForeGround: true,
-        useShaderStroke: false,
+        useShaderStroke: true,
+        selectedButtonHeight: 10.0,
+        selectedButtonElevation: 1,
+        backgroundStrokeBorderColor: Colors.transparent,
+        backgroundStrokeBorderWidth: 1,
+        backgroundStrokeBorderStyle: BorderStyle.solid,
         items: const <Widget>[
           Icon(
             Icons.favorite, 
-            size: 20,
+            color: Colors.white,
           ),
           Icon(
             Icons.home, 
-            size: 20,
+            color: Colors.white,
           ),
           Icon(
-            Icons.library_books_sharp, 
-            size: 20,
+            Icons.wallet, 
+            color: Colors.white,
           ),
           Icon(
-            Icons.abc, 
-            size: 20,
+            Icons.ac_unit_outlined, 
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.access_alarm_rounded, 
+            color: Colors.white,
           ),
           // Icon(
-          //   Icons.wallet, 
-          //   size: 20,
+          //   Icons.access_time_filled, 
+          //   color: Colors.white,
+          // ),
+          // Icon(
+          //   Icons.account_balance_rounded, 
+          //   color: Colors.white,
+          // ),
+          // Icon(
+          //   Icons.zoom_out_map_rounded, 
+          //   color: Colors.white,
+          // ),
+          // Icon(
+          //   Icons.wrap_text_outlined, 
+          //   color: Colors.white,
+          // ),
+          // Icon(
+          //   Icons.window_outlined, 
+          //   color: Colors.white,
+          // ),
+          // Icon(
+          //   Icons.webhook_sharp, 
+          //   color: Colors.white,
           // ),
         ],
         onTap: (index) {
