@@ -30,22 +30,24 @@ class CurvedNavigationBar extends StatefulWidget {
   final double navBarWidth;
   final double? strokeBorderWidth;
   final Color strokeBorderColor;
+  final bool showForeGround;
   
   CurvedNavigationBar({
     Key? key,
     required this.items,
+    this.onTap,
+    this.animationCurve = Curves.easeOut,
+    LetIndexPage? letIndexChange,
     this.navBarColor = Colors.white,
     this.backgroundColor = Colors.amber,
     this.borderColor = Colors.yellow,
     this.strokeBorderColor = Colors.white,
     this.strokeBorderWidth=0,
-    this.onTap,
     this.currentIndex=0,
-    LetIndexPage? letIndexChange,
-    this.animationCurve = Curves.easeOut,
-    this.animationDuration = const Duration(milliseconds: 600),
+    this.animationDuration = const Duration(milliseconds: 500),
     this.navBarHeight = kBottomNavigationBarHeight,
     this.navBarWidth=double.infinity,
+    this.showForeGround=true,
   })  
   : letIndexChange = letIndexChange ?? ((_) => true),
     assert(items.isNotEmpty),
@@ -110,7 +112,17 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
     var navBarW = widget.navBarWidth;
     var navBarH = widget.navBarHeight;
     return Container(
-      color: widget.backgroundColor,
+      decoration: BoxDecoration(
+        color: widget.backgroundColor,
+        border: const Border(
+          top: BorderSide(
+            color : Colors.blue,
+            width : 4.0,
+            style : BorderStyle.solid,
+            strokeAlign: BorderSide.strokeAlignInside
+          ),
+        )
+      ),
       height: widget.navBarHeight,
       width: navBarW,
       padding: EdgeInsets.zero,
@@ -118,8 +130,9 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
         clipBehavior: Clip.none,
         alignment: Alignment.bottomCenter,
         children: <Widget>[
-          // Nav Background
-          Positioned(
+          // Nav ForeGround With Curve
+          widget.showForeGround
+          ?Positioned(
             left: 0,
             right: 0,
             bottom: 0 - (75.0 - navBarH),
@@ -143,7 +156,8 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
                 height: 75.0,
               ),
             ),
-          ),
+          )
+          :const SizedBox(),
           // Icons
           Positioned(
             left: 0,
@@ -192,7 +206,7 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
                     ),
                   ),
                   child: CircleAvatar(
-                    radius: 18,
+                    radius: 12,
                     backgroundColor: Colors.transparent,
                     child: icon
                   ),
@@ -273,7 +287,63 @@ class NavButton extends StatelessWidget {
     );
   }
 }
+//Navigation Background with curve
+//Control Curves here
+class NavCustomPainter extends CustomPainter {
+  late double loc;
+  late double s;
+  Color color;
+  TextDirection textDirection;
 
+  NavCustomPainter(
+    double startingLoc, int itemsLength, this.color, this.textDirection) {
+    final span = 1.0 / itemsLength;
+    s = 0.14;
+    double l = startingLoc + (span - s) / 2;
+    loc = textDirection == TextDirection.rtl ? 0.8 - l : l;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo((loc - 0.1) * size.width, 0)
+      ..cubicTo(
+        (loc + s * 0.20) * size.width,
+        size.height * 0.05,
+        loc * size.width,
+        size.height * 0.60,
+        (loc + s * 0.50) * size.width,
+        size.height * 0.60,
+      )
+      ..cubicTo(
+        (loc + s) * size.width,
+        size.height * 0.60,
+        (loc + s - s * 0.20) * size.width,
+        size.height * 0.05,
+        (loc + s + 0.1) * size.width,
+        0,
+      )
+      ..lineTo(size.width, 0)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
+      ..close();
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return this != oldDelegate;
+  }
+}
+
+//Custom Stroke painter for bottom nav with gradient or a solid color
+//Control Curves here 
+//This is a line/Stroke above Bottom Navigation 
 class NavCustomForeGroundPainter extends CustomPainter {
   late double loc;
   late double s;
@@ -290,7 +360,7 @@ class NavCustomForeGroundPainter extends CustomPainter {
   ) 
   {
     final span = 1.0 / itemsLength;
-    s = 0.2;
+    s = 0.14;
     double l = startingLoc + (span - s) / 2;
     loc = textDirection == TextDirection.rtl ? 0.8 - l : l;
   }
@@ -337,58 +407,6 @@ class NavCustomForeGroundPainter extends CustomPainter {
       )
       ..lineTo(size.width, 0)
       ..moveTo(0, size.width)
-      ..close();
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return this != oldDelegate;
-  }
-}
-
-class NavCustomPainter extends CustomPainter {
-  late double loc;
-  late double s;
-  Color color;
-  TextDirection textDirection;
-
-  NavCustomPainter(
-    double startingLoc, int itemsLength, this.color, this.textDirection) {
-    final span = 1.0 / itemsLength;
-    s = 0.2;
-    double l = startingLoc + (span - s) / 2;
-    loc = textDirection == TextDirection.rtl ? 0.8 - l : l;
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    final path = Path()
-      ..moveTo(0, 0)
-      ..lineTo((loc - 0.1) * size.width, 0)
-      ..cubicTo(
-        (loc + s * 0.20) * size.width,
-        size.height * 0.05,
-        loc * size.width,
-        size.height * 0.60,
-        (loc + s * 0.50) * size.width,
-        size.height * 0.60,
-      )
-      ..cubicTo(
-        (loc + s) * size.width,
-        size.height * 0.60,
-        (loc + s - s * 0.20) * size.width,
-        size.height * 0.05,
-        (loc + s + 0.1) * size.width,
-        0,
-      )
-      ..lineTo(size.width, 0)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
       ..close();
     canvas.drawPath(path, paint);
   }

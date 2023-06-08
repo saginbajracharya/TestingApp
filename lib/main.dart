@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_genius_scan/flutter_genius_scan.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
-
 import 'barcode_scanner_with_zoom.dart';
 import 'mobile_scanner_widget.dart';
 
@@ -47,6 +46,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   NotificationService notificationsServices = NotificationService();
+  var currentIndex = 0;
 
   @override
   void initState() {
@@ -54,104 +54,20 @@ class _HomeScreenState extends State<HomeScreen> {
     notificationsServices.initialiseNotification();
   }
 
-  var currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('Testing App'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                notificationsServices.sendNotification(
-                  'title', 
-                  'body'
-                );
-              },
-              child: const Text('Instant Notification'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                notificationsServices.secheduleNotification(
-                  'Scheduled Every Minute',
-                  'Scheduled Every Minute Body'
-                );
-              },
-              child: const Text('Schedule Notification'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                notificationsServices.stopNotification();
-              },
-              child: const Text('Cancle Notification'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  // Copy OCR language file
-                  var languageFolder = await copyLanguageFile();
-                  // Initialize with your licence key
-                  // await FlutterGeniusScan.setLicenceKey('REPLACE_WITH_YOUR_LICENCE_KEY')
-                  // Start scan flow
-                  var scanConfiguration = {
-                    'source': 'camera',
-                    'multiPage': true,
-                    'ocrConfiguration': {
-                      'languages': ['eng'],
-                      'languagesDirectoryUrl': languageFolder.path
-                    }
-                  };
-                  var scanResult = await FlutterGeniusScan.scanWithConfiguration(scanConfiguration);
-                  // Here is how you can display the resulting document:
-                  String documentUrl = scanResult['multiPageDocumentUrl'];
-                  await OpenFile.open(documentUrl.replaceAll("file://", ''));
-                  // You can also generate your document separately from selected pages:
-                  /*
-                  var appFolder = await getApplicationDocumentsDirectory();
-                  var documentUrl = appFolder.path + '/mydocument.pdf';
-                  var document = {
-                    'pages': [{
-                      'imageUrl': scanResult['scans'][0]['enhancedUrl'] ,
-                      'hocrTextLayout': scanResult.['scans'][0].['ocrResult'].['hocrTextLayout']
-                    }]
-                  };
-                  var documentGenerationConfiguration = { 'outputFileUrl': documentUrl };
-                  await FlutterGeniusScan.generateDocument(document, documentGenerationConfiguration);
-                  await OpenFile.open(documentUrl);
-                  */
-                } on PlatformException catch (error) {
-                  displayError(context, error);
-                }
-              },
-              child: const Text("START SCANNING"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                 Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MobileScannerWidget()),
-                );
-              },
-              child: const Text("Mobile Scanner"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                 Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const BarcodeScannerWithZoom()),
-                );
-              },
-              child: const Text("Mobile Scanner with zoom"),
-            )
-          ],
-        ),
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false, // Fixes Scroll Overflow
+            child: buttonList(context),
+          )
+        ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
         currentIndex: currentIndex, // current selected index
@@ -160,10 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
         letIndexChange: (index) => true, // true on tap items change index else not change index
         navBarHeight: kBottomNavigationBarHeight, // height of the bottom Nav Bar
         navBarWidth: MediaQuery.of(context).size.width, // width of the bottom Nav Bar 
-        strokeBorderWidth: 2, // Nav bar Stroke Width 
+        strokeBorderWidth: 5, // Nav bar Stroke Width 
         strokeBorderColor: Colors.black,
-        animationCurve: Curves.easeIn, // Index change animation curves
-        animationDuration: const Duration(milliseconds: 900), //Index Change Animation duration
+        animationCurve: Curves.slowMiddle, // Index change animation curves
+        animationDuration: const Duration(milliseconds: 200), //Index Change Animation duration
+        showForeGround: true,
         items: const <Widget>[
           Icon(
             Icons.favorite, 
@@ -181,10 +98,108 @@ class _HomeScreenState extends State<HomeScreen> {
             Icons.abc, 
             size: 20,
           ),
+          // Icon(
+          //   Icons.wallet, 
+          //   size: 20,
+          // ),
         ],
         onTap: (index) {
           onItemTapped(index);
         },
+      ),
+    );
+  }
+
+  Widget buttonList(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ElevatedButton(
+            onPressed: () async {
+              notificationsServices.sendNotification(
+                'title', 
+                'body'
+              );
+            },
+            child: const Text('Instant Notification'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              notificationsServices.secheduleNotification(
+                'Scheduled Every Minute',
+                'Scheduled Every Minute Body'
+              );
+            },
+            child: const Text('Schedule Notification'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              notificationsServices.stopNotification();
+            },
+            child: const Text('Cancle Notification'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              try {
+                // Copy OCR language file
+                var languageFolder = await copyLanguageFile();
+                // Initialize with your licence key
+                // await FlutterGeniusScan.setLicenceKey('REPLACE_WITH_YOUR_LICENCE_KEY')
+                // Start scan flow
+                var scanConfiguration = {
+                  'source': 'camera',
+                  'multiPage': true,
+                  'ocrConfiguration': {
+                    'languages': ['eng'],
+                    'languagesDirectoryUrl': languageFolder.path
+                  }
+                };
+                var scanResult = await FlutterGeniusScan.scanWithConfiguration(scanConfiguration);
+                // Here is how you can display the resulting document:
+                String documentUrl = scanResult['multiPageDocumentUrl'];
+                await OpenFile.open(documentUrl.replaceAll("file://", ''));
+                // You can also generate your document separately from selected pages:
+                /*
+                var appFolder = await getApplicationDocumentsDirectory();
+                var documentUrl = appFolder.path + '/mydocument.pdf';
+                var document = {
+                  'pages': [{
+                    'imageUrl': scanResult['scans'][0]['enhancedUrl'] ,
+                    'hocrTextLayout': scanResult.['scans'][0].['ocrResult'].['hocrTextLayout']
+                  }]
+                };
+                var documentGenerationConfiguration = { 'outputFileUrl': documentUrl };
+                await FlutterGeniusScan.generateDocument(document, documentGenerationConfiguration);
+                await OpenFile.open(documentUrl);
+                */
+              } on PlatformException catch (error) {
+                displayError(context, error);
+              }
+            },
+            child: const Text("START SCANNING"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MobileScannerWidget()),
+              );
+            },
+            child: const Text("Mobile Scanner"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BarcodeScannerWithZoom()),
+              );
+            },
+            child: const Text("Mobile Scanner with zoom"),
+          )
+        ],
       ),
     );
   }
