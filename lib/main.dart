@@ -93,9 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
         animationCurve: Curves.slowMiddle, // Index change animation curves
         animationDuration: const Duration(milliseconds: 200), //Index Change Animation duration
         showForeGround: true,
-        useShaderStroke: true,
+        useShaderStroke: false,
         selectedButtonHeight: 10.0,
         selectedButtonElevation: 1,
+        useForeGroundGradient: true,
         backgroundStrokeBorderColor: Colors.transparent,
         backgroundStrokeBorderWidth: 1,
         backgroundStrokeBorderStyle: BorderStyle.solid,

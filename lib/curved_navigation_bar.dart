@@ -40,6 +40,8 @@ class CurvedNavigationBar extends StatefulWidget {
   final Duration animationDuration;
   final double navBarHeight;
   final double navBarWidth;
+  final Shader? foreGroundGradient;
+  final bool useForeGroundGradient;
   final double? strokeBorderWidth;
   final Color strokeBorderColor;
   final Gradient strokeGradient;
@@ -71,6 +73,8 @@ class CurvedNavigationBar extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 500),
     this.navBarHeight = kBottomNavigationBarHeight,
     this.navBarWidth=double.infinity,
+    this.foreGroundGradient,
+    this.useForeGroundGradient=false,
     this.showForeGround=true,
     this.useShaderStroke=false,
     this.selectedButtonHeight=18.0,
@@ -173,6 +177,8 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar> with TickerPro
               painter: NavForeGroundCurvePainter(
                 _pos, 
                 _length, 
+                widget.useForeGroundGradient,
+                widget.foreGroundGradient,
                 widget.navBarColor, 
                 Directionality.of(context)
               ),
@@ -316,11 +322,20 @@ class NavButton extends StatelessWidget {
 class NavForeGroundCurvePainter extends CustomPainter {
   late double loc;
   late double s;
+  late bool useForeGroundGradient;
+  late Shader? foreGroundGradientShader;
   Color color;
   TextDirection textDirection;
 
   NavForeGroundCurvePainter(
-    double startingLoc, int itemsLength, this.color, this.textDirection) {
+    double startingLoc, 
+    int itemsLength, 
+    this.useForeGroundGradient,
+    this.foreGroundGradientShader,
+    this.color, 
+    this.textDirection
+  ) 
+  {
     final span = 1.0 / itemsLength;
     s = 0.18;
     double l = startingLoc + (span - s) / 2;
@@ -332,6 +347,11 @@ class NavForeGroundCurvePainter extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;
+      if (!useForeGroundGradient) {
+        paint.color = color; // Set the desired color
+      } else {
+        paint.shader = foreGroundGradientShader??defaultGradientShader;// Set the desired shader
+      }
 
     final path = Path()
       ..moveTo(0, 0)
