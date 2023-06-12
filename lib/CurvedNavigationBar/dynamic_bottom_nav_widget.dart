@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'Curves/nav_foreground_curve_under.dart';
 import 'Curves/nav_foreground_curve_upper.dart';
 import 'nav_button_widget.dart';
@@ -195,7 +194,7 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
               height: 100.0,
               child: Row(
                 children: widget.icons.map((item) {
-                return NavButton(
+                return DynamicNavBarButton(
                   onTap: _buttonTap,
                   position: _pos,
                   length: _length,

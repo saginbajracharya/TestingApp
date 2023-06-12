@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:testingapp/CurvedNavigationBar/dynamic_bottom_nav_widget.dart';
 import 'package:testingapp/CurvedNavigationBar/static_bottom_nav_widget.dart';
 
-typedef LetIndexPage = bool Function(int value);
-
 const Gradient defaultGradient = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
@@ -34,70 +32,68 @@ Shader defaultGradientShader = const LinearGradient(
 class CurvedNavigationBar extends StatefulWidget {
   final List<Widget> icons;
   final List<RichText> titles;
-  final int currentIndex;
-  final Color navBarColor;
-  final Color backgroundColor;
-  final ValueChanged<int>? onTap;
-  final LetIndexPage letIndexChange;
-  final Curve animationCurve;
-  final Duration animationDuration;
   final double navBarHeight;
   final double navBarWidth;
-  final Shader? foreGroundGradient;
+  final int currentIndex;
+  final ValueChanged<int>? onTap;
+  final Curve animationType;
+  final Duration animationDuration;
+  final bool letIndexChange;
   final bool useForeGroundGradient;
-  final double? strokeBorderWidth;
-  final Color strokeBorderColor;
-  final Gradient strokeGradient;
-  final Shader? strokeGradientShader;
   final bool useShaderStroke;
   final bool showForeGround;
   final bool underCurve;
   final bool staticCurve;
+  final Color navBarColor;
+  final Color backgroundColor;
+  final Color strokeBorderColor;
+  final Color selectedButtonColor;
+  final Color backgroundStrokeBorderColor;
+  final Gradient strokeGradient;
+  final Shader? foreGroundGradient;
+  final Shader? strokeGradientShader;
+  final double? strokeBorderWidth;
   final double selectedButtonBottomPosition;
   final double selectedButtonTopPosition;
   final double selectedButtonElevation;
-  final Color selectedButtonColor;
+  final double backgroundStrokeBorderWidth;
   final MaterialType selectedButtonMaterialType;
   final Widget? customSelectedButtonWidget;
-  final Color backgroundStrokeBorderColor;
-  final double backgroundStrokeBorderWidth;
   final BorderStyle backgroundStrokeBorderStyle;
   
-  CurvedNavigationBar({
-    Key? key,
+  const CurvedNavigationBar({
+    super.key,
     required this.icons,
     required this.titles,
+    this.navBarHeight = kBottomNavigationBarHeight,
+    this.navBarWidth=double.infinity,
+    this.currentIndex=0,
     this.onTap,
-    this.animationCurve = Curves.easeOut,
-    LetIndexPage? letIndexChange,
+    this.animationType = Curves.easeOut,
+    this.animationDuration = const Duration(milliseconds: 500),
+    this.letIndexChange = true,
+    this.useForeGroundGradient=false,
+    this.useShaderStroke=false,
+    this.showForeGround=true,
+    this.underCurve=true,
+    this.staticCurve=false,
     this.navBarColor = Colors.white,
     this.backgroundColor = Colors.amber,
     this.strokeBorderColor = Colors.white,
+    this.selectedButtonColor =Colors.blue,
+    this.backgroundStrokeBorderColor =Colors.black,
     this.strokeGradient = defaultGradient,
+    this.foreGroundGradient,
     this.strokeGradientShader,
     this.strokeBorderWidth=0,
-    this.currentIndex=0,
-    this.animationDuration = const Duration(milliseconds: 500),
-    this.navBarHeight = kBottomNavigationBarHeight,
-    this.navBarWidth=double.infinity,
-    this.foreGroundGradient,
-    this.useForeGroundGradient=false,
-    this.showForeGround=true,
-    this.useShaderStroke=false,
-    this.underCurve=true,
-    this.staticCurve=false,
     this.selectedButtonBottomPosition=0.0,
     this.selectedButtonTopPosition=0.0,
     this.selectedButtonElevation=0,
-    this.selectedButtonColor=Colors.blue,
+    this.backgroundStrokeBorderWidth=2.0,
     this.selectedButtonMaterialType = MaterialType.circle,
     this.customSelectedButtonWidget,
-    this.backgroundStrokeBorderColor=Colors.black,
-    this.backgroundStrokeBorderWidth=2.0,
     this.backgroundStrokeBorderStyle=BorderStyle.solid,
-  })  
-  : letIndexChange = letIndexChange ?? ((_) => true),
-    super(key: key);
+  });
 
   @override
   CurvedNavigationBarState createState() => CurvedNavigationBarState();
@@ -115,8 +111,8 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       navBarColor:widget.navBarColor,
       backgroundColor:widget.backgroundColor,
       onTap:widget.onTap,
-      letIndexChange:widget.letIndexChange,
-      animationCurve:widget.animationCurve,
+      letIndexChange:(index) => widget.letIndexChange,
+      animationCurve:widget.animationType,
       animationDuration:widget.animationDuration,
       navBarHeight:widget.navBarHeight,
       navBarWidth:widget.navBarWidth,
@@ -147,8 +143,8 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       navBarColor:widget.navBarColor,
       backgroundColor:widget.backgroundColor,
       onTap:widget.onTap,
-      letIndexChange:widget.letIndexChange,
-      animationCurve:widget.animationCurve,
+      letIndexChange:(index) => widget.letIndexChange,
+      animationCurve:widget.animationType,
       animationDuration:widget.animationDuration,
       navBarHeight:widget.navBarHeight,
       navBarWidth:widget.navBarWidth,

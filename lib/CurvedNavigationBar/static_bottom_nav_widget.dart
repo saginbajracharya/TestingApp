@@ -31,15 +31,14 @@ Shader defaultGradientShader = const LinearGradient(
   stops: [0.1, 0.3, 0.5, 0.7, 1.0],
 ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100));
 
-
 class StaticBottomNavWidget extends StatefulWidget {
   final List<Widget> icons;
   final List<RichText> titles;
+  final ValueChanged<int>? onTap;
+  final LetIndexPage letIndexChange;
   final int currentIndex;
   final Color navBarColor;
   final Color backgroundColor;
-  final ValueChanged<int>? onTap;
-  final LetIndexPage letIndexChange;
   final Curve animationCurve;
   final Duration animationDuration;
   final double navBarHeight;
@@ -195,7 +194,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
               height: 100.0,
               child: Row(
                 children: widget.icons.map((item) {
-                return NavButton(
+                return StaticNavBarButton(
                   onTap: _buttonTap,
                   position: _pos,
                   length: _length,
@@ -209,6 +208,29 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
         ],
       ),
     );
+  }
+
+  void setPage(int index) {
+    _buttonTap(index);
+  }
+
+  void _buttonTap(int index) {
+    if (!widget.letIndexChange(index)) {
+      return;
+    }
+    if (widget.onTap != null) {
+      widget.onTap!(index);
+    }
+    final newPosition = index / _length;
+    setState(() {
+      _startingPos = _pos;
+      _endingIndex = index;
+      _animationController.animateTo(
+        newPosition,
+        duration: widget.animationDuration, 
+        curve: widget.animationCurve
+      );
+    });
   }
 
   CustomPaint staticCurve(BuildContext context){
@@ -256,27 +278,4 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
       ),
     );
   } 
-
-  void setPage(int index) {
-    _buttonTap(index);
-  }
-
-  void _buttonTap(int index) {
-    if (!widget.letIndexChange(index)) {
-      return;
-    }
-    if (widget.onTap != null) {
-      widget.onTap!(index);
-    }
-    final newPosition = index / _length;
-    setState(() {
-      _startingPos = _pos;
-      _endingIndex = index;
-      _animationController.animateTo(
-        newPosition,
-        duration: widget.animationDuration, 
-        curve: widget.animationCurve
-      );
-    });
-  }
 }

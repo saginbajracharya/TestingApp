@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: currentIndex, // current selected index
         backgroundColor: Colors.transparent, // nav button behind background
         navBarColor: Colors.blue, // nav background
-        letIndexChange: (index) => true, // true on tap items change index else not change index
+        letIndexChange: true, // true on tap items change index else not change index
         navBarHeight: kBottomNavigationBarHeight, // height of the bottom Nav Bar
         navBarWidth: MediaQuery.of(context).size.width, // width of the bottom Nav Bar 
         strokeBorderWidth: 2, // Nav bar Stroke Width 
@@ -144,14 +144,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
           stops: [0.2, 0.4, 0.5, 0.6, 2.0],
         ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100)),
-        animationCurve: Curves.ease, // Index change animation curves
+        animationType: Curves.ease, // Index change animation curves
         animationDuration: const Duration(milliseconds: 1000), //Index Change Animation duration
         showForeGround: true,
         useShaderStroke: false,
-        underCurve: false,
-        staticCurve: false,
+        underCurve: true,
+        staticCurve: true,
         selectedButtonBottomPosition: 0.0,
-        selectedButtonTopPosition: -30.0,
+        selectedButtonTopPosition: 0.0,
         selectedButtonElevation: 1,
         useForeGroundGradient: true,
         backgroundStrokeBorderColor: Colors.transparent,

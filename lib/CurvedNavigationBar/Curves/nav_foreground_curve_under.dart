@@ -14,7 +14,7 @@ Shader defaultGradientShader = const LinearGradient(
   stops: [0.1, 0.3, 0.5, 0.7, 1.0],
 ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100));
 
-
+//=========================== Bottom Curve ===========================//
 class NavForeGroundCurvePainterUnder extends CustomPainter {
   late double loc; // Represents the starting location of the curve
   late double s; // Represents the size of the curve
