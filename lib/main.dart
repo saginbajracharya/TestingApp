@@ -48,6 +48,32 @@ class _HomeScreenState extends State<HomeScreen> {
   NotificationService notificationsServices = NotificationService();
   var currentIndex = 0;
 
+  final List pagesAppBarTitle = [
+    "Favourite",
+    "Home",
+    "Wallet",
+    "AC",
+    "Alarm"
+  ];
+
+  final List pages = [
+    const Center(
+      child: Text("Favourite"),
+    ),
+    const Center(
+      child: Text("Home"),
+    ),
+    const Center(
+      child: Text("Wallet"),
+    ),
+    const Center(
+      child: Text("AC"),
+    ),
+    const Center(
+      child: Text("Alarm"),
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -59,14 +85,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Testing App'),
+        title: Text(pagesAppBarTitle[currentIndex]),
       ),
       body: CustomScrollView(
         slivers: [
+          SliverToBoxAdapter(
+            child: pages[currentIndex],
+          ),
           SliverFillRemaining(
             hasScrollBody: false, // Fixes Scroll Overflow
             child: buttonList(context),
-          )
+          ),
         ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
