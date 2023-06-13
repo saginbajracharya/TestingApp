@@ -17,7 +17,7 @@ const Gradient defaultGradient = LinearGradient(
 
 class CurvedNavigationBar extends StatefulWidget {
   final List<Widget> icons;
-  final List<RichText> titles;
+  final List<String> titles;
   final double height;
   final double width;
   final int currentIndex;
@@ -43,7 +43,7 @@ class CurvedNavigationBar extends StatefulWidget {
   final double selectedButtonBottomPosition;
   final double selectedButtonTopPosition;
   final double selectedButtonElevation;
-  final double backgroundStrokeBorderWidth;
+  final double? backgroundStrokeBorderWidth;
   final MaterialType selectedButtonMaterialType;
   final Widget? customSelectedButtonWidget;
   
@@ -76,7 +76,7 @@ class CurvedNavigationBar extends StatefulWidget {
     this.selectedButtonBottomPosition=0.0,
     this.selectedButtonTopPosition=0.0,
     this.selectedButtonElevation=0,
-    this.backgroundStrokeBorderWidth=2.0,
+    this.backgroundStrokeBorderWidth,
     this.selectedButtonMaterialType = MaterialType.circle,
     this.customSelectedButtonWidget,
   });

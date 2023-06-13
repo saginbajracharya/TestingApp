@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/styles.dart';
+
 class DynamicNavBarButton extends StatelessWidget {
   final double position;
   final int length;
   final int index;
   final ValueChanged<int> onTap;
   final Widget child;
-  final RichText title;
+  final String title;
 
   const DynamicNavBarButton({super.key, 
     required this.onTap,
@@ -43,7 +45,7 @@ class DynamicNavBarButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   child,
-                  title.text.toPlainText() == "" ? const SizedBox() : title
+                  title== "" ? const SizedBox() : Text(title,style: const TextStyle(color: blue))
                 ],
               )
             ),
@@ -60,7 +62,7 @@ class StaticNavBarButton extends StatelessWidget {
   final int index;
   final ValueChanged<int> onTap;
   final Widget child;
-  final RichText title;
+  final String title;
 
   const StaticNavBarButton({super.key, 
     required this.onTap,
@@ -88,7 +90,7 @@ class StaticNavBarButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               child,
-              title.text.toPlainText() == "" ? const SizedBox() : title
+              title=="" ? const SizedBox() : Text(title,style: const TextStyle(color: blue))
             ],
           )
         ),

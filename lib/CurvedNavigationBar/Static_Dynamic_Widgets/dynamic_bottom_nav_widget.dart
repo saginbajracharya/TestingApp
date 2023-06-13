@@ -20,7 +20,7 @@ const Gradient defaultGradient = LinearGradient(
 
 class DynamicBottomnavWidget extends StatefulWidget {
   final List<Widget> icons;
-  final List<RichText> titles;
+  final List<String> titles;
   final int currentIndex;
   final Color foregroundColor;
   final Color backgroundColor;
@@ -48,7 +48,7 @@ class DynamicBottomnavWidget extends StatefulWidget {
   final MaterialType selectedButtonMaterialType;
   final Widget? customSelectedButtonWidget;
   final Color backgroundStrokeBorderColor;
-  final double backgroundStrokeBorderWidth;
+  final double? backgroundStrokeBorderWidth;
 
   DynamicBottomnavWidget({
     Key? key,
@@ -81,7 +81,7 @@ class DynamicBottomnavWidget extends StatefulWidget {
     this.selectedButtonMaterialType = MaterialType.circle,
     this.customSelectedButtonWidget,
     this.backgroundStrokeBorderColor=Colors.black,
-    this.backgroundStrokeBorderWidth=2.0,
+    this.backgroundStrokeBorderWidth,
   })  
   : letIndexChange = letIndexChange ?? ((_) => true),
     assert(icons.isNotEmpty),
@@ -149,7 +149,7 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
         border: Border(
           top: BorderSide(
             color : widget.backgroundStrokeBorderColor,
-            width : widget.backgroundStrokeBorderWidth,
+            width : widget.backgroundStrokeBorderWidth??0.0,
             style : BorderStyle.solid,
             strokeAlign: BorderSide.strokeAlignInside
           ),
@@ -235,17 +235,18 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
       ? _pos * navBarW
       : null,
       child: widget.customSelectedButtonWidget??Center(
-        child: Material(
-          elevation: widget.selectedButtonElevation,
-          surfaceTintColor: widget.selectedButtonColor,
-          color: widget.selectedButtonColor,
-          type: widget.selectedButtonMaterialType,
-          borderOnForeground: true,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: icon,
-          ),
-        ),
+        child:icon,
+        // child: Material(
+        //   elevation: widget.selectedButtonElevation,
+        //   surfaceTintColor: widget.selectedButtonColor,
+        //   color: widget.selectedButtonColor,
+        //   type: widget.selectedButtonMaterialType,
+        //   borderOnForeground: true,
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: icon,
+        //   ),
+        // ),
       )
     );
   }

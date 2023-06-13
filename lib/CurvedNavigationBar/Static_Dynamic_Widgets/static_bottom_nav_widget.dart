@@ -20,7 +20,7 @@ const Gradient defaultGradient = LinearGradient(
 
 class StaticBottomNavWidget extends StatefulWidget {
   final List<Widget> icons;
-  final List<RichText> titles;
+  final List<String> titles;
   final ValueChanged<int>? onTap;
   final LetIndexPage letIndexChange;
   final int currentIndex;
@@ -48,7 +48,7 @@ class StaticBottomNavWidget extends StatefulWidget {
   final MaterialType selectedButtonMaterialType;
   final Widget? customSelectedButtonWidget;
   final Color backgroundStrokeBorderColor;
-  final double backgroundStrokeBorderWidth;
+  final double? backgroundStrokeBorderWidth;
 
   StaticBottomNavWidget({
     Key? key,
@@ -81,7 +81,7 @@ class StaticBottomNavWidget extends StatefulWidget {
     this.selectedButtonMaterialType = MaterialType.circle,
     this.customSelectedButtonWidget,
     this.backgroundStrokeBorderColor=Colors.black,
-    this.backgroundStrokeBorderWidth=2.0,
+    this.backgroundStrokeBorderWidth,
   })  
   : letIndexChange = letIndexChange ?? ((_) => true),
     assert(icons.isNotEmpty),
@@ -149,7 +149,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
         border: Border(
           top: BorderSide(
             color : widget.backgroundStrokeBorderColor,
-            width : widget.backgroundStrokeBorderWidth,
+            width : widget.backgroundStrokeBorderWidth??0.0,
             style : BorderStyle.solid,
             strokeAlign: BorderSide.strokeAlignInside
           ),

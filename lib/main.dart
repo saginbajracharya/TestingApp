@@ -136,49 +136,56 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
         //List of Titles
-        titles: <RichText>[
-          RichText(
-            text: const TextSpan(
-              text: 'Favourite',
-              style: TextStyle(color: Colors.yellow,fontSize: 10),
-            ),
-          ),
-          RichText(
-            text: const TextSpan(
-              text: 'Home',
-              style: TextStyle(color: Colors.yellow,fontSize: 10),
-            ),
-          ),
-          RichText(
-            text: const TextSpan(
-              text: 'Wallet',
-              style: TextStyle(color: Colors.yellow,fontSize: 10),
-            ),
-          ),
-          RichText(
-            text: const TextSpan(
-              text: 'AC',
-              style: TextStyle(color: Colors.yellow,fontSize: 10),
-            ),
-          ),
-          RichText(
-            text: const TextSpan(
-              text: 'Alarm',
-              style: TextStyle(color: Colors.yellow,fontSize: 10),
-            ),
-          ),
+        // titles: <RichText>[
+        //   RichText(
+        //     text: const TextSpan(
+        //       text: 'Favourite',
+        //       style: TextStyle(color: Colors.yellow,fontSize: 10),
+        //     ),
+        //   ),
+        //   RichText(
+        //     text: const TextSpan(
+        //       text: 'Home',
+        //       style: TextStyle(color: Colors.yellow,fontSize: 10),
+        //     ),
+        //   ),
+        //   RichText(
+        //     text: const TextSpan(
+        //       text: 'Wallet',
+        //       style: TextStyle(color: Colors.yellow,fontSize: 10),
+        //     ),
+        //   ),
+        //   RichText(
+        //     text: const TextSpan(
+        //       text: 'AC',
+        //       style: TextStyle(color: Colors.yellow,fontSize: 10),
+        //     ),
+        //   ),
+        //   RichText(
+        //     text: const TextSpan(
+        //       text: 'Alarm',
+        //       style: TextStyle(color: Colors.yellow,fontSize: 10),
+        //     ),
+        //   ),
+        // ],
+        titles: const <String>[
+          'Favourite',
+          'Home',
+          'Wallet',
+          'AC',
+          'Alarm',
         ],
         height: kBottomNavigationBarHeight, // height of the bottom Nav Bar
         width: MediaQuery.of(context).size.width, // width of the bottom Nav Bar 
         letIndexChange: true, // true on tap items change index else not change index
         currentIndex: currentIndex, // current selected index
-        backgroundColor: red, // Nav BackGround Color
+        backgroundColor: transparent, // Nav BackGround Color
         foregroundColor: black, // Nav ForeGround Color 
         strokeBorderColor: red, // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
-        backgroundStrokeBorderColor: yellow, // nav background stroke color
-        backgroundStrokeBorderWidth: 1.0, // Nav BackGround Stroke Border Width
+        backgroundStrokeBorderColor: transparent, // nav background stroke color [seems like when border width is 0.0 still shows the color but transparent solves it]
+        backgroundStrokeBorderWidth: 0.0, // Nav BackGround Stroke Border Width
         foregroundStrokeBorderWidth: 1.0, // Nav ForeGround Stroke Border Width  
-        backgroundGradient: null,
+        backgroundGradient: null, // Nav background Gradient [No Gradient if Null]
         // ForeGround Gradient Shader 
         foreGroundGradientShader : const LinearGradient(
           begin: Alignment.topCenter,
@@ -206,10 +213,10 @@ class _HomeScreenState extends State<HomeScreen> {
           stops: [0.2, 0.4, 0.5, 0.6, 2.0],
         ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100)),
         useForeGroundGradient: true,
-        showForeGround: false,
+        showForeGround: true,
         useShaderStroke: false,
         underCurve: false,
-        staticCurve: true,
+        staticCurve: false,
         selectedButtonBottomPosition: 14.0,
         selectedButtonTopPosition: 0.0,
         selectedButtonElevation: 1,
