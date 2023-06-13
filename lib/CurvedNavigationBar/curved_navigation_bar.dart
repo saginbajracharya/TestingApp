@@ -15,25 +15,11 @@ const Gradient defaultGradient = LinearGradient(
   stops: [0.1, 0.3, 0.5, 0.7, 1.0],
 );
 
-Shader defaultGradientShader = const LinearGradient(
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
-  colors: [
-    Colors.blue,
-    Colors.red,
-    Colors.purple,
-    Colors.red,
-    Colors.blue,
-  ],
-  stops: [0.1, 0.3, 0.5, 0.7, 1.0],
-).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100));
-
-
 class CurvedNavigationBar extends StatefulWidget {
   final List<Widget> icons;
   final List<RichText> titles;
-  final double navBarHeight;
-  final double navBarWidth;
+  final double height;
+  final double width;
   final int currentIndex;
   final ValueChanged<int>? onTap;
   final Curve animationType;
@@ -44,7 +30,7 @@ class CurvedNavigationBar extends StatefulWidget {
   final bool showForeGround;
   final bool underCurve;
   final bool staticCurve;
-  final Color navBarColor;
+  final Color foregroundColor;
   final Color backgroundColor;
   final Color strokeBorderColor;
   final Color selectedButtonColor;
@@ -52,21 +38,20 @@ class CurvedNavigationBar extends StatefulWidget {
   final Gradient strokeGradient;
   final Shader? foreGroundGradient;
   final Shader? strokeGradientShader;
-  final double? strokeBorderWidth;
+  final double? foregroundStrokeBorderWidth;
   final double selectedButtonBottomPosition;
   final double selectedButtonTopPosition;
   final double selectedButtonElevation;
   final double backgroundStrokeBorderWidth;
   final MaterialType selectedButtonMaterialType;
   final Widget? customSelectedButtonWidget;
-  final BorderStyle backgroundStrokeBorderStyle;
   
   const CurvedNavigationBar({
     super.key,
     required this.icons,
     required this.titles,
-    this.navBarHeight = kBottomNavigationBarHeight,
-    this.navBarWidth=double.infinity,
+    this.height = kBottomNavigationBarHeight,
+    this.width=double.infinity,
     this.currentIndex=0,
     this.onTap,
     this.animationType = Curves.easeOut,
@@ -77,7 +62,7 @@ class CurvedNavigationBar extends StatefulWidget {
     this.showForeGround=true,
     this.underCurve=true,
     this.staticCurve=false,
-    this.navBarColor = Colors.white,
+    this.foregroundColor = Colors.white,
     this.backgroundColor = Colors.amber,
     this.strokeBorderColor = Colors.white,
     this.selectedButtonColor =Colors.blue,
@@ -85,14 +70,13 @@ class CurvedNavigationBar extends StatefulWidget {
     this.strokeGradient = defaultGradient,
     this.foreGroundGradient,
     this.strokeGradientShader,
-    this.strokeBorderWidth=0,
+    this.foregroundStrokeBorderWidth=0,
     this.selectedButtonBottomPosition=0.0,
     this.selectedButtonTopPosition=0.0,
     this.selectedButtonElevation=0,
     this.backgroundStrokeBorderWidth=2.0,
     this.selectedButtonMaterialType = MaterialType.circle,
     this.customSelectedButtonWidget,
-    this.backgroundStrokeBorderStyle=BorderStyle.solid,
   });
 
   @override
@@ -108,17 +92,17 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       icons: widget.icons, 
       titles: widget.titles,
       currentIndex:widget.currentIndex,
-      navBarColor:widget.navBarColor,
+      foregroundColor:widget.foregroundColor,
       backgroundColor:widget.backgroundColor,
       onTap:widget.onTap,
       letIndexChange:(index) => widget.letIndexChange,
       animationCurve:widget.animationType,
       animationDuration:widget.animationDuration,
-      navBarHeight:widget.navBarHeight,
-      navBarWidth:widget.navBarWidth,
+      height:widget.height,
+      width:widget.width,
       foreGroundGradient:widget.foreGroundGradient,
       useForeGroundGradient:widget.useForeGroundGradient,
-      strokeBorderWidth:widget.strokeBorderWidth,
+      foregroundStrokeBorderWidth:widget.foregroundStrokeBorderWidth,
       strokeBorderColor:widget.strokeBorderColor,
       strokeGradient:widget.strokeGradient,
       strokeGradientShader:widget.strokeGradientShader,
@@ -134,23 +118,22 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       customSelectedButtonWidget:widget.customSelectedButtonWidget,
       backgroundStrokeBorderColor:widget.backgroundStrokeBorderColor,
       backgroundStrokeBorderWidth:widget.backgroundStrokeBorderWidth,
-      backgroundStrokeBorderStyle:widget.backgroundStrokeBorderStyle,
     )
     :DynamicBottomnavWidget(
       icons: widget.icons, 
       titles: widget.titles,
       currentIndex:widget.currentIndex,
-      navBarColor:widget.navBarColor,
+      foregroundColor:widget.foregroundColor,
       backgroundColor:widget.backgroundColor,
       onTap:widget.onTap,
       letIndexChange:(index) => widget.letIndexChange,
       animationCurve:widget.animationType,
       animationDuration:widget.animationDuration,
-      navBarHeight:widget.navBarHeight,
-      navBarWidth:widget.navBarWidth,
+      height:widget.height,
+      width:widget.width,
       foreGroundGradient:widget.foreGroundGradient,
       useForeGroundGradient:widget.useForeGroundGradient,
-      strokeBorderWidth:widget.strokeBorderWidth,
+      foregroundStrokeBorderWidth:widget.foregroundStrokeBorderWidth,
       strokeBorderColor:widget.strokeBorderColor,
       strokeGradient:widget.strokeGradient,
       strokeGradientShader:widget.strokeGradientShader,
@@ -166,7 +149,6 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       customSelectedButtonWidget:widget.customSelectedButtonWidget,
       backgroundStrokeBorderColor:widget.backgroundStrokeBorderColor,
       backgroundStrokeBorderWidth:widget.backgroundStrokeBorderWidth,
-      backgroundStrokeBorderStyle:widget.backgroundStrokeBorderStyle,
     );
   }
 }

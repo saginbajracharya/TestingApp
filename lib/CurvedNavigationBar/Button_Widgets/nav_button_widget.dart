@@ -73,8 +73,8 @@ class StaticNavBarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final desiredPosition = 1.0 / length * index;
-    final difference = (position - desiredPosition).abs();
+    // final desiredPosition = 1.0 / length * index;
+    // final difference = (position - desiredPosition).abs();
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -83,16 +83,13 @@ class StaticNavBarButton extends StatelessWidget {
         },
         child: SizedBox(
           height: 75.0,
-          child: Opacity(
-            opacity: difference < 1.0 / length * 0.99 ? 1 : 0.8,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                child,
-                title.text.toPlainText() == "" ? const SizedBox() : title
-              ],
-            )
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              child,
+              title.text.toPlainText() == "" ? const SizedBox() : title
+            ],
           )
         ),
       ),

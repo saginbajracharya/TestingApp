@@ -44,7 +44,7 @@ dependencies:
   gradient_borders: ^1.0.0
   mobile_scanner: ^3.2.0
   image_picker: ^0.8.7
-
+  convex_bottom_bar: ^3.2.0
 
 dev_dependencies:
   flutter_test:

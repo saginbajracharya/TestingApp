@@ -1,0 +1,10 @@
+1 no curve [Can be achieved when showForeGround is false]
+  - show no curve 
+2 static curve [Dosent Change Curve Position , Always at the middle item if Odd items Else will still show but will be not centered left or right]
+  - curve wont change on tap button
+  - upper curve 
+  - bottom curve
+3 dynamic curve [Changes Curve Position]
+  - curve change on tap button
+  - upper curve
+  - bottom curve

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testingapp/CurvedNavigationBar/Curves/nav_foreground_curve_under.dart';
-import 'package:testingapp/CurvedNavigationBar/Curves/nav_foreground_curve_upper.dart';
-import 'package:testingapp/CurvedNavigationBar/nav_button_widget.dart';
+import 'Curves/nav_foreground_curve_under.dart';
+import 'Curves/nav_foreground_curve_upper.dart';
+import 'nav_button_widget.dart';
 
 typedef LetIndexPage = bool Function(int value);
 
@@ -18,34 +18,21 @@ const Gradient defaultGradient = LinearGradient(
   stops: [0.1, 0.3, 0.5, 0.7, 1.0],
 );
 
-Shader defaultGradientShader = const LinearGradient(
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
-  colors: [
-    Colors.blue,
-    Colors.red,
-    Colors.purple,
-    Colors.red,
-    Colors.blue,
-  ],
-  stops: [0.1, 0.3, 0.5, 0.7, 1.0],
-).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100));
-
-class StaticBottomNavWidget extends StatefulWidget {
+class DynamicBottomnavWidget extends StatefulWidget {
   final List<Widget> icons;
   final List<RichText> titles;
+  final int currentIndex;
+  final Color foregroundColor;
+  final Color backgroundColor;
   final ValueChanged<int>? onTap;
   final LetIndexPage letIndexChange;
-  final int currentIndex;
-  final Color navBarColor;
-  final Color backgroundColor;
   final Curve animationCurve;
   final Duration animationDuration;
-  final double navBarHeight;
-  final double navBarWidth;
+  final double height;
+  final double width;
   final Shader? foreGroundGradient;
   final bool useForeGroundGradient;
-  final double? strokeBorderWidth;
+  final double? foregroundStrokeBorderWidth;
   final Color strokeBorderColor;
   final Gradient strokeGradient;
   final Shader? strokeGradientShader;
@@ -61,25 +48,24 @@ class StaticBottomNavWidget extends StatefulWidget {
   final Widget? customSelectedButtonWidget;
   final Color backgroundStrokeBorderColor;
   final double backgroundStrokeBorderWidth;
-  final BorderStyle backgroundStrokeBorderStyle;
 
-  StaticBottomNavWidget({
+  DynamicBottomnavWidget({
     Key? key,
     required this.icons,
     required this.titles,
     this.onTap,
     this.animationCurve = Curves.easeOut,
     LetIndexPage? letIndexChange,
-    this.navBarColor = Colors.white,
+    this.foregroundColor = Colors.white,
     this.backgroundColor = Colors.amber,
     this.strokeBorderColor = Colors.white,
     this.strokeGradient = defaultGradient,
     this.strokeGradientShader,
-    this.strokeBorderWidth=0,
+    this.foregroundStrokeBorderWidth=0,
     this.currentIndex=0,
     this.animationDuration = const Duration(milliseconds: 500),
-    this.navBarHeight = kBottomNavigationBarHeight,
-    this.navBarWidth=double.infinity,
+    this.height = kBottomNavigationBarHeight,
+    this.width=double.infinity,
     this.foreGroundGradient,
     this.useForeGroundGradient=false,
     this.showForeGround=true,
@@ -94,19 +80,18 @@ class StaticBottomNavWidget extends StatefulWidget {
     this.customSelectedButtonWidget,
     this.backgroundStrokeBorderColor=Colors.black,
     this.backgroundStrokeBorderWidth=2.0,
-    this.backgroundStrokeBorderStyle=BorderStyle.solid,
   })  
   : letIndexChange = letIndexChange ?? ((_) => true),
     assert(icons.isNotEmpty),
     assert(0 <= currentIndex && currentIndex < icons.length),
-    assert(0 <= navBarHeight && navBarHeight <= 75.0),
+    assert(0 <= height && height <= 75.0),
     super(key: key);
 
   @override
-  State<StaticBottomNavWidget> createState() => _StaticBottomNavWidgetState();
+  State<DynamicBottomnavWidget> createState() => _DynamicBottomnavWidgetState();
 }
 
-class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with TickerProviderStateMixin{
+class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with TickerProviderStateMixin{
   late double _startingPos;
   int _endingIndex = 0;
   late double _pos;
@@ -134,7 +119,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
   }
 
   @override
-  void didUpdateWidget (StaticBottomNavWidget oldWidget) {
+  void didUpdateWidget (DynamicBottomnavWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentIndex != widget.currentIndex) {
       final newPosition = widget.currentIndex / _length;
@@ -163,13 +148,13 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
           top: BorderSide(
             color : widget.backgroundStrokeBorderColor,
             width : widget.backgroundStrokeBorderWidth,
-            style : widget.backgroundStrokeBorderStyle,
+            style : BorderStyle.solid,
             strokeAlign: BorderSide.strokeAlignInside
           ),
         )
       ),
-      height: widget.navBarHeight,
-      width: widget.navBarWidth,
+      height: widget.height,
+      width: widget.width,
       padding: EdgeInsets.zero,
       child: Stack(
         clipBehavior: Clip.none,
@@ -180,8 +165,8 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
           ?Positioned(
             left: 0,
             right: 0,
-            bottom: 0 - (75.0 - widget.navBarHeight),
-            child:staticCurve(context)
+            bottom: 0 - (75.0 - widget.height),
+            child: dynamicCurve(context),
           )
           :const SizedBox(),
           // Icons
@@ -194,7 +179,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
               height: 100.0,
               child: Row(
                 children: widget.icons.map((item) {
-                return StaticNavBarButton(
+                return DynamicNavBarButton(
                   onTap: _buttonTap,
                   position: _pos,
                   length: _length,
@@ -205,6 +190,8 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
               }).toList())
             ),
           ),
+          // Selected Button
+          selectedButton(widget.width, context),
         ],
       ),
     );
@@ -233,42 +220,69 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
     });
   }
 
-  CustomPaint staticCurve(BuildContext context){
+  Positioned selectedButton(double navBarW, BuildContext context) {
+    return Positioned(
+      top: widget.selectedButtonTopPosition,
+      bottom: widget.selectedButtonBottomPosition,
+      width: navBarW/_length,
+      left: Directionality.of(context) == TextDirection.rtl
+      ? null
+      : _pos * navBarW,
+      right: Directionality.of(context) == TextDirection.rtl
+      ? _pos * navBarW
+      : null,
+      child: widget.customSelectedButtonWidget??Center(
+        child: Material(
+          elevation: widget.selectedButtonElevation,
+          surfaceTintColor: widget.selectedButtonColor,
+          color: widget.selectedButtonColor,
+          type: widget.selectedButtonMaterialType,
+          borderOnForeground: true,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: icon,
+          ),
+        ),
+      )
+    );
+  }
+  
+  CustomPaint dynamicCurve(BuildContext context) {
     return CustomPaint(
       painter: widget.underCurve
-      ?NavForeGroundCurvePainterUnderStatic(
+      ?NavForeGroundCurvePainterUnder(
         _pos, 
         _length, 
         widget.useForeGroundGradient,
         widget.foreGroundGradient,
-        widget.navBarColor, 
+        widget.foregroundColor, 
         Directionality.of(context)
       )
-      :NavForeGroundCurvePainterUpperStatic(
+      :NavForeGroundCurvePainterUpper(
         _pos, 
         _length, 
         widget.useForeGroundGradient,
         widget.foreGroundGradient,
-        widget.navBarColor, 
+        widget.foregroundColor, 
         Directionality.of(context)
       ),
-      foregroundPainter: widget.strokeBorderWidth!=0 
+      foregroundPainter: widget.foregroundStrokeBorderWidth!=0 
       ?widget.underCurve
-      ?NavForeGroundUnderStrokeBorderPainterStatic(
+      ?NavForeGroundUnderStrokeBorderPainter(
         _pos, 
         _length, 
         widget.strokeBorderColor, 
         Directionality.of(context),
-        widget.strokeBorderWidth??1,
+        widget.foregroundStrokeBorderWidth??1,
         widget.strokeGradientShader,
         widget.useShaderStroke
       )
-      :NavForeGroundUpperStrokeBorderPainterStatic(
+      :NavForeGroundUpperStrokeBorderPainter(
         _pos, 
         _length, 
         widget.strokeBorderColor, 
         Directionality.of(context),
-        widget.strokeBorderWidth??1,
+        widget.foregroundStrokeBorderWidth??1,
         widget.strokeGradientShader,
         widget.useShaderStroke
       )
@@ -277,5 +291,5 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
         height: 75.0,
       ),
     );
-  } 
+  }
 }

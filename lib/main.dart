@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
 import 'barcode_scanner_with_zoom.dart';
 import 'mobile_scanner_widget.dart';
+import 'utils/styles.dart';
 
 void main() {
   initilize();
@@ -83,7 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: black.withOpacity(0.6),
       appBar: AppBar(
+        backgroundColor: transparent,
         centerTitle: true,
         title: Text(pagesAppBarTitle[currentIndex]),
       ),
@@ -94,11 +97,22 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SliverFillRemaining(
             hasScrollBody: false, // Fixes Scroll Overflow
-            child: buttonList(context),
+            child: buttonList(),
           ),
         ],
       ),
+      // bottomNavigationBar: ConvexAppBar(
+      //   style: TabStyle.fixed,
+      //   items: const [
+      //     TabItem(icon: Icons.list,title: 'list'),
+      //     TabItem(icon: Icons.calendar_today,title: 'calaendar'),
+      //     TabItem(icon: Icons.wallet,title: 'wallet'),
+      //   ],
+      //   initialActiveIndex: 1,
+      //   onTap: (int i) => log('click index=$i'),
+      // ),
       bottomNavigationBar: CurvedNavigationBar(
+        //List of Icons
         icons: const <Widget>[
           Icon(
             Icons.favorite, 
@@ -108,10 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Icons.home, 
             color: Colors.white,
           ),
-          Icon(
-            Icons.wallet, 
-            color: Colors.white,
-          ),
+          // Icon(
+          //   Icons.wallet, 
+          //   color: Colors.white,
+          // ),
           Icon(
             Icons.ac_unit_outlined, 
             color: Colors.white,
@@ -119,8 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Icon(
             Icons.access_alarm_rounded, 
             color: Colors.white,
-          ),
+          )
         ],
+        //List of Titles
         titles: <RichText>[
           RichText(
             text: const TextSpan(
@@ -153,14 +168,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
-        currentIndex: currentIndex, // current selected index
-        backgroundColor: Colors.transparent, // nav button behind background
-        navBarColor: Colors.blue, // nav background
+        height: kBottomNavigationBarHeight, // height of the bottom Nav Bar
+        width: MediaQuery.of(context).size.width, // width of the bottom Nav Bar 
         letIndexChange: true, // true on tap items change index else not change index
-        navBarHeight: kBottomNavigationBarHeight, // height of the bottom Nav Bar
-        navBarWidth: MediaQuery.of(context).size.width, // width of the bottom Nav Bar 
-        strokeBorderWidth: 2, // Nav bar Stroke Width 
-        strokeBorderColor: Colors.red, //stroke border color if useShaderStroke is false else uses shader
+        currentIndex: currentIndex, // current selected index
+        backgroundColor: green, // Nav BackGround Color
+        foregroundColor: black, // Nav ForeGround Color 
+        strokeBorderColor: red, // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
+        backgroundStrokeBorderColor: yellow, // nav background stroke color
+        foregroundStrokeBorderWidth: 2.0, // Nav ForeGround Stroke Border Width  
+        backgroundStrokeBorderWidth: 2.0, // Nav BackGround Stroke Border Width
         strokeGradientShader:const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -173,19 +190,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
           stops: [0.2, 0.4, 0.5, 0.6, 2.0],
         ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100)),
-        animationType: Curves.ease, // Index change animation curves
-        animationDuration: const Duration(milliseconds: 1000), //Index Change Animation duration
+        useForeGroundGradient: true,
         showForeGround: true,
         useShaderStroke: false,
-        underCurve: true,
+        underCurve: false,
         staticCurve: true,
-        selectedButtonBottomPosition: 0.0,
+        selectedButtonBottomPosition: 14.0,
         selectedButtonTopPosition: 0.0,
         selectedButtonElevation: 1,
-        useForeGroundGradient: true,
-        backgroundStrokeBorderColor: Colors.transparent,
-        backgroundStrokeBorderWidth: 1,
-        backgroundStrokeBorderStyle: BorderStyle.solid,
+        animationType: Curves.ease, // Index change animation curves
+        animationDuration: const Duration(milliseconds: 1000), //Index Change Animation duration
         onTap: (index) {
           onItemTapped(index);
         },
@@ -193,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget buttonList(BuildContext context) {
+  buttonList() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -201,6 +215,9 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisSize: MainAxisSize.max,
         children: [
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(transparent), // Change the color here
+            ),
             onPressed: () async {
               notificationsServices.sendNotification(
                 'title', 
@@ -210,6 +227,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: const Text('Instant Notification'),
           ),
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(transparent), // Change the color here
+            ),
             onPressed: () async {
               notificationsServices.secheduleNotification(
                 'Scheduled Every Minute',
@@ -219,12 +239,18 @@ class _HomeScreenState extends State<HomeScreen> {
             child: const Text('Schedule Notification'),
           ),
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(transparent), // Change the color here
+            ),
             onPressed: () async {
               notificationsServices.stopNotification();
             },
             child: const Text('Cancle Notification'),
           ),
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(transparent), // Change the color here
+            ),
             onPressed: () async {
               try {
                 // Copy OCR language file
@@ -265,6 +291,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: const Text("START SCANNING"),
           ),
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(transparent), // Change the color here
+            ),
             onPressed: () async {
                Navigator.push(
                 context,
@@ -274,6 +303,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: const Text("Mobile Scanner"),
           ),
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(transparent), // Change the color here
+            ),
             onPressed: () async {
                Navigator.push(
                 context,
