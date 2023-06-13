@@ -172,13 +172,28 @@ class _HomeScreenState extends State<HomeScreen> {
         width: MediaQuery.of(context).size.width, // width of the bottom Nav Bar 
         letIndexChange: true, // true on tap items change index else not change index
         currentIndex: currentIndex, // current selected index
-        backgroundColor: green, // Nav BackGround Color
+        backgroundColor: red, // Nav BackGround Color
         foregroundColor: black, // Nav ForeGround Color 
         strokeBorderColor: red, // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
         backgroundStrokeBorderColor: yellow, // nav background stroke color
-        foregroundStrokeBorderWidth: 2.0, // Nav ForeGround Stroke Border Width  
-        backgroundStrokeBorderWidth: 2.0, // Nav BackGround Stroke Border Width
-        strokeGradientShader:const LinearGradient(
+        backgroundStrokeBorderWidth: 1.0, // Nav BackGround Stroke Border Width
+        foregroundStrokeBorderWidth: 1.0, // Nav ForeGround Stroke Border Width  
+        backgroundGradient: null,
+        // ForeGround Gradient Shader 
+        foreGroundGradientShader : const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            black,
+            black,
+            black,
+            black,
+            red,
+          ],
+          stops: [0.2, 0.4, 0.5, 0.6, 2.0],
+        ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100)),
+        // ForeGround Stroke border Gradient Shader
+        strokeGradientShader : const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
@@ -191,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
           stops: [0.2, 0.4, 0.5, 0.6, 2.0],
         ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100)),
         useForeGroundGradient: true,
-        showForeGround: true,
+        showForeGround: false,
         useShaderStroke: false,
         underCurve: false,
         staticCurve: true,

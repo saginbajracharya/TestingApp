@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:testingapp/CurvedNavigationBar/dynamic_bottom_nav_widget.dart';
-import 'package:testingapp/CurvedNavigationBar/static_bottom_nav_widget.dart';
+import 'package:testingapp/CurvedNavigationBar/Static_Dynamic_Widgets/dynamic_bottom_nav_widget.dart';
+import 'package:testingapp/CurvedNavigationBar/Static_Dynamic_Widgets/static_bottom_nav_widget.dart';
 
 const Gradient defaultGradient = LinearGradient(
   begin: Alignment.topCenter,
@@ -35,8 +35,9 @@ class CurvedNavigationBar extends StatefulWidget {
   final Color strokeBorderColor;
   final Color selectedButtonColor;
   final Color backgroundStrokeBorderColor;
+  final Gradient? backgroundGradient;
   final Gradient strokeGradient;
-  final Shader? foreGroundGradient;
+  final Shader? foreGroundGradientShader;
   final Shader? strokeGradientShader;
   final double? foregroundStrokeBorderWidth;
   final double selectedButtonBottomPosition;
@@ -66,9 +67,10 @@ class CurvedNavigationBar extends StatefulWidget {
     this.backgroundColor = Colors.amber,
     this.strokeBorderColor = Colors.white,
     this.selectedButtonColor =Colors.blue,
+    this.backgroundGradient,
     this.backgroundStrokeBorderColor =Colors.black,
     this.strokeGradient = defaultGradient,
-    this.foreGroundGradient,
+    this.foreGroundGradientShader,
     this.strokeGradientShader,
     this.foregroundStrokeBorderWidth=0,
     this.selectedButtonBottomPosition=0.0,
@@ -100,7 +102,8 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       animationDuration:widget.animationDuration,
       height:widget.height,
       width:widget.width,
-      foreGroundGradient:widget.foreGroundGradient,
+      backgroundGradient:widget.backgroundGradient,
+      foreGroundGradientShader:widget.foreGroundGradientShader,
       useForeGroundGradient:widget.useForeGroundGradient,
       foregroundStrokeBorderWidth:widget.foregroundStrokeBorderWidth,
       strokeBorderColor:widget.strokeBorderColor,
@@ -131,7 +134,8 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       animationDuration:widget.animationDuration,
       height:widget.height,
       width:widget.width,
-      foreGroundGradient:widget.foreGroundGradient,
+      backgroundGradient:widget.backgroundGradient,
+      foreGroundGradientShader:widget.foreGroundGradientShader,
       useForeGroundGradient:widget.useForeGroundGradient,
       foregroundStrokeBorderWidth:widget.foregroundStrokeBorderWidth,
       strokeBorderColor:widget.strokeBorderColor,

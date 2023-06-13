@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testingapp/CurvedNavigationBar/Curves/nav_foreground_curve_under.dart';
-import 'package:testingapp/CurvedNavigationBar/Curves/nav_foreground_curve_upper.dart';
-import 'package:testingapp/CurvedNavigationBar/nav_button_widget.dart';
+import 'package:testingapp/CurvedNavigationBar/ForeGround_Curves_Under_Upper/nav_foreground_curve_under.dart';
+import 'package:testingapp/CurvedNavigationBar/ForeGround_Curves_Under_Upper/nav_foreground_curve_upper.dart';
+import 'package:testingapp/CurvedNavigationBar/Button_Widgets/nav_button_widget.dart';
 
 typedef LetIndexPage = bool Function(int value);
 
@@ -26,11 +26,12 @@ class StaticBottomNavWidget extends StatefulWidget {
   final int currentIndex;
   final Color foregroundColor;
   final Color backgroundColor;
+  final Gradient? backgroundGradient;
   final Curve animationCurve;
   final Duration animationDuration;
   final double height;
   final double width;
-  final Shader? foreGroundGradient;
+  final Shader? foreGroundGradientShader;
   final bool useForeGroundGradient;
   final double? foregroundStrokeBorderWidth;
   final Color strokeBorderColor;
@@ -60,13 +61,14 @@ class StaticBottomNavWidget extends StatefulWidget {
     this.backgroundColor = Colors.amber,
     this.strokeBorderColor = Colors.white,
     this.strokeGradient = defaultGradient,
+    this.backgroundGradient,
     this.strokeGradientShader,
     this.foregroundStrokeBorderWidth=0,
     this.currentIndex=0,
     this.animationDuration = const Duration(milliseconds: 500),
     this.height = kBottomNavigationBarHeight,
     this.width=double.infinity,
-    this.foreGroundGradient,
+    this.foreGroundGradientShader,
     this.useForeGroundGradient=false,
     this.showForeGround=true,
     this.useShaderStroke=false,
@@ -151,7 +153,8 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
             style : BorderStyle.solid,
             strokeAlign: BorderSide.strokeAlignInside
           ),
-        )
+        ),
+        gradient:widget.backgroundGradient,
       ),
       height: widget.height,
       width: widget.width,
@@ -225,7 +228,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
         _pos, 
         _length, 
         widget.useForeGroundGradient,
-        widget.foreGroundGradient,
+        widget.foreGroundGradientShader,
         widget.foregroundColor, 
         Directionality.of(context)
       )
@@ -233,7 +236,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
         _pos, 
         _length, 
         widget.useForeGroundGradient,
-        widget.foreGroundGradient,
+        widget.foreGroundGradientShader,
         widget.foregroundColor, 
         Directionality.of(context)
       ),
