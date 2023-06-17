@@ -124,14 +124,16 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
   void didUpdateWidget (StaticBottomNavWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentIndex != widget.currentIndex) {
-      final newPosition = widget.currentIndex / _length;
-      _startingPos = _pos;
-      _endingIndex = widget.currentIndex;
-      _animationController.animateTo(
-        newPosition,
-        duration: widget.animationDuration, 
-        curve: widget.animationCurve
-      );
+      setState(() {
+        final newPosition = widget.currentIndex / _length;
+        _startingPos = _pos;
+        _endingIndex = widget.currentIndex;
+        _animationController.animateTo(
+          newPosition,
+          duration: widget.animationDuration, 
+          curve: widget.animationCurve
+        );
+      });
     }
   }
 
@@ -188,6 +190,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
                   length: _length,
                   index: widget.icons.indexOf(item),
                   title: widget.titles[widget.icons.indexOf(item)],
+                  currentIndex : widget.currentIndex,
                   child: Center(child: item),
                 );
               }).toList())

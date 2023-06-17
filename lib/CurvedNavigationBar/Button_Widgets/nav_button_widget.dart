@@ -9,6 +9,7 @@ class DynamicNavBarButton extends StatelessWidget {
   final ValueChanged<int> onTap;
   final Widget child;
   final String title;
+  final int currentIndex;
 
   const DynamicNavBarButton({super.key, 
     required this.onTap,
@@ -17,14 +18,12 @@ class DynamicNavBarButton extends StatelessWidget {
     required this.index,
     required this.child,
     required this.title,
+    required this.currentIndex,
   });
 
   @override
   Widget build(BuildContext context) {
-    final desiredPosition = 1.0 / length * index;
-    final difference = (position - desiredPosition).abs();
-    final verticalAlignment = 1 - length * difference;
-    final opacity = length * difference;
+    final isSelected = index == currentIndex;
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -33,22 +32,17 @@ class DynamicNavBarButton extends StatelessWidget {
         },
         child: SizedBox(
           height: 75.0,
-          child: Transform.translate(
-            offset: Offset(
-              0, 
-              difference < 1.0 / length ? verticalAlignment * 40 : 0
-            ),
-            child: Opacity(
-              opacity: difference < 1.0 / length * 0.99 ? opacity : 1.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  child,
-                  title== "" ? const SizedBox() : Text(title,style: const TextStyle(color: blue))
-                ],
-              )
-            ),
+          child: isSelected
+          ?const SizedBox() 
+          :Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              child,
+              isSelected
+              ?const Text('',style: TextStyle(color: blue))
+              :title=="" ? const SizedBox() : Text(title,style: const TextStyle(color: blue))
+            ],
           )
         ),
       ),
@@ -63,6 +57,7 @@ class StaticNavBarButton extends StatelessWidget {
   final ValueChanged<int> onTap;
   final Widget child;
   final String title;
+  final int currentIndex;
 
   const StaticNavBarButton({super.key, 
     required this.onTap,
@@ -71,12 +66,12 @@ class StaticNavBarButton extends StatelessWidget {
     required this.index,
     required this.child,
     required this.title,
+    required this.currentIndex,
   });
 
   @override
   Widget build(BuildContext context) {
-    // final desiredPosition = 1.0 / length * index;
-    // final difference = (position - desiredPosition).abs();
+    // final isSelected = index == currentIndex;
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -90,7 +85,9 @@ class StaticNavBarButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               child,
-              title=="" ? const SizedBox() : Text(title,style: const TextStyle(color: blue))
+              index == length ~/ 2
+              ?const SizedBox()
+              :title=="" ? const SizedBox() : Text(title,style: const TextStyle(color: blue))
             ],
           )
         ),

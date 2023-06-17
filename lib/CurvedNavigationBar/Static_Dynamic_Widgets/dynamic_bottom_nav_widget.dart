@@ -124,14 +124,16 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
   void didUpdateWidget (DynamicBottomnavWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentIndex != widget.currentIndex) {
-      final newPosition = widget.currentIndex / _length;
-      _startingPos = _pos;
-      _endingIndex = widget.currentIndex;
-      _animationController.animateTo(
-        newPosition,
-        duration: widget.animationDuration, 
-        curve: widget.animationCurve
-      );
+      setState(() {
+        final newPosition = widget.currentIndex / _length;
+        _startingPos = _pos;
+        _endingIndex = widget.currentIndex;
+        _animationController.animateTo(
+          newPosition,
+          duration: widget.animationDuration, 
+          curve: widget.animationCurve
+        );
+      });
     }
   }
 
@@ -188,13 +190,14 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
                   length: _length,
                   index: widget.icons.indexOf(item),
                   title: widget.titles[widget.icons.indexOf(item)],
+                  currentIndex: widget.currentIndex,
                   child: Center(child: item),
                 );
               }).toList())
             ),
           ),
           // Selected Button
-          selectedButton(widget.width, context),
+          selectedButtonAnim(widget.width, context),
         ],
       ),
     );
@@ -205,21 +208,21 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
   }
 
   void _buttonTap(int index) {
-    if (!widget.letIndexChange(index)) {
-      return;
-    }
-    if (widget.onTap != null) {
-      widget.onTap!(index);
-    }
-    final newPosition = index / _length;
     setState(() {
-      _startingPos = _pos;
-      _endingIndex = index;
-      _animationController.animateTo(
-        newPosition,
-        duration: widget.animationDuration, 
-        curve: widget.animationCurve
-      );
+      if (!widget.letIndexChange(index)) {
+        return;
+      }
+      if (widget.onTap != null) {
+        widget.onTap!(index);
+      }
+      final newPosition = index / _length;
+        _startingPos = _pos;
+        _endingIndex = index;
+        _animationController.animateTo(
+          newPosition,
+          duration: widget.animationDuration, 
+          curve: widget.animationCurve
+        );
     });
   }
 
@@ -248,6 +251,22 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
         //   ),
         // ),
       )
+    );
+  }
+
+  AnimatedPositioned selectedButtonAnim(double navBarW, BuildContext context) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 0), // Adjust the duration as per your preference
+      curve: Curves.easeInOut, // Adjust the curve as per your preference
+      top: widget.selectedButtonTopPosition,
+      bottom: widget.selectedButtonBottomPosition,
+      width: navBarW / _length,
+      left: Directionality.of(context) == TextDirection.rtl ? null : _pos * navBarW,
+      right: Directionality.of(context) == TextDirection.rtl ? _pos * navBarW : null,
+      child: widget.customSelectedButtonWidget ??
+      Center(
+        child: icon,
+      ),
     );
   }
   
