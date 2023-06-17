@@ -17,12 +17,35 @@ class BottomNavigationPage extends StatefulWidget {
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
   var currentIndex = 0;
 
-  final List pagesAppBarTitle = [
-    "Favourite",
-    "Home",
-    "Wallet",
-    "AC",
-    "Alarm"
+  final List<String> title = [
+    "Page 1",
+    "Page 2",
+    "Page 3",
+    "Page 4",
+    "Page 5"
+  ];
+
+  final List<Widget> icons = [
+    const Icon(
+      Icons.favorite, 
+      color: Colors.white,
+    ),
+    const Icon(
+      Icons.home, 
+      color: Colors.white,
+    ),
+    const Icon(
+      Icons.wallet, 
+      color: Colors.white,
+    ),
+    const Icon(
+      Icons.ac_unit_outlined, 
+      color: Colors.white,
+    ),
+    const Icon(
+      Icons.access_alarm_rounded, 
+      color: Colors.white,
+    )
   ];
 
   final List pages = [
@@ -36,46 +59,12 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black.withOpacity(0.6),
-      appBar: AppBar(
-        backgroundColor: transparent,
-        centerTitle: true,
-        title: Text(pagesAppBarTitle[currentIndex]),
-      ),
+      extendBodyBehindAppBar: true,
+      backgroundColor: blue.withOpacity(0.6),
       body: pages[currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
-        //List of Icons
-        icons: const <Widget>[
-          Icon(
-            Icons.favorite, 
-            color: Colors.white,
-          ),
-          Icon(
-            Icons.home, 
-            color: Colors.white,
-          ),
-          Icon(
-            Icons.wallet, 
-            color: Colors.white,
-          ),
-          Icon(
-            Icons.ac_unit_outlined, 
-            color: Colors.white,
-          ),
-          Icon(
-            Icons.access_alarm_rounded, 
-            color: Colors.white,
-          )
-        ],
-        titles: const <String>[
-          'Favourite',
-          'Home',
-          'Wallet',
-          'AC',
-          'Alarm',
-        ],
-        height: kBottomNavigationBarHeight, // height of the bottom Nav Bar
-        width: MediaQuery.of(context).size.width, // width of the bottom Nav Bar 
+        icons: icons, //icon list<Widget>
+        titles: title, //title list<String>
         letIndexChange: true, // true on tap items change index else not change index
         currentIndex: currentIndex, // current selected index
         backgroundColor: transparent, // Nav BackGround Color

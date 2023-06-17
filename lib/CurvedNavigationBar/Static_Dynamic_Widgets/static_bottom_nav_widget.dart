@@ -29,8 +29,6 @@ class StaticBottomNavWidget extends StatefulWidget {
   final Gradient? backgroundGradient;
   final Curve animationCurve;
   final Duration animationDuration;
-  final double height;
-  final double width;
   final Shader? foreGroundGradientShader;
   final bool useForeGroundGradient;
   final double? foregroundStrokeBorderWidth;
@@ -66,8 +64,6 @@ class StaticBottomNavWidget extends StatefulWidget {
     this.foregroundStrokeBorderWidth=0,
     this.currentIndex=0,
     this.animationDuration = const Duration(milliseconds: 500),
-    this.height = kBottomNavigationBarHeight,
-    this.width=double.infinity,
     this.foreGroundGradientShader,
     this.useForeGroundGradient=false,
     this.showForeGround=true,
@@ -86,7 +82,7 @@ class StaticBottomNavWidget extends StatefulWidget {
   : letIndexChange = letIndexChange ?? ((_) => true),
     assert(icons.isNotEmpty),
     assert(0 <= currentIndex && currentIndex < icons.length),
-    assert(0 <= height && height <= 75.0),
+    assert(0 <= kBottomNavigationBarHeight && kBottomNavigationBarHeight <= 75.0),
     super(key: key);
 
   @override
@@ -158,8 +154,8 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
         ),
         gradient:widget.backgroundGradient,
       ),
-      height: widget.height,
-      width: widget.width,
+      height: kBottomNavigationBarHeight,
+      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.zero,
       child: Stack(
         clipBehavior: Clip.none,
@@ -170,7 +166,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
           ?Positioned(
             left: 0,
             right: 0,
-            bottom: 0 - (75.0 - widget.height),
+            bottom: 0 - (75.0 - kBottomNavigationBarHeight),
             child:staticCurve(context)
           )
           :const SizedBox(),

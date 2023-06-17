@@ -18,8 +18,6 @@ const Gradient defaultGradient = LinearGradient(
 class CurvedNavigationBar extends StatefulWidget {
   final List<Widget> icons;
   final List<String> titles;
-  final double height;
-  final double width;
   final int currentIndex;
   final ValueChanged<int>? onTap;
   final Curve animationType;
@@ -51,8 +49,6 @@ class CurvedNavigationBar extends StatefulWidget {
     super.key,
     required this.icons,
     required this.titles,
-    this.height = kBottomNavigationBarHeight,
-    this.width=double.infinity,
     this.currentIndex=0,
     this.onTap,
     this.animationType = Curves.easeOut,
@@ -100,8 +96,6 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       letIndexChange:(index) => widget.letIndexChange,
       animationCurve:widget.animationType,
       animationDuration:widget.animationDuration,
-      height:widget.height,
-      width:widget.width,
       backgroundGradient:widget.backgroundGradient,
       foreGroundGradientShader:widget.foreGroundGradientShader,
       useForeGroundGradient:widget.useForeGroundGradient,
@@ -132,8 +126,6 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
       letIndexChange:(index) => widget.letIndexChange,
       animationCurve:widget.animationType,
       animationDuration:widget.animationDuration,
-      height:widget.height,
-      width:widget.width,
       backgroundGradient:widget.backgroundGradient,
       foreGroundGradientShader:widget.foreGroundGradientShader,
       useForeGroundGradient:widget.useForeGroundGradient,
