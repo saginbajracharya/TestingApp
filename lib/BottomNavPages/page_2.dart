@@ -14,7 +14,9 @@ class _Page2State extends State<Page2> {
     return const CustomScrollView(
       slivers: [
         SliverFillRemaining(
-          child: Text("PAGE 2",style: TextStyle(color: white))
+          child: Center(
+            child: Text("PAGE 2",style: TextStyle(color: white))
+          )
         )
       ],
     );
