@@ -19,11 +19,19 @@ const Gradient defaultGradient = LinearGradient(
 );
 
 class DynamicBottomnavWidget extends StatefulWidget {
-  final List<Widget> icons;
+  final List<IconData> icons;
   final List<String> titles;
   final int currentIndex;
   final Color foregroundColor;
-  final Color backgroundColor;
+  final Color? backgroundColor;
+  final Color? selectedIconColor;
+  final double? selectedIconSize;   
+  final double? selectedTextSize;  
+  final Color? selectedTextColor;
+  final Color? unselectedIconColor;
+  final double? unselectedIconSize;   
+  final double? unselectedTextSize;  
+  final Color? unselectedTextColor;
   final Gradient? backgroundGradient;
   final ValueChanged<int>? onTap;
   final LetIndexPage letIndexChange;
@@ -32,7 +40,7 @@ class DynamicBottomnavWidget extends StatefulWidget {
   final Shader? foreGroundGradientShader;
   final bool useForeGroundGradient;
   final double? foregroundStrokeBorderWidth;
-  final Color strokeBorderColor;
+  final Color foregroundStrokeBorderColor;
   final Gradient strokeGradient;
   final Shader? strokeGradientShader;
   final bool useShaderStroke;
@@ -57,7 +65,15 @@ class DynamicBottomnavWidget extends StatefulWidget {
     LetIndexPage? letIndexChange,
     this.foregroundColor = Colors.white,
     this.backgroundColor = Colors.amber,
-    this.strokeBorderColor = Colors.white,
+    this.selectedIconColor,
+    this.selectedIconSize,   
+    this.selectedTextSize,  
+    this.selectedTextColor,
+    this.unselectedIconColor,
+    this.unselectedIconSize,   
+    this.unselectedTextSize,  
+    this.unselectedTextColor,
+    this.foregroundStrokeBorderColor = Colors.white,
     this.strokeGradient = defaultGradient,
     this.backgroundGradient,
     this.strokeGradientShader,
@@ -93,7 +109,7 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
   late double _startingPos;
   int _endingIndex = 0;
   late double _pos;
-  late Widget icon;
+  late IconData icon;
   late AnimationController _animationController;
   late int _length;
 
@@ -179,15 +195,24 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
             child: SizedBox(
               height: 100.0,
               child: Row(
-                children: widget.icons.map((item) {
+                children: widget.icons.map((icon) {
                 return DynamicNavBarButton(
                   onTap: _buttonTap,
                   position: _pos,
                   length: _length,
-                  index: widget.icons.indexOf(item),
-                  title: widget.titles[widget.icons.indexOf(item)],
+                  index: widget.icons.indexOf(icon),
+                  title: widget.titles[widget.icons.indexOf(icon)],
                   currentIndex: widget.currentIndex,
-                  child: Center(child: item),
+                  showForeGround: widget.showForeGround,
+                  icon: icon,
+                  selectedIconColor: widget.selectedIconColor,
+                  selectedIconSize: null, 
+                  selectedTextColor: null, 
+                  selectedTextSize: null,
+                  unselectedIconColor: widget.unselectedIconColor,
+                  unselectedIconSize: null, 
+                  unselectedTextColor: null, 
+                  unselectedTextSize: null, 
                 );
               }).toList())
             ),
@@ -234,7 +259,11 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
       ? _pos * navBarW
       : null,
       child: widget.customSelectedButtonWidget??Center(
-        child:icon,
+        child:Icon(
+          icon,
+          color: Colors.red, // Change the color to your desired color
+          size: 30, // Change the size to your desired size
+        ),
         // child: Material(
         //   elevation: widget.selectedButtonElevation,
         //   surfaceTintColor: widget.selectedButtonColor,
@@ -261,7 +290,11 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
       right: Directionality.of(context) == TextDirection.rtl ? _pos * navBarW : null,
       child: widget.customSelectedButtonWidget ??
       Center(
-        child: icon,
+        child: Icon(
+          icon,
+          color: Colors.red, // Change the color to your desired color
+          size: 30, // Change the size to your desired size
+        ),
       ),
     );
   }
@@ -290,7 +323,7 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
       ?NavForeGroundUnderStrokeBorderPainter(
         _pos, 
         _length, 
-        widget.strokeBorderColor, 
+        widget.foregroundStrokeBorderColor, 
         Directionality.of(context),
         widget.foregroundStrokeBorderWidth??1,
         widget.strokeGradientShader,
@@ -299,7 +332,7 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
       :NavForeGroundUpperStrokeBorderPainter(
         _pos, 
         _length, 
-        widget.strokeBorderColor, 
+        widget.foregroundStrokeBorderColor, 
         Directionality.of(context),
         widget.foregroundStrokeBorderWidth??1,
         widget.strokeGradientShader,

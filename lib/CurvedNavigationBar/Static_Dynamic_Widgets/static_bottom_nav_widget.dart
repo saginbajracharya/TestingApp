@@ -19,20 +19,28 @@ const Gradient defaultGradient = LinearGradient(
 );
 
 class StaticBottomNavWidget extends StatefulWidget {
-  final List<Widget> icons;
+  final List<IconData> icons;
   final List<String> titles;
   final ValueChanged<int>? onTap;
   final LetIndexPage letIndexChange;
   final int currentIndex;
   final Color foregroundColor;
-  final Color backgroundColor;
+  final Color? backgroundColor;
+  final Color? selectedIconColor;
+  final double? selectedIconSize;   
+  final double? selectedTextSize;  
+  final Color? selectedTextColor;
+  final Color? unselectedIconColor;
+  final double? unselectedIconSize;   
+  final double? unselectedTextSize;  
+  final Color? unselectedTextColor;
   final Gradient? backgroundGradient;
   final Curve animationCurve;
   final Duration animationDuration;
   final Shader? foreGroundGradientShader;
   final bool useForeGroundGradient;
   final double? foregroundStrokeBorderWidth;
-  final Color strokeBorderColor;
+  final Color foregroundStrokeBorderColor;
   final Gradient strokeGradient;
   final Shader? strokeGradientShader;
   final bool useShaderStroke;
@@ -57,7 +65,15 @@ class StaticBottomNavWidget extends StatefulWidget {
     LetIndexPage? letIndexChange,
     this.foregroundColor = Colors.white,
     this.backgroundColor = Colors.amber,
-    this.strokeBorderColor = Colors.white,
+    this.selectedIconColor,
+    this.selectedIconSize,   
+    this.selectedTextSize,  
+    this.selectedTextColor,
+    this.unselectedIconColor,
+    this.unselectedIconSize,   
+    this.unselectedTextSize,  
+    this.unselectedTextColor,
+    this.foregroundStrokeBorderColor = Colors.white,
     this.strokeGradient = defaultGradient,
     this.backgroundGradient,
     this.strokeGradientShader,
@@ -93,7 +109,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
   late double _startingPos;
   int _endingIndex = 0;
   late double _pos;
-  late Widget icon;
+  late IconData icon;
   late AnimationController _animationController;
   late int _length;
 
@@ -179,15 +195,24 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
             child: SizedBox(
               height: 100.0,
               child: Row(
-                children: widget.icons.map((item) {
+                children: widget.icons.map((icon) {
                 return StaticNavBarButton(
                   onTap: _buttonTap,
                   position: _pos,
                   length: _length,
-                  index: widget.icons.indexOf(item),
-                  title: widget.titles[widget.icons.indexOf(item)],
+                  index: widget.icons.indexOf(icon),
+                  title: widget.titles[widget.icons.indexOf(icon)],
                   currentIndex : widget.currentIndex,
-                  child: Center(child: item),
+                  showForeGround:widget.showForeGround,
+                  icon: icon, 
+                  selectedIconColor: widget.selectedIconColor, 
+                  selectedIconSize: widget.selectedIconSize, 
+                  selectedTextColor: widget.selectedTextColor, 
+                  selectedTextSize: widget.selectedTextSize, 
+                  unselectedIconColor: widget.unselectedIconColor, 
+                  unselectedIconSize: widget.unselectedIconSize, 
+                  unselectedTextColor: widget.unselectedTextColor, 
+                  unselectedTextSize: widget.unselectedTextSize,
                 );
               }).toList())
             ),
@@ -244,7 +269,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
       ?NavForeGroundUnderStrokeBorderPainterStatic(
         _pos, 
         _length, 
-        widget.strokeBorderColor, 
+        widget.foregroundStrokeBorderColor, 
         Directionality.of(context),
         widget.foregroundStrokeBorderWidth??1,
         widget.strokeGradientShader,
@@ -253,7 +278,7 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
       :NavForeGroundUpperStrokeBorderPainterStatic(
         _pos, 
         _length, 
-        widget.strokeBorderColor, 
+        widget.foregroundStrokeBorderColor, 
         Directionality.of(context),
         widget.foregroundStrokeBorderWidth??1,
         widget.strokeGradientShader,

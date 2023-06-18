@@ -25,27 +25,12 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     "Page 5"
   ];
 
-  final List<Widget> icons = [
-    const Icon(
-      Icons.favorite, 
-      color: Colors.white,
-    ),
-    const Icon(
-      Icons.home, 
-      color: Colors.white,
-    ),
-    const Icon(
-      Icons.wallet, 
-      color: Colors.white,
-    ),
-    const Icon(
-      Icons.ac_unit_outlined, 
-      color: Colors.white,
-    ),
-    const Icon(
-      Icons.access_alarm_rounded, 
-      color: Colors.white,
-    )
+  final List<IconData> icons = [
+    Icons.favorite, 
+    Icons.home, 
+    Icons.wallet, 
+    Icons.ac_unit_outlined, 
+    Icons.access_alarm_rounded, 
   ];
 
   final List pages = [
@@ -56,6 +41,45 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     const Page5(),
   ];
   
+  Gradient backgroundGradientColor = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Colors.white,
+      Colors.grey,
+      Colors.green,
+      Colors.grey,
+      Colors.white,
+    ],
+    stops: [0.1, 0.3, 0.5, 0.7, 1.0],
+  );
+
+  Shader foreGroundGradientShader = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      black,
+      black,
+      black,
+      black,
+      red,
+    ],
+    stops: [0.2, 0.4, 0.5, 0.6, 2.0],
+  ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100));
+
+  Shader strokeGradientShader = const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Colors.red,
+      Colors.purple,
+      Colors.green,
+      Colors.yellow,
+      Colors.blue,
+    ],
+    stops: [0.2, 0.4, 0.5, 0.6, 2.0],
+  ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,63 +87,46 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       backgroundColor: blue.withOpacity(0.6),
       body: pages[currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
-        icons: icons, //icon list<Widget>
-        titles: title, //title list<String>
-        letIndexChange: true, // true on tap items change index else not change index
-        currentIndex: currentIndex, // current selected index
-        backgroundColor: transparent, // Nav BackGround Color
-        foregroundColor: black, // Nav ForeGround Color 
-        strokeBorderColor: red, // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
-        backgroundStrokeBorderColor: transparent, // nav background stroke color [seems like when border width is 0.0 still shows the color but transparent solves it]
-        backgroundStrokeBorderWidth: 0.0, // Nav BackGround Stroke Border Width
-        foregroundStrokeBorderWidth: 2.0, // Nav ForeGround Stroke Border Width  
-        backgroundGradient: null, // Nav background Gradient [No Gradient if Null]
-        // ForeGround Gradient Shader 
-        foreGroundGradientShader : const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            black,
-            black,
-            black,
-            black,
-            red,
-          ],
-          stops: [0.2, 0.4, 0.5, 0.6, 2.0],
-        ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100)),
-        // ForeGround Stroke border Gradient Shader
-        strokeGradientShader : const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.red,
-            Colors.purple,
-            Colors.green,
-            Colors.yellow,
-            Colors.blue,
-          ],
-          stops: [0.2, 0.4, 0.5, 0.6, 2.0],
-        ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100)),
-        useForeGroundGradient: true,
-        showForeGround: true,
-        useShaderStroke: false,
-        underCurve: true,
-        staticCurve: true,
+        icons                        : icons,                    // Icon list<Widget>
+        titles                       : title,                    // Title list<String>
+        letIndexChange               : true,                     // On Tap Icon if true => changes index , False => dose not changes index
+        currentIndex                 : currentIndex,             // Current selected index
+        backgroundColor              : grey,                     // NavBar BackGround Color [backgroundGradient ovrerides color]
+        foregroundColor              : black,                    // NavBar ForeGround Color with Curve 
+        foregroundStrokeBorderColor  : blue,                     // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
+        backgroundStrokeBorderColor  : red,                      // nav background stroke color [seems like when border width is 0.0 still shows the color but transparent solves it]
+        backgroundStrokeBorderWidth  : 1.0,                      // Nav BackGround Stroke Border Width
+        foregroundStrokeBorderWidth  : 1.0,                      // Nav ForeGround Stroke Border Width  
+        backgroundGradient           : null,                     // Nav background Gradient [No Gradient if Null Overrides backgroundColor if given]
+        foreGroundGradientShader     : foreGroundGradientShader, // Nav ForeGround Gradient Shader [foregroundColor or foreGroundGradientShader determined by Bool useForeGroundGradient]
+        selectedIconColor            : blue,
+        selectedIconSize             : 25,   
+        selectedTextSize             : 10,  
+        selectedTextColor            : white,
+        unselectedIconColor          : white,
+        unselectedIconSize           : 25,   
+        unselectedTextSize           : 10,  
+        unselectedTextColor          : white,
+
+        strokeGradientShader         : strokeGradientShader,     // ForeGround Stroke border Gradient Shader
+        useForeGroundGradient        : false,
+        showForeGround               : true,
+        useShaderStroke              : false,
+        underCurve                   : false,
+        staticCurve                  : true,
         //[Selected btn values ok for DYNAMIC upper and under curve]
         //[Selected btn values not ok for STATIC upper and under curve]
-        selectedButtonBottomPosition: 14.0,
-        selectedButtonTopPosition: 0.0,
-        selectedButtonElevation: 1,
-        animationType: Curves.ease, // Index change animation curves
-        animationDuration: const Duration(milliseconds: 5000), //Index Change Animation duration
-        onTap: (index) async{
-          onItemTapped(index);
-        },
+        selectedButtonBottomPosition : 14.0,
+        selectedButtonTopPosition    : 0.0,
+        selectedButtonElevation      : 10,
+        animationType                : Curves.ease, // Index change animation curves
+        animationDuration            : const Duration(milliseconds: 5000), //Index Change Animation duration
+        onTap                        : (index) async => onItemTapped(index), //Custom OnTap CallBacks
       ),
     );
   }
 
-  void onItemTapped(int index) {
+  void onItemTapped(int index) async{
     setState(() {
       currentIndex = index;
     });

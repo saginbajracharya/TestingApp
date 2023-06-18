@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/styles.dart';
 
 class DynamicNavBarButton extends StatelessWidget {
   final double position;
   final int length;
   final int index;
+  final bool showForeGround;
   final ValueChanged<int> onTap;
-  final Widget child;
+  final IconData icon;
   final String title;
   final int currentIndex;
+  final Color? selectedIconColor;
+  final double? selectedIconSize;   
+  final double? selectedTextSize;  
+  final Color? selectedTextColor;
+  final Color? unselectedIconColor;
+  final double? unselectedIconSize;   
+  final double? unselectedTextSize;  
+  final Color? unselectedTextColor;
 
   const DynamicNavBarButton({super.key, 
     required this.onTap,
     required this.position,
     required this.length,
     required this.index,
-    required this.child,
+    required this.showForeGround,
+    required this.icon,
     required this.title,
     required this.currentIndex,
+    required this.selectedIconColor,
+    required this.selectedIconSize,   
+    required this.selectedTextSize,  
+    required this.selectedTextColor,
+    required this.unselectedIconColor,
+    required this.unselectedIconSize,   
+    required this.unselectedTextSize,  
+    required this.unselectedTextColor,
   });
 
   @override
@@ -30,20 +47,28 @@ class DynamicNavBarButton extends StatelessWidget {
         onTap: () {
           onTap(index);
         },
-        child: SizedBox(
-          height: 75.0,
-          child: isSelected
-          ?const SizedBox() 
-          :Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              child,
-              isSelected
-              ?const Text('',style: TextStyle(color: blue))
-              :title=="" ? const SizedBox() : Text(title,style: const TextStyle(color: blue))
-            ],
-          )
+        child: isSelected
+        ?SelectedButtonWidget(
+          showForeGround: showForeGround, 
+          index: index, 
+          length: length, 
+          title: title,
+          icon: icon,
+          selectedIconColor: selectedIconColor,
+          selectedIconSize:selectedIconSize,
+          selectedTextSize:selectedTextSize,
+          selectedTextColor:selectedTextColor,
+        )
+        :UnSelectedButtonWidget(
+          showForeGround: showForeGround, 
+          index: index, 
+          length: length, 
+          title: title,
+          icon: icon,
+          unselectedIconColor: unselectedIconColor,
+          unselectedIconSize: unselectedIconSize,
+          unselectedTextSize: unselectedTextSize,
+          unselectedTextColor: unselectedTextColor,
         ),
       ),
     );
@@ -54,44 +79,161 @@ class StaticNavBarButton extends StatelessWidget {
   final double position;
   final int length;
   final int index;
+  final bool showForeGround;
   final ValueChanged<int> onTap;
-  final Widget child;
+  final IconData icon;
   final String title;
   final int currentIndex;
+  final Color? selectedIconColor;
+  final double? selectedIconSize;   
+  final double? selectedTextSize;  
+  final Color? selectedTextColor;
+  final Color? unselectedIconColor;
+  final double? unselectedIconSize;   
+  final double? unselectedTextSize;  
+  final Color? unselectedTextColor;
 
-  const StaticNavBarButton({super.key, 
+  const StaticNavBarButton({
+    super.key, 
     required this.onTap,
     required this.position,
     required this.length,
     required this.index,
-    required this.child,
+    required this.showForeGround,
+    required this.icon,
     required this.title,
     required this.currentIndex,
+    required this.selectedIconColor,
+    required this.selectedIconSize,   
+    required this.selectedTextSize,  
+    required this.selectedTextColor,
+    required this.unselectedIconColor,
+    required this.unselectedIconSize,   
+    required this.unselectedTextSize,  
+    required this.unselectedTextColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    // final isSelected = index == currentIndex;
+    final isSelected = index == currentIndex;
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () {
+        onTap: () async{
           onTap(index);
         },
-        child: SizedBox(
-          height: 75.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              child,
-              index == length ~/ 2
-              ?const SizedBox()
-              :title=="" ? const SizedBox() : Text(title,style: const TextStyle(color: blue))
-            ],
-          )
+        child: isSelected
+        ?SelectedButtonWidget(
+          showForeGround: showForeGround, 
+          index: index, 
+          length: length, 
+          title: title,
+          icon: icon,
+          selectedIconColor: selectedIconColor,
+          selectedIconSize:selectedIconSize, 
+          selectedTextSize:selectedTextSize,  
+          selectedTextColor:selectedTextColor,
+        )
+        :UnSelectedButtonWidget(
+          showForeGround: showForeGround, 
+          index: index, 
+          length: length, 
+          title: title,
+          icon: icon,
+          unselectedIconColor: unselectedIconColor,
+          unselectedIconSize:unselectedIconSize, 
+          unselectedTextSize:unselectedTextSize,  
+          unselectedTextColor:unselectedTextColor,
         ),
       ),
+    );
+  }
+}
+
+class SelectedButtonWidget extends StatelessWidget {
+  const SelectedButtonWidget({
+    super.key,
+    required this.showForeGround,
+    required this.index,
+    required this.length,
+    required this.title,
+    required this.icon,
+    required this.selectedIconColor,
+    required this.selectedIconSize,
+    required this.selectedTextSize,
+    required this.selectedTextColor,
+  });
+
+  final IconData icon;
+  final bool showForeGround;
+  final int index;
+  final int length;
+  final String title;
+  final Color? selectedIconColor;
+  final double? selectedIconSize;   
+  final double? selectedTextSize;  
+  final Color? selectedTextColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: kBottomNavigationBarHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: selectedIconColor??Colors.red, // Change the color to your desired color
+            size: selectedIconSize??30, // Change the size to your desired size
+          ),
+          title=="" ? const SizedBox() : Text(title,style: TextStyle(color: selectedTextColor,fontSize: selectedTextSize))
+        ],
+      )
+    );
+  }
+}
+
+class UnSelectedButtonWidget extends StatelessWidget {
+  const UnSelectedButtonWidget({
+    super.key,
+    required this.showForeGround,
+    required this.index,
+    required this.length,
+    required this.title,
+    required this.icon,
+    required this.unselectedIconColor,
+    required this.unselectedIconSize,
+    required this.unselectedTextSize,
+    required this.unselectedTextColor,
+  });
+
+  final IconData icon;
+  final bool showForeGround;
+  final int index;
+  final int length;
+  final String title;
+  final Color? unselectedIconColor;
+  final double? unselectedIconSize;   
+  final double? unselectedTextSize;  
+  final Color? unselectedTextColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: kBottomNavigationBarHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: unselectedIconColor??Colors.red, // Change the color to your desired color
+            size: unselectedIconSize??30, // Change the size to your desired size
+          ),
+          title=="" ? const SizedBox() : Text(title,style: TextStyle(color: unselectedTextColor,fontSize: unselectedTextSize??18))
+        ],
+      )
     );
   }
 }

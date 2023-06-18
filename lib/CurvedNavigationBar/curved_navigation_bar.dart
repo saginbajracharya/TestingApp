@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testingapp/CurvedNavigationBar/Static_Dynamic_Widgets/dynamic_bottom_nav_widget.dart';
-import 'package:testingapp/CurvedNavigationBar/Static_Dynamic_Widgets/static_bottom_nav_widget.dart';
+import '../utils/styles.dart';
+import 'Static_Dynamic_Widgets/dynamic_bottom_nav_widget.dart';
+import 'Static_Dynamic_Widgets/static_bottom_nav_widget.dart';
 
 const Gradient defaultGradient = LinearGradient(
   begin: Alignment.topCenter,
@@ -16,65 +17,83 @@ const Gradient defaultGradient = LinearGradient(
 );
 
 class CurvedNavigationBar extends StatefulWidget {
-  final List<Widget> icons;
+  final List<IconData> icons;
   final List<String> titles;
-  final int currentIndex;
-  final ValueChanged<int>? onTap;
-  final Curve animationType;
-  final Duration animationDuration;
   final bool letIndexChange;
+  final int currentIndex;
+  final Color? backgroundColor;
+  final Color foregroundColor;
+  final Color foregroundStrokeBorderColor;
+  final Color backgroundStrokeBorderColor;
+  final double foregroundStrokeBorderWidth;
+  final double backgroundStrokeBorderWidth;
+  final Gradient? backgroundGradient;
+  final Color? selectedIconColor;
+  final double? selectedIconSize;   
+  final double? selectedTextSize;  
+  final Color? selectedTextColor;
+  final Color? unselectedIconColor;
+  final double? unselectedIconSize;   
+  final double? unselectedTextSize;  
+  final Color? unselectedTextColor;
+
   final bool useForeGroundGradient;
   final bool useShaderStroke;
   final bool showForeGround;
   final bool underCurve;
   final bool staticCurve;
-  final Color foregroundColor;
-  final Color backgroundColor;
-  final Color strokeBorderColor;
   final Color selectedButtonColor;
-  final Color backgroundStrokeBorderColor;
-  final Gradient? backgroundGradient;
   final Gradient strokeGradient;
   final Shader? foreGroundGradientShader;
   final Shader? strokeGradientShader;
-  final double? foregroundStrokeBorderWidth;
   final double selectedButtonBottomPosition;
   final double selectedButtonTopPosition;
   final double selectedButtonElevation;
-  final double? backgroundStrokeBorderWidth;
   final MaterialType selectedButtonMaterialType;
   final Widget? customSelectedButtonWidget;
+  final Curve animationType;
+  final Duration animationDuration;
+  final ValueChanged<int>? onTap;
   
   const CurvedNavigationBar({
     super.key,
     required this.icons,
     required this.titles,
-    this.currentIndex=0,
-    this.onTap,
-    this.animationType = Curves.easeOut,
-    this.animationDuration = const Duration(milliseconds: 500),
-    this.letIndexChange = true,
-    this.useForeGroundGradient=false,
-    this.useShaderStroke=false,
-    this.showForeGround=true,
-    this.underCurve=true,
-    this.staticCurve=false,
-    this.foregroundColor = Colors.white,
-    this.backgroundColor = Colors.amber,
-    this.strokeBorderColor = Colors.white,
-    this.selectedButtonColor =Colors.blue,
-    this.backgroundGradient,
-    this.backgroundStrokeBorderColor =Colors.black,
-    this.strokeGradient = defaultGradient,
+    this.letIndexChange              = true,  // Default to change index
+    this.currentIndex                = 0,     // Default as 0
+    this.backgroundColor,                     // Default background Color Null
+    this.foregroundColor             = grey,  // Default foreground Color White
+    this.foregroundStrokeBorderColor = white, // Default foreground Stroke Border Color White
+    this.backgroundStrokeBorderColor = white, // Default background Stroke Border Color White
+    this.backgroundStrokeBorderWidth = 1.0,   // Default Nav BackGround Stroke Border Width
+    this.foregroundStrokeBorderWidth = 1.0,   // Default Nav ForeGround Stroke Border Width
+    this.backgroundGradient,                  // Default Null
+    this.selectedIconColor,
+    this.selectedIconSize,   
+    this.selectedTextSize,  
+    this.selectedTextColor,
+    this.unselectedIconColor,
+    this.unselectedIconSize,   
+    this.unselectedTextSize,  
+    this.unselectedTextColor,
+
+    this.animationType               = Curves.easeOut,
+    this.animationDuration           = const Duration(milliseconds: 500),
+    this.useForeGroundGradient       = false,
+    this.useShaderStroke             = false,
+    this.showForeGround              = true,
+    this.underCurve                  = true,
+    this.staticCurve                 = false,
+    this.selectedButtonColor         = blue,
+    this.strokeGradient              = defaultGradient,
     this.foreGroundGradientShader,
     this.strokeGradientShader,
-    this.foregroundStrokeBorderWidth=0,
-    this.selectedButtonBottomPosition=0.0,
-    this.selectedButtonTopPosition=0.0,
-    this.selectedButtonElevation=0,
-    this.backgroundStrokeBorderWidth,
-    this.selectedButtonMaterialType = MaterialType.circle,
+    this.selectedButtonBottomPosition= 0.0,
+    this.selectedButtonTopPosition   = 0.0,
+    this.selectedButtonElevation     = 0,
+    this.selectedButtonMaterialType  = MaterialType.circle,
     this.customSelectedButtonWidget,
+    this.onTap,
   });
 
   @override
@@ -87,64 +106,82 @@ class CurvedNavigationBarState extends State<CurvedNavigationBar>{
   Widget build(BuildContext context) {
     return widget.staticCurve
     ?StaticBottomNavWidget(
-      icons: widget.icons, 
-      titles: widget.titles,
-      currentIndex:widget.currentIndex,
-      foregroundColor:widget.foregroundColor,
-      backgroundColor:widget.backgroundColor,
-      onTap:widget.onTap,
-      letIndexChange:(index) => widget.letIndexChange,
-      animationCurve:widget.animationType,
-      animationDuration:widget.animationDuration,
-      backgroundGradient:widget.backgroundGradient,
-      foreGroundGradientShader:widget.foreGroundGradientShader,
-      useForeGroundGradient:widget.useForeGroundGradient,
-      foregroundStrokeBorderWidth:widget.foregroundStrokeBorderWidth,
-      strokeBorderColor:widget.strokeBorderColor,
-      strokeGradient:widget.strokeGradient,
-      strokeGradientShader:widget.strokeGradientShader,
-      useShaderStroke:widget.useShaderStroke,
-      showForeGround:widget.showForeGround,
-      underCurve:widget.underCurve,
-      staticCurve:widget.staticCurve,
-      selectedButtonBottomPosition:widget.selectedButtonBottomPosition,
-      selectedButtonTopPosition:widget.selectedButtonTopPosition,
-      selectedButtonElevation:widget.selectedButtonElevation,
-      selectedButtonColor:widget.selectedButtonColor,
-      selectedButtonMaterialType:widget.selectedButtonMaterialType,
-      customSelectedButtonWidget:widget.customSelectedButtonWidget,
-      backgroundStrokeBorderColor:widget.backgroundStrokeBorderColor,
-      backgroundStrokeBorderWidth:widget.backgroundStrokeBorderWidth,
+      icons                            : widget.icons, 
+      titles                           : widget.titles,
+      letIndexChange                   : (index) => widget.letIndexChange,
+      currentIndex                     : widget.currentIndex,
+      backgroundColor                  : widget.backgroundColor,
+      foregroundColor                  : widget.foregroundColor,
+      backgroundStrokeBorderWidth      : widget.backgroundStrokeBorderWidth,
+      foregroundStrokeBorderWidth      : widget.foregroundStrokeBorderWidth,
+      selectedIconColor                : widget.selectedIconColor,
+      selectedIconSize                 : widget.selectedIconSize,   
+      selectedTextSize                 : widget.selectedTextSize,  
+      selectedTextColor                : widget.selectedTextColor,
+      unselectedIconColor              : widget.unselectedIconColor,
+      unselectedIconSize               : widget.unselectedIconSize,   
+      unselectedTextSize               : widget.unselectedTextSize,  
+      unselectedTextColor              : widget.unselectedTextColor,
+
+      animationCurve                   : widget.animationType,
+      animationDuration                : widget.animationDuration,
+      backgroundGradient               : widget.backgroundGradient,
+      foreGroundGradientShader         : widget.foreGroundGradientShader,
+      useForeGroundGradient            : widget.useForeGroundGradient,
+      foregroundStrokeBorderColor      : widget.foregroundStrokeBorderColor,
+      strokeGradient                   : widget.strokeGradient,
+      strokeGradientShader             : widget.strokeGradientShader,
+      useShaderStroke                  : widget.useShaderStroke,
+      showForeGround                   : widget.showForeGround,
+      underCurve                       : widget.underCurve,
+      staticCurve                      : widget.staticCurve,
+      selectedButtonBottomPosition     : widget.selectedButtonBottomPosition,
+      selectedButtonTopPosition        : widget.selectedButtonTopPosition,
+      selectedButtonElevation          : widget.selectedButtonElevation,
+      selectedButtonColor              : widget.selectedButtonColor,
+      selectedButtonMaterialType       : widget.selectedButtonMaterialType,
+      customSelectedButtonWidget       : widget.customSelectedButtonWidget,
+      backgroundStrokeBorderColor      : widget.backgroundStrokeBorderColor,
+      onTap                            : widget.onTap,
     )
     :DynamicBottomnavWidget(
-      icons: widget.icons, 
-      titles: widget.titles,
-      currentIndex:widget.currentIndex,
-      foregroundColor:widget.foregroundColor,
-      backgroundColor:widget.backgroundColor,
-      onTap:widget.onTap,
-      letIndexChange:(index) => widget.letIndexChange,
-      animationCurve:widget.animationType,
-      animationDuration:widget.animationDuration,
-      backgroundGradient:widget.backgroundGradient,
-      foreGroundGradientShader:widget.foreGroundGradientShader,
-      useForeGroundGradient:widget.useForeGroundGradient,
-      foregroundStrokeBorderWidth:widget.foregroundStrokeBorderWidth,
-      strokeBorderColor:widget.strokeBorderColor,
-      strokeGradient:widget.strokeGradient,
-      strokeGradientShader:widget.strokeGradientShader,
-      useShaderStroke:widget.useShaderStroke,
-      showForeGround:widget.showForeGround,
-      underCurve:widget.underCurve,
-      staticCurve:widget.staticCurve,
-      selectedButtonBottomPosition:widget.selectedButtonBottomPosition,
-      selectedButtonTopPosition:widget.selectedButtonTopPosition,
-      selectedButtonElevation:widget.selectedButtonElevation,
-      selectedButtonColor:widget.selectedButtonColor,
-      selectedButtonMaterialType:widget.selectedButtonMaterialType,
-      customSelectedButtonWidget:widget.customSelectedButtonWidget,
-      backgroundStrokeBorderColor:widget.backgroundStrokeBorderColor,
-      backgroundStrokeBorderWidth:widget.backgroundStrokeBorderWidth,
+      icons                            : widget.icons, 
+      titles                           : widget.titles,
+      letIndexChange                   : (index) => widget.letIndexChange,
+      currentIndex                     : widget.currentIndex,
+      foregroundColor                  : widget.foregroundColor,
+      backgroundColor                  : widget.backgroundColor,
+      backgroundStrokeBorderWidth      : widget.backgroundStrokeBorderWidth,
+      foregroundStrokeBorderWidth      : widget.foregroundStrokeBorderWidth,
+      selectedIconColor                : widget.selectedIconColor,
+      selectedIconSize                 : widget.selectedIconSize,   
+      selectedTextSize                 : widget.selectedTextSize,  
+      selectedTextColor                : widget.selectedTextColor,
+      unselectedIconColor              : widget.unselectedIconColor,
+      unselectedIconSize               : widget.unselectedIconSize,   
+      unselectedTextSize               : widget.unselectedTextSize,  
+      unselectedTextColor              : widget.unselectedTextColor,
+
+      animationCurve                    : widget.animationType,
+      animationDuration                 : widget.animationDuration,
+      backgroundGradient                : widget.backgroundGradient,
+      foreGroundGradientShader          : widget.foreGroundGradientShader,
+      useForeGroundGradient             : widget.useForeGroundGradient,
+      foregroundStrokeBorderColor       : widget.foregroundStrokeBorderColor,
+      strokeGradient                    : widget.strokeGradient,
+      strokeGradientShader              : widget.strokeGradientShader,
+      useShaderStroke                   : widget.useShaderStroke,
+      showForeGround                    : widget.showForeGround,
+      underCurve                        : widget.underCurve,
+      staticCurve                       : widget.staticCurve,
+      selectedButtonBottomPosition      : widget.selectedButtonBottomPosition,
+      selectedButtonTopPosition         : widget.selectedButtonTopPosition,
+      selectedButtonElevation           : widget.selectedButtonElevation,
+      selectedButtonColor               : widget.selectedButtonColor,
+      selectedButtonMaterialType        : widget.selectedButtonMaterialType,
+      customSelectedButtonWidget        : widget.customSelectedButtonWidget,
+      backgroundStrokeBorderColor       : widget.backgroundStrokeBorderColor,
+      onTap                             : widget.onTap,
     );
   }
 }
