@@ -15,7 +15,12 @@ class BottomNavigationPage extends StatefulWidget {
 }
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
-  var currentIndex = 0;
+  bool staticCurve           = false;
+  bool useForeGroundGradient = false;
+  bool showForeGround        = true;
+  bool useShaderStroke       = false;
+  bool underCurve            = true;
+  int currentIndex           = 0;
 
   final List<String> title = [
     "Page 1",
@@ -58,10 +63,10 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      black,
-      black,
-      black,
-      black,
+      blue,
+      red,
+      yellow,
+      green,
       red,
     ],
     stops: [0.2, 0.4, 0.5, 0.6, 2.0],
@@ -85,7 +90,86 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: blue.withOpacity(0.6),
-      body: pages[currentIndex],
+      body: Column(
+        children: [
+          Flexible(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: ()async{
+                    setState(() {
+                      if(useForeGroundGradient==false)
+                      {
+                        useForeGroundGradient=true;
+                      }else{
+                        useForeGroundGradient=false;
+                      }
+                    });
+                  }, 
+                  child: const Text('Use Fore Ground Gradient',style: TextStyle(color: white))
+                ),
+                ElevatedButton(
+                  onPressed: ()async{
+                    setState(() {
+                      if(showForeGround==false)
+                      {
+                        showForeGround=true;
+                      }else{
+                        showForeGround=false;
+                      }
+                    });
+                  }, 
+                  child: const Text('Show Fore Ground',style: TextStyle(color: white))
+                ),
+                ElevatedButton(
+                  onPressed: ()async{
+                    setState(() {
+                      if(useShaderStroke==false)
+                      {
+                        useShaderStroke=true;
+                      }else{
+                        useShaderStroke=false;
+                      }
+                    });
+                  }, 
+                  child: const Text('Use Shader Stroke',style: TextStyle(color: white))
+                ),
+                ElevatedButton(
+                  onPressed: ()async{
+                    setState(() {
+                      if(underCurve==false)
+                      {
+                        underCurve=true;
+                      }else{
+                        underCurve=false;
+                      }
+                    });
+                  }, 
+                  child: const Text('Under Curve',style: TextStyle(color: white))
+                ),
+                ElevatedButton(
+                  onPressed: ()async{
+                    setState(() {
+                      if(staticCurve==false)
+                      {
+                        staticCurve=true;
+                      }else{
+                        staticCurve=false;
+                      }
+                    });
+                  }, 
+                  child: const Text('Static Curve',style: TextStyle(color: white))
+                )
+              ],
+            )
+          ),
+          Flexible(
+            child: pages[currentIndex]
+          )
+        ],
+      ),
       bottomNavigationBar: MultiNavigationBar(
         icons                        : icons,                    // Icon list<Widget>
         titles                       : title,                    // Title list<String>
@@ -112,11 +196,11 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         unselectedTextColor          : black,                    // UnSelected Item Text Color
 
         strokeGradientShader         : strokeGradientShader,     // ForeGround Stroke border Gradient Shader
-        useForeGroundGradient        : false,
-        showForeGround               : true,
-        useShaderStroke              : false,
-        underCurve                   : false,
-        staticCurve                  : false,
+        useForeGroundGradient        : useForeGroundGradient,
+        showForeGround               : showForeGround,
+        useShaderStroke              : useShaderStroke,
+        underCurve                   : underCurve,
+        staticCurve                  : staticCurve,
         //[Selected btn values ok for DYNAMIC upper and under curve]
         //[Selected btn values not ok for STATIC upper and under curve]
         selectedButtonBottomPosition : 14.0,
