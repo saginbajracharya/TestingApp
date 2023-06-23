@@ -183,9 +183,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         foregroundStrokeBorderWidth  : 1.0,                      // Nav ForeGround Stroke Border Width  
         backgroundGradient           : null,                     // Nav background Gradient [No Gradient if Null Overrides backgroundColor if given]
         foreGroundGradientShader     : foreGroundGradientShader, // Nav ForeGround Gradient Shader [foregroundColor or foreGroundGradientShader determined by Bool useForeGroundGradient]
-        //Selection and UnSelection for No Curve (Simple Nav) OK,
-        //Selection and UnSelection for Static Curve (No Change Curve) OK,
-        //Selection and UnSelection for Dynamic Curve (Changing Curve) OK,
         selectedIconColor            : red,                      // Selected Item Icon Color
         selectedIconSize             : 25,                       // Selected Item Icon Size
         selectedTextSize             : 10,                       // Selected Item Text Size
@@ -196,19 +193,21 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         unselectedTextColor          : black,                    // UnSelected Item Text Color
 
         strokeGradientShader         : strokeGradientShader,     // ForeGround Stroke border Gradient Shader
-        useForeGroundGradient        : useForeGroundGradient,
-        showForeGround               : showForeGround,
-        useShaderStroke              : useShaderStroke,
-        underCurve                   : underCurve,
-        staticCurve                  : staticCurve,
-        //[Selected btn values ok for DYNAMIC upper and under curve]
-        //[Selected btn values not ok for STATIC upper and under curve]
-        selectedButtonBottomPosition : 14.0,
-        selectedButtonTopPosition    : 0.0,
-        selectedButtonElevation      : 10,
+        useForeGroundGradient        : useForeGroundGradient,    // Gradient for ForeGround or Not
+        showForeGround               : showForeGround,           // Show ForeGround or Not
+        useShaderStroke              : useShaderStroke,          // Use Shadered Stroke Border or Not
+        underCurve                   : underCurve,               // Under Curve or Upper Curve
+        staticCurve                  : staticCurve,              // Static Curve or Dynamic Curve
+
         animationType                : Curves.ease, // Index change animation curves
         animationDuration            : const Duration(milliseconds: 1000), //Index Change Animation duration for curve only
         onTap                        : (index) async => onItemTapped(index), //Custom OnTap CallBacks
+
+        //[Selected btn values ok for DYNAMIC upper and under curve]
+        //[Selected btn values not ok for STATIC upper and under curve]
+        selectedButtonBottomPosition : 50.0,
+        selectedButtonTopPosition    : 10.0,
+        selectedButtonElevation      : 50,
       ),
     );
   }
