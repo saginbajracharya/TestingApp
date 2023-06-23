@@ -21,9 +21,17 @@ const Gradient defaultGradient = LinearGradient(
 class DynamicBottomnavWidget extends StatefulWidget {
   final List<IconData> icons;
   final List<String> titles;
+  final LetIndexPage letIndexChange;
   final int currentIndex;
-  final Color foregroundColor;
   final Color? backgroundColor;
+  final Color foregroundColor;
+  final Color foregroundStrokeBorderColor;
+  final Color backgroundStrokeBorderColor;
+  final double? backgroundStrokeBorderWidth;
+  final double? foregroundStrokeBorderWidth;
+  final Gradient? backgroundGradient;
+  final Shader? foreGroundGradientShader;
+
   final Color? selectedIconColor;
   final double? selectedIconSize;   
   final double? selectedTextSize;  
@@ -32,39 +40,33 @@ class DynamicBottomnavWidget extends StatefulWidget {
   final double? unselectedIconSize;   
   final double? unselectedTextSize;  
   final Color? unselectedTextColor;
-  final Gradient? backgroundGradient;
-  final ValueChanged<int>? onTap;
-  final LetIndexPage letIndexChange;
-  final Curve animationCurve;
-  final Duration animationDuration;
-  final Shader? foreGroundGradientShader;
-  final bool useForeGroundGradient;
-  final double? foregroundStrokeBorderWidth;
-  final Color foregroundStrokeBorderColor;
-  final Gradient strokeGradient;
+  
   final Shader? strokeGradientShader;
-  final bool useShaderStroke;
+  final bool useForeGroundGradient;
   final bool showForeGround;
+  final bool useShaderStroke;
   final bool underCurve;
   final bool staticCurve;
-  final double selectedButtonBottomPosition;
-  final double selectedButtonTopPosition;
-  final double selectedButtonElevation;
-  final Color selectedButtonColor;
-  final MaterialType selectedButtonMaterialType;
-  final Widget? customSelectedButtonWidget;
-  final Color backgroundStrokeBorderColor;
-  final double? backgroundStrokeBorderWidth;
+  
+  final Curve animationCurve;
+  final Duration animationDuration;
+  final ValueChanged<int>? onTap;
 
   DynamicBottomnavWidget({
     Key? key,
     required this.icons,
     required this.titles,
-    this.onTap,
-    this.animationCurve = Curves.easeOut,
     LetIndexPage? letIndexChange,
-    this.foregroundColor = Colors.white,
+    this.currentIndex=0,
     this.backgroundColor = Colors.amber,
+    this.foregroundColor = Colors.white,
+    this.foregroundStrokeBorderColor = Colors.white,
+    this.backgroundStrokeBorderColor=Colors.black,
+    this.backgroundStrokeBorderWidth,
+    this.foregroundStrokeBorderWidth=0,
+    this.backgroundGradient,
+    this.foreGroundGradientShader,
+    
     this.selectedIconColor,
     this.selectedIconSize,   
     this.selectedTextSize,  
@@ -73,27 +75,17 @@ class DynamicBottomnavWidget extends StatefulWidget {
     this.unselectedIconSize,   
     this.unselectedTextSize,  
     this.unselectedTextColor,
-    this.foregroundStrokeBorderColor = Colors.white,
-    this.strokeGradient = defaultGradient,
-    this.backgroundGradient,
+    
     this.strokeGradientShader,
-    this.foregroundStrokeBorderWidth=0,
-    this.currentIndex=0,
-    this.animationDuration = const Duration(milliseconds: 500),
-    this.foreGroundGradientShader,
     this.useForeGroundGradient=false,
     this.showForeGround=true,
     this.useShaderStroke=false,
     this.underCurve=true,
     this.staticCurve=false,
-    this.selectedButtonBottomPosition=0.0,
-    this.selectedButtonTopPosition=0.0,
-    this.selectedButtonElevation=0,
-    this.selectedButtonColor=Colors.blue,
-    this.selectedButtonMaterialType = MaterialType.circle,
-    this.customSelectedButtonWidget,
-    this.backgroundStrokeBorderColor=Colors.black,
-    this.backgroundStrokeBorderWidth,
+    
+    this.animationCurve = Curves.easeOut,
+    this.animationDuration = const Duration(milliseconds: 500),
+    this.onTap,
   })  
   : letIndexChange = letIndexChange ?? ((_) => true),
     assert(icons.isNotEmpty),
@@ -243,38 +235,6 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
           curve: widget.animationCurve
         );
     });
-  }
-
-  Positioned selectedButton(double navBarW, BuildContext context) {
-    return Positioned(
-      top: widget.selectedButtonTopPosition,
-      bottom: widget.selectedButtonBottomPosition,
-      width: navBarW/_length,
-      left: Directionality.of(context) == TextDirection.rtl
-      ? null
-      : _pos * navBarW,
-      right: Directionality.of(context) == TextDirection.rtl
-      ? _pos * navBarW
-      : null,
-      child: widget.customSelectedButtonWidget??Center(
-        child:Icon(
-          icon,
-          color: Colors.red, // Change the color to your desired color
-          size: 30, // Change the size to your desired size
-        ),
-        // child: Material(
-        //   elevation: widget.selectedButtonElevation,
-        //   surfaceTintColor: widget.selectedButtonColor,
-        //   color: widget.selectedButtonColor,
-        //   type: widget.selectedButtonMaterialType,
-        //   borderOnForeground: true,
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: icon,
-        //   ),
-        // ),
-      )
-    );
   }
   
   CustomPaint dynamicCurve(BuildContext context) {
