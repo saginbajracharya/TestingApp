@@ -197,28 +197,26 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
               child: Row(
                 children: widget.icons.map((icon) {
                 return DynamicNavBarButton(
-                  onTap: _buttonTap,
-                  position: _pos,
-                  length: _length,
-                  index: widget.icons.indexOf(icon),
-                  title: widget.titles[widget.icons.indexOf(icon)],
-                  currentIndex: widget.currentIndex,
-                  showForeGround: widget.showForeGround,
-                  icon: icon,
-                  selectedIconColor: widget.selectedIconColor,
-                  selectedIconSize: null, 
-                  selectedTextColor: null, 
-                  selectedTextSize: null,
-                  unselectedIconColor: widget.unselectedIconColor,
-                  unselectedIconSize: null, 
-                  unselectedTextColor: null, 
-                  unselectedTextSize: null, 
+                  onTap              : _buttonTap,
+                  position           : _pos,
+                  length             : _length,
+                  index              : widget.icons.indexOf(icon),
+                  title              : widget.titles[widget.icons.indexOf(icon)],
+                  currentIndex       : widget.currentIndex,
+                  showForeGround     : widget.showForeGround,
+                  icon               : icon,
+                  selectedIconColor  : widget.selectedIconColor, 
+                  selectedIconSize   : widget.selectedIconSize, 
+                  selectedTextColor  : widget.selectedTextColor, 
+                  selectedTextSize   : widget.selectedTextSize, 
+                  unselectedIconColor: widget.unselectedIconColor, 
+                  unselectedIconSize : widget.unselectedIconSize, 
+                  unselectedTextColor: widget.unselectedTextColor, 
+                  unselectedTextSize : widget.unselectedTextSize,
                 );
               }).toList())
             ),
           ),
-          // Selected Button
-          // selectedButtonAnim(MediaQuery.of(context).size.width, context),
         ],
       ),
     );
@@ -276,26 +274,6 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
         //   ),
         // ),
       )
-    );
-  }
-
-  AnimatedPositioned selectedButtonAnim(double navBarW, BuildContext context) {
-    return AnimatedPositioned(
-      duration: const Duration(milliseconds: 0), // Adjust the duration as per your preference
-      curve: Curves.easeInOut, // Adjust the curve as per your preference
-      top: widget.selectedButtonTopPosition,
-      bottom: widget.selectedButtonBottomPosition,
-      width: navBarW / _length,
-      left: Directionality.of(context) == TextDirection.rtl ? null : _pos * navBarW,
-      right: Directionality.of(context) == TextDirection.rtl ? _pos * navBarW : null,
-      child: widget.customSelectedButtonWidget ??
-      Center(
-        child: Icon(
-          icon,
-          color: Colors.red, // Change the color to your desired color
-          size: 30, // Change the size to your desired size
-        ),
-      ),
     );
   }
   
