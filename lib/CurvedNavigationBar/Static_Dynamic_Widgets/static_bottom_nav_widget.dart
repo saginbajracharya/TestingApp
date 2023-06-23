@@ -47,6 +47,12 @@ class StaticBottomNavWidget extends StatefulWidget {
   final bool showForeGround;
   final bool underCurve;
   final bool staticCurve;
+  final bool showCircleStaticMidItem;
+  final Color midItemCircleColor;
+  final Color midItemCircleBorderColor;
+  final bool showMidCircleStatic;
+  final double midCircleRadiusStatic;
+  final double midCircleBorderRadiusStatic;
 
   final Curve animationCurve;
   final Duration animationDuration;
@@ -77,11 +83,17 @@ class StaticBottomNavWidget extends StatefulWidget {
     this.unselectedTextColor,
     
     this.strokeGradientShader,
-    this.useForeGroundGradient=false,
-    this.showForeGround=true,
-    this.useShaderStroke=false,
-    this.underCurve=true,
-    this.staticCurve=false,
+    this.useForeGroundGradient       = false,
+    this.showForeGround              = true,
+    this.useShaderStroke             = false,
+    this.underCurve                  = true,
+    this.staticCurve                 = false,
+    this.showCircleStaticMidItem     = true,
+    this.midItemCircleColor          = Colors.white,
+    this.midItemCircleBorderColor    = Colors.black,
+    this.showMidCircleStatic         = true,
+    this.midCircleRadiusStatic       = 20.0,
+    this.midCircleBorderRadiusStatic = 2.0,
 
     this.animationCurve = Curves.easeOut,
     this.animationDuration = const Duration(milliseconds: 500),
@@ -189,22 +201,28 @@ class _StaticBottomNavWidgetState extends State<StaticBottomNavWidget> with Tick
               child: Row(
                 children: widget.icons.map((icon) {
                 return StaticNavBarButton(
-                  onTap              : _buttonTap,
-                  position           : _pos,
-                  length             : _length,
-                  index              : widget.icons.indexOf(icon),
-                  title              : widget.titles[widget.icons.indexOf(icon)],
-                  currentIndex       : widget.currentIndex,
-                  showForeGround     : widget.showForeGround,
-                  icon               : icon, 
-                  selectedIconColor  : widget.selectedIconColor, 
-                  selectedIconSize   : widget.selectedIconSize, 
-                  selectedTextColor  : widget.selectedTextColor, 
-                  selectedTextSize   : widget.selectedTextSize, 
-                  unselectedIconColor: widget.unselectedIconColor, 
-                  unselectedIconSize : widget.unselectedIconSize, 
-                  unselectedTextColor: widget.unselectedTextColor, 
-                  unselectedTextSize : widget.unselectedTextSize,
+                  onTap                       : _buttonTap,
+                  position                    : _pos,
+                  length                      : _length,
+                  index                       : widget.icons.indexOf(icon),
+                  title                       : widget.titles[widget.icons.indexOf(icon)],
+                  currentIndex                : widget.currentIndex,
+                  showForeGround              : widget.showForeGround,
+                  showCircleStaticMidItem     : widget.showCircleStaticMidItem,
+                  icon                        : icon, 
+                  selectedIconColor           : widget.selectedIconColor, 
+                  selectedIconSize            : widget.selectedIconSize, 
+                  selectedTextColor           : widget.selectedTextColor, 
+                  selectedTextSize            : widget.selectedTextSize, 
+                  unselectedIconColor         : widget.unselectedIconColor, 
+                  unselectedIconSize          : widget.unselectedIconSize, 
+                  unselectedTextColor         : widget.unselectedTextColor, 
+                  unselectedTextSize          : widget.unselectedTextSize,
+                  midItemCircleColor          : widget.midItemCircleColor, 
+                  midItemCircleBorderColor    : widget.midItemCircleBorderColor, 
+                  showMidCircleStatic         : widget.showMidCircleStatic, 
+                  midCircleRadiusStatic       : widget.midCircleRadiusStatic, 
+                  midCircleBorderRadiusStatic : widget.midCircleBorderRadiusStatic,
                 );
               }).toList())
             ),

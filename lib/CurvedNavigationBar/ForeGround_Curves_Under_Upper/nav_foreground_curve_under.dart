@@ -14,7 +14,7 @@ Shader defaultGradientShader = const LinearGradient(
   stops: [0.1, 0.3, 0.5, 0.7, 1.0],
 ).createShader(Rect.fromCenter(center: const Offset(0.0,0.0), height: 200, width: 100));
 
-//=========================== Bottom Curve ===========================//
+//=========================== Dynamic Bottom Curve ===========================//
 class NavForeGroundCurvePainterUnder extends CustomPainter {
   late double loc; // Represents the starting location of the curve
   late double s; // Represents the size of the curve
@@ -51,30 +51,29 @@ class NavForeGroundCurvePainterUnder extends CustomPainter {
     }
 
     final path = Path()
-      ..moveTo(0, 0) // Moves to the top-left corner
+      ..moveTo(0, 0)                         // Moves to the top-left corner
       ..lineTo((loc - 0.02) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
-        (loc + s * 0.20) * size.width, // First control point for the curve
-        size.height * 0.05, // Second control point for the curve
-        loc * size.width, // Ending point of the curve
-        size.height * 0.72, // Ending control point of the curve
-        (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        size.height * 0.72, // Ending control point of the next curve
+        (loc + s * 0.20) * size.width,       // First control point for the curve
+        size.height * 0.05,                  // Second control point for the curve
+        loc * size.width-8,                  // Ending point of the curve
+        size.height * 0.72,                  // Ending control point of the curve
+        (loc + s * 0.50) * size.width,       // Starting control point of the next curve
+        size.height * 0.72,                  // Ending control point of the next curve
       )
       ..cubicTo(
-        (loc + s) * size.width, // First control point for the next curve
-        size.height * 0.72, // Second control point for the next curve
-        (loc + s - s * 0.20) * size.width, // Ending point of the next curve
-        size.height * 0.05, // Ending control point of the next curve
-        (loc + s + 0.02) * size.width, // Starting point of the next curve
-        0, // Draws a line from the previous point to the right side of the curve
+        (loc + s) * size.width+8,            // First control point for the next curve
+        size.height * 0.72,                  // Second control point for the next curve
+        (loc + s - s * 0.20) * size.width,   // Ending point of the next curve
+        size.height * 0.05,                  // Ending control point of the next curve
+        (loc + s + 0.02) * size.width,       // Starting point of the next curve
+        0,                                   // Draws a line from the previous point to the right side of the curve
       )
-      ..lineTo(size.width, 0) // Draws a line from the last point to the top-right corner
-      ..lineTo(size.width, size.height) // Draws a line from the previous point to the bottom-right corner
-      ..lineTo(0, size.height) // Draws a line from the previous point to the bottom-left corner
-      ..close(); // Closes the path
-
-    canvas.drawPath(path, paint); // Draws the path on the canvas
+      ..lineTo(size.width, 0)                // Draws a line from the last point to the top-right corner
+      ..lineTo(size.width, size.height)      // Draws a line from the previous point to the bottom-right corner
+      ..lineTo(0, size.height)               // Draws a line from the previous point to the bottom-left corner
+      ..close();                             // Closes the path
+    canvas.drawPath(path, paint);            // Draws the path on the canvas
   }
 
   @override
@@ -83,7 +82,7 @@ class NavForeGroundCurvePainterUnder extends CustomPainter {
   }
 }
 
-//=========================== Bottom Curve Stroke ===========================//
+//=========================== Dynamic Bottom Curve Stroke ===========================//
 class NavForeGroundUnderStrokeBorderPainter extends CustomPainter {
   late double loc; // Represents the starting location of the curve
   late double s; // Represents the size of the curve
@@ -122,29 +121,29 @@ class NavForeGroundUnderStrokeBorderPainter extends CustomPainter {
     }
 
     final path = Path()
-      ..moveTo(-size.height, 0) // Moves to the top-left corner of the path
+      ..moveTo(-size.height, 0)              // Moves to the top-left corner of the path
       ..lineTo((loc - 0.02) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
-        (loc + s * 0.20) * size.width, // First control point for the curve
-        size.height * 0.05, // Second control point for the curve
-        loc * size.width, // Ending point of the curve
-        size.height * 0.72, // Ending control point of the curve
-        (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        size.height * 0.72, // Ending control point of the next curve
+        (loc + s * 0.20) * size.width,       // First control point for the curve
+        size.height * 0.05,                  // Second control point for the curve
+        loc * size.width-8,                  // Ending point of the curve
+        size.height * 0.72,                  // Ending control point of the curve
+        (loc + s * 0.50) * size.width,       // Starting control point of the next curve
+        size.height * 0.72,                  // Ending control point of the next curve
       )
       ..cubicTo(
-        (loc + s) * size.width, // First control point for the next curve
-        size.height * 0.72, // Second control point for the next curve
-        (loc + s - s * 0.20) * size.width, // Ending point of the next curve
-        size.height * 0.05, // Ending control point of the next curve
-        (loc + s + 0.02) * size.width, // Starting point of the next curve
-        0, // Draws a line from the previous point to the right side of the curve
+        (loc + s) * size.width+8,            // First control point for the next curve
+        size.height * 0.72,                  // Second control point for the next curve
+        (loc + s - s * 0.20) * size.width,   // Ending point of the next curve
+        size.height * 0.05,                  // Ending control point of the next curve
+        (loc + s + 0.02) * size.width,       // Starting point of the next curve
+        0,                                   // Draws a line from the previous point to the right side of the curve
       )
-      ..lineTo(size.width, 0) // Draws a line from the last point to the top-right corner
-      ..moveTo(0, size.width) // Moves to the bottom-left corner of the path
-      ..close(); // Closes the path
+      ..lineTo(size.width, 0)                // Draws a line from the last point to the top-right corner
+      ..moveTo(0, size.width)                // Moves to the bottom-left corner of the path
+      ..close();                             // Closes the path
 
-    canvas.drawPath(path, paint); // Draws the path on the canvas
+    canvas.drawPath(path, paint);            // Draws the path on the canvas
   }
 
   @override
@@ -190,32 +189,30 @@ class NavForeGroundCurvePainterUnderStatic extends CustomPainter {
     } else {
       paint.shader = foreGroundGradientShader ?? defaultGradientShader; // Set the desired shader for the foreground
     }
-
     final path = Path()
-      ..moveTo(0, 0) // Moves to the top-left corner
+      ..moveTo(0, 0)                         // Moves to the top-left corner
       ..lineTo((loc - 0.02) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
-        (loc + s * 0.20) * size.width, // First control point for the curve
-        size.height * 0.05, // Second control point for the curve
-        loc * size.width, // Ending point of the curve
-        size.height * 0.72, // Ending control point of the curve
-        (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        size.height * 0.72, // Ending control point of the next curve
+        (loc + s * 0.20) * size.width,       // First control point for the curve
+        size.height * 0.05,                  // Second control point for the curve
+        loc * size.width-8,                  // Ending point of the curve // to make wider
+        size.height * 0.72,                  // Ending control point of the curve
+        (loc + s * 0.50) * size.width,       // Starting control point of the next curve
+        size.height * 0.70,                  // Ending control point of the next curve
       )
       ..cubicTo(
-        (loc + s) * size.width, // First control point for the next curve
-        size.height * 0.72, // Second control point for the next curve
-        (loc + s - s * 0.20) * size.width, // Ending point of the next curve
-        size.height * 0.05, // Ending control point of the next curve
-        (loc + s + 0.02) * size.width, // Starting point of the next curve
-        0, // Draws a line from the previous point to the right side of the curve
+        (loc + s) * size.width +8,           // First control point for the next curve // to make wider
+        size.height * 0.72,                  // Second control point for the next curve
+        (loc + s - s * 0.20) * size.width,   // Ending point of the next curve
+        size.height * 0.05,                  // Ending control point of the next curve
+        (loc + s + 0.02) * size.width,       // Starting point of the next curve
+        0,                                   // Draws a line from the previous point to the right side of the curve
       )
-      ..lineTo(size.width, 0) // Draws a line from the last point to the top-right corner
-      ..lineTo(size.width, size.height) // Draws a line from the previous point to the bottom-right corner
-      ..lineTo(0, size.height) // Draws a line from the previous point to the bottom-left corner
-      ..close(); // Closes the path
-
-    canvas.drawPath(path, paint); // Draws the path on the canvas
+      ..lineTo(size.width, 0)                // Draws a line from the last point to the top-right corner
+      ..lineTo(size.width, size.height)      // Draws a line from the previous point to the bottom-right corner
+      ..lineTo(0, size.height)               // Draws a line from the previous point to the bottom-left corner
+      ..close();                             // Closes the path
+    canvas.drawPath(path, paint);            // Draws the path on the canvas
   }
 
   @override
@@ -257,37 +254,34 @@ class NavForeGroundUnderStrokeBorderPainterStatic extends CustomPainter {
     final paint = Paint()
       ..strokeWidth = strokeBorderWidth // Sets the width of the stroke border
       ..style = PaintingStyle.stroke; // Sets the painting style to stroke
-
     if (!useShaderStroke) {
       paint.color = color; // Set the desired color for the stroke
     } else {
       paint.shader = strokeGradientShader ?? defaultGradientShader; // Set the desired shader for the stroke
     }
-
     final path = Path()
-      ..moveTo(-size.height, 0) // Moves to the top-left corner of the path
+      ..moveTo(-size.height, 0)              // Moves to the top-left corner of the path
       ..lineTo((loc - 0.02) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
-        (loc + s * 0.20) * size.width, // First control point for the curve
-        size.height * 0.05, // Second control point for the curve
-        loc * size.width, // Ending point of the curve
-        size.height * 0.72, // Ending control point of the curve
-        (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        size.height * 0.72, // Ending control point of the next curve
+        (loc + s * 0.20) * size.width,       // First control point for the curve
+        size.height * 0.05,                  // Second control point for the curve
+        loc * size.width -8,                 // Ending point of the curve
+        size.height * 0.72,                  // Ending control point of the curve
+        (loc + s * 0.50) * size.width,       // Starting control point of the next curve
+        size.height * 0.72,                  // Ending control point of the next curve
       )
       ..cubicTo(
-        (loc + s) * size.width, // First control point for the next curve
-        size.height * 0.72, // Second control point for the next curve
-        (loc + s - s * 0.20) * size.width, // Ending point of the next curve
-        size.height * 0.05, // Ending control point of the next curve
-        (loc + s + 0.02) * size.width, // Starting point of the next curve
-        0, // Draws a line from the previous point to the right side of the curve
+        (loc + s) * size.width +8,           // First control point for the next curve
+        size.height * 0.72,                  // Second control point for the next curve
+        (loc + s - s * 0.20) * size.width,   // Ending point of the next curve
+        size.height * 0.05,                  // Ending control point of the next curve
+        (loc + s + 0.02) * size.width,       // Starting point of the next curve
+        0,                                   // Draws a line from the previous point to the right side of the curve
       )
-      ..lineTo(size.width, 0) // Draws a line from the last point to the top-right corner
-      ..moveTo(0, size.width) // Moves to the bottom-left corner of the path
-      ..close(); // Closes the path
-
-    canvas.drawPath(path, paint); // Draws the path on the canvas
+      ..lineTo(size.width, 0)                // Draws a line from the last point to the top-right corner
+      ..moveTo(0, size.width)                // Moves to the bottom-left corner of the path
+      ..close();                             // Closes the path
+    canvas.drawPath(path, paint);            // Draws the path on the canvas
   }
 
   @override

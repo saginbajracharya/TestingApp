@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class DynamicNavBarButton extends StatelessWidget {
   final double position;
   final int length;
@@ -80,6 +79,7 @@ class StaticNavBarButton extends StatelessWidget {
   final int length;
   final int index;
   final bool showForeGround;
+  final bool showCircleStaticMidItem;
   final ValueChanged<int> onTap;
   final IconData icon;
   final String title;
@@ -92,6 +92,11 @@ class StaticNavBarButton extends StatelessWidget {
   final double? unselectedIconSize;   
   final double? unselectedTextSize;  
   final Color? unselectedTextColor;
+  final Color? midItemCircleColor;
+  final Color? midItemCircleBorderColor;
+  final bool showMidCircleStatic;
+  final double midCircleRadiusStatic;
+  final double midCircleBorderRadiusStatic;
 
   const StaticNavBarButton({
     super.key, 
@@ -100,6 +105,7 @@ class StaticNavBarButton extends StatelessWidget {
     required this.length,
     required this.index,
     required this.showForeGround,
+    required this.showCircleStaticMidItem,
     required this.icon,
     required this.title,
     required this.currentIndex,
@@ -111,39 +117,60 @@ class StaticNavBarButton extends StatelessWidget {
     required this.unselectedIconSize,   
     required this.unselectedTextSize,  
     required this.unselectedTextColor,
+    required this.midItemCircleColor,
+    required this.midItemCircleBorderColor,
+    required this.showMidCircleStatic,
+    required this.midCircleRadiusStatic,
+    required this.midCircleBorderRadiusStatic,
   });
 
   @override
   Widget build(BuildContext context) {
     final isSelected = index == currentIndex;
+    final midItem = length ~/ 2;
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () async{
           onTap(index);
         },
-        child: isSelected
-        ?SelectedButtonWidget(
-          showForeGround: showForeGround, 
-          index: index, 
-          length: length, 
-          title: title,
-          icon: icon,
-          selectedIconColor: selectedIconColor,
-          selectedIconSize:selectedIconSize, 
-          selectedTextSize:selectedTextSize,  
-          selectedTextColor:selectedTextColor,
-        )
-        :UnSelectedButtonWidget(
-          showForeGround: showForeGround, 
-          index: index, 
-          length: length, 
-          title: title,
-          icon: icon,
-          unselectedIconColor: unselectedIconColor,
-          unselectedIconSize:unselectedIconSize, 
-          unselectedTextSize:unselectedTextSize,  
-          unselectedTextColor:unselectedTextColor,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            index == midItem && showMidCircleStatic
+            ?CircleAvatar(
+              radius: midCircleRadiusStatic+midCircleBorderRadiusStatic,
+              backgroundColor: midItemCircleBorderColor,
+              child: CircleAvatar(
+                backgroundColor: midItemCircleColor,
+                radius: midCircleRadiusStatic,
+              ),
+            )
+            :const SizedBox(),
+            isSelected
+            ?SelectedButtonWidget(
+              showForeGround: showForeGround, 
+              index: index, 
+              length: length, 
+              title: title,
+              icon: icon,
+              selectedIconColor: selectedIconColor,
+              selectedIconSize:selectedIconSize, 
+              selectedTextSize:selectedTextSize,  
+              selectedTextColor:selectedTextColor,
+            )
+            :UnSelectedButtonWidget(
+              showForeGround: showForeGround, 
+              index: index, 
+              length: length, 
+              title: title,
+              icon: icon,
+              unselectedIconColor: unselectedIconColor,
+              unselectedIconSize:unselectedIconSize, 
+              unselectedTextSize:unselectedTextSize,  
+              unselectedTextColor:unselectedTextColor,
+            ),
+          ],
         ),
       ),
     );

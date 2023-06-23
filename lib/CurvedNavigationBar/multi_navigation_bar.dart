@@ -45,6 +45,12 @@ class MultiNavigationBar extends StatefulWidget {
   final bool useShaderStroke;
   final bool underCurve;
   final bool staticCurve;
+  final bool showCircleStaticMidItem;
+  final Color midItemCircleColor;
+  final Color midItemCircleBorderColor;
+  final bool showMidCircleStatic;
+  final double midCircleRadiusStatic;
+  final double midCircleBorderRadiusStatic;
 
   final Curve animationType;
   final Duration animationDuration;
@@ -81,6 +87,12 @@ class MultiNavigationBar extends StatefulWidget {
     this.useShaderStroke             = false,
     this.underCurve                  = true,
     this.staticCurve                 = false,
+    this.showCircleStaticMidItem     = true,
+    this.midItemCircleColor          = Colors.white,
+    this.midItemCircleBorderColor    = Colors.black,
+    this.showMidCircleStatic         = true,
+    this.midCircleRadiusStatic       = 25.0,
+    this.midCircleBorderRadiusStatic = 2.0,
     
     this.animationType               = Curves.easeOut,
     this.animationDuration           = const Duration(milliseconds: 500),
@@ -125,6 +137,12 @@ class CurvedNavigationBarState extends State<MultiNavigationBar>{
       useShaderStroke                     : widget.useShaderStroke,
       underCurve                          : widget.underCurve,
       staticCurve                         : widget.staticCurve,
+      showCircleStaticMidItem             : widget.showCircleStaticMidItem,
+      midItemCircleColor                  : widget.midItemCircleColor,
+      midItemCircleBorderColor            : widget.midItemCircleBorderColor,
+      showMidCircleStatic                 : widget.showMidCircleStatic,
+      midCircleRadiusStatic               : widget.midCircleRadiusStatic,
+      midCircleBorderRadiusStatic         : widget.midCircleBorderRadiusStatic,
       
       animationCurve                      : widget.animationType,
       animationDuration                   : widget.animationDuration,

@@ -15,19 +15,20 @@ class BottomNavigationPage extends StatefulWidget {
 }
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
-  bool staticCurve           = false;
-  bool useForeGroundGradient = false;
-  bool showForeGround        = true;
-  bool useShaderStroke       = false;
-  bool underCurve            = true;
-  int currentIndex           = 0;
+  bool staticCurve             = false;
+  bool useForeGroundGradient   = false;
+  bool showForeGround          = true;
+  bool useShaderStroke         = false;
+  bool underCurve              = true;
+  bool showCircleStaticMidItem = true;   
+  int currentIndex             = 0;
 
   final List<String> title = [
-    "Page 1",
-    "Page 2",
-    "Page 3",
-    "Page 4",
-    "Page 5"
+    "",
+    "",
+    "",
+    "",
+    ""
   ];
 
   final List<IconData> icons = [
@@ -179,8 +180,8 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         foregroundColor              : green,                                // NavBar ForeGround Color with Curve 
         foregroundStrokeBorderColor  : red,                                  // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
         backgroundStrokeBorderColor  : red,                                  // nav background stroke color [seems like when border width is 0.0 still shows the color but transparent solves it]
-        backgroundStrokeBorderWidth  : 1.0,                                  // Nav BackGround Stroke Border Width
-        foregroundStrokeBorderWidth  : 1.0,                                  // Nav ForeGround Stroke Border Width  
+        backgroundStrokeBorderWidth  : 0.0,                                  // Nav BackGround Stroke Border Width
+        foregroundStrokeBorderWidth  : 2.0,                                  // Nav ForeGround Stroke Border Width  
         backgroundGradient           : null,                                 // Nav background Gradient [No Gradient if Null Overrides backgroundColor if given]
         foreGroundGradientShader     : foreGroundGradientShader,             // Nav ForeGround Gradient Shader [foregroundColor or foreGroundGradientShader determined by Bool useForeGroundGradient]
         
@@ -199,6 +200,13 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         useShaderStroke              : useShaderStroke,                      // Use Shadered Stroke Border or Not
         underCurve                   : underCurve,                           // Under Curve or Upper Curve
         staticCurve                  : staticCurve,                          // Static Curve or Dynamic Curve
+        showCircleStaticMidItem      : showCircleStaticMidItem,              // Show or Not Show Circle for Mid Item If Static Curve
+
+        midItemCircleColor           : white,                                // Color of a Mid item circle for static item  
+        midItemCircleBorderColor     : black,                                // Color of a Mid item border circle for static item
+        showMidCircleStatic          : true,                                 // Show/Hide Mid item circle for static item
+        midCircleRadiusStatic        : 20.0,                                 // Radius for Mid Circle
+        midCircleBorderRadiusStatic  : 2.0,                                  // Radius for Mid Circle Border
 
         animationType                : Curves.ease,                          // Index change animation curves
         animationDuration            : const Duration(milliseconds: 1000),   // Index Change Animation duration for curve only
