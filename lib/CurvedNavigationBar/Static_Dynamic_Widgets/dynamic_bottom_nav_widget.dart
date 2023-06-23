@@ -218,7 +218,7 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
             ),
           ),
           // Selected Button
-          selectedButtonAnim(MediaQuery.of(context).size.width, context),
+          // selectedButtonAnim(MediaQuery.of(context).size.width, context),
         ],
       ),
     );

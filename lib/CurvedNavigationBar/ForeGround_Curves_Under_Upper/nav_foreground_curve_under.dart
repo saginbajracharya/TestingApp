@@ -57,13 +57,13 @@ class NavForeGroundCurvePainterUnder extends CustomPainter {
         (loc + s * 0.20) * size.width, // First control point for the curve
         size.height * 0.05, // Second control point for the curve
         loc * size.width, // Ending point of the curve
-        size.height * 0.60, // Ending control point of the curve
+        size.height * 0.72, // Ending control point of the curve
         (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        size.height * 0.60, // Ending control point of the next curve
+        size.height * 0.72, // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width, // First control point for the next curve
-        size.height * 0.60, // Second control point for the next curve
+        size.height * 0.72, // Second control point for the next curve
         (loc + s - s * 0.20) * size.width, // Ending point of the next curve
         size.height * 0.05, // Ending control point of the next curve
         (loc + s + 0.02) * size.width, // Starting point of the next curve
@@ -128,13 +128,13 @@ class NavForeGroundUnderStrokeBorderPainter extends CustomPainter {
         (loc + s * 0.20) * size.width, // First control point for the curve
         size.height * 0.05, // Second control point for the curve
         loc * size.width, // Ending point of the curve
-        size.height * 0.60, // Ending control point of the curve
+        size.height * 0.72, // Ending control point of the curve
         (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        size.height * 0.60, // Ending control point of the next curve
+        size.height * 0.72, // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width, // First control point for the next curve
-        size.height * 0.60, // Second control point for the next curve
+        size.height * 0.72, // Second control point for the next curve
         (loc + s - s * 0.20) * size.width, // Ending point of the next curve
         size.height * 0.05, // Ending control point of the next curve
         (loc + s + 0.02) * size.width, // Starting point of the next curve
@@ -198,13 +198,13 @@ class NavForeGroundCurvePainterUnderStatic extends CustomPainter {
         (loc + s * 0.20) * size.width, // First control point for the curve
         size.height * 0.05, // Second control point for the curve
         loc * size.width, // Ending point of the curve
-        size.height * 0.60, // Ending control point of the curve
+        size.height * 0.72, // Ending control point of the curve
         (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        size.height * 0.60, // Ending control point of the next curve
+        size.height * 0.72, // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width, // First control point for the next curve
-        size.height * 0.60, // Second control point for the next curve
+        size.height * 0.72, // Second control point for the next curve
         (loc + s - s * 0.20) * size.width, // Ending point of the next curve
         size.height * 0.05, // Ending control point of the next curve
         (loc + s + 0.02) * size.width, // Starting point of the next curve
@@ -271,13 +271,13 @@ class NavForeGroundUnderStrokeBorderPainterStatic extends CustomPainter {
         (loc + s * 0.20) * size.width, // First control point for the curve
         size.height * 0.05, // Second control point for the curve
         loc * size.width, // Ending point of the curve
-        size.height * 0.60, // Ending control point of the curve
+        size.height * 0.72, // Ending control point of the curve
         (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        size.height * 0.60, // Ending control point of the next curve
+        size.height * 0.72, // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width, // First control point for the next curve
-        size.height * 0.60, // Second control point for the next curve
+        size.height * 0.72, // Second control point for the next curve
         (loc + s - s * 0.20) * size.width, // Ending point of the next curve
         size.height * 0.05, // Ending control point of the next curve
         (loc + s + 0.02) * size.width, // Starting point of the next curve

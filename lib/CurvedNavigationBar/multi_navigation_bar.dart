@@ -16,7 +16,7 @@ const Gradient defaultGradient = LinearGradient(
   stops: [0.1, 0.3, 0.5, 0.7, 1.0],
 );
 
-class CurvedNavigationBar extends StatefulWidget {
+class MultiNavigationBar extends StatefulWidget {
   final List<IconData> icons;
   final List<String> titles;
   final bool letIndexChange;
@@ -55,7 +55,7 @@ class CurvedNavigationBar extends StatefulWidget {
   final Duration animationDuration;
   final ValueChanged<int>? onTap;
   
-  const CurvedNavigationBar({
+  const MultiNavigationBar({
     super.key,
     required this.icons,
     required this.titles,
@@ -100,7 +100,7 @@ class CurvedNavigationBar extends StatefulWidget {
   CurvedNavigationBarState createState() => CurvedNavigationBarState();
 }
 
-class CurvedNavigationBarState extends State<CurvedNavigationBar>{
+class CurvedNavigationBarState extends State<MultiNavigationBar>{
 
   @override
   Widget build(BuildContext context) {

@@ -60,13 +60,13 @@ class NavForeGroundCurvePainterUpper extends CustomPainter {
         (loc + s * 0.20) * size.width, // First control point for the curve
         -size.height * 0.02, // Second control point for the curve
         loc * size.width, // Ending point of the curve
-        -size.height * 0.30, // Ending control point of the curve
+        -size.height * 0.20, // Ending control point of the curve
         (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        -size.height * 0.30, // Ending control point of the next curve
+        -size.height * 0.20, // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width, // First control point for the next curve
-        -size.height * 0.30, // Second control point for the next curve
+        -size.height * 0.20, // Second control point for the next curve
         (loc + s - s * 0.20) * size.width, // Ending point of the next curve
         -size.height * 0.02, // Ending control point of the next curve
         (loc + s + 0.03) * size.width, // Starting point of the next curve
@@ -128,17 +128,17 @@ class NavForeGroundUpperStrokeBorderPainter extends CustomPainter {
       ..lineTo((loc - 0.03) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
         (loc + s * 0.20) * size.width, // First control point for the curve
-        -size.height * 0.02, // Second control point for the curve
+        -size.height * 0.0, // Second control point for the curve
         loc * size.width, // Ending point of the curve
-        -size.height * 0.30, // Ending control point of the curve
+        -size.height * 0.20, // Ending control point of the curve
         (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        -size.height * 0.30, // Ending control point of the next curve
+        -size.height * 0.20, // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width, // First control point for the next curve
-        -size.height * 0.30, // Second control point for the next curve
+        -size.height * 0.20, // Second control point for the next curve
         (loc + s - s * 0.20) * size.width, // Ending point of the next curve
-        -size.height * 0.02, // Ending control point of the next curve
+        -size.height * 0.0, // Ending control point of the next curve
         (loc + s + 0.03) * size.width, // Starting point of the next curve
         0, // Draws a line from the previous point to the right side of the curve
       )
@@ -200,18 +200,18 @@ class NavForeGroundCurvePainterUpperStatic extends CustomPainter {
       ..moveTo(-size.height, 0) // Moves to a point outside the canvas on the left side
       ..lineTo((loc - 0.03) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
-        (loc + s * 0.20) * size.width, // First control point for the curve
-        -size.height * 0.02, // Second control point for the curve
+        (loc + s * 0.10) * size.width, // First control point for the curve
+        -size.height * 0.0, // Second control point for the curve
         loc * size.width, // Ending point of the curve
-        -size.height * 0.30, // Ending control point of the curve
+        -size.height * 0.20, // Ending control point of the curve
         (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        -size.height * 0.30, // Ending control point of the next curve
+        -size.height * 0.20, // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width, // First control point for the next curve
-        -size.height * 0.30, // Second control point for the next curve
-        (loc + s - s * 0.20) * size.width, // Ending point of the next curve
-        -size.height * 0.02, // Ending control point of the next curve
+        -size.height * 0.20, // Second control point for the next curve
+        (loc + s - s * 0.10) * size.width, // Ending point of the next curve
+        -size.height * 0.0, // Ending control point of the next curve
         (loc + s + 0.03) * size.width, // Starting point of the next curve
         0, // Draws a line from the previous point to the right side of the curve
       )
@@ -272,17 +272,17 @@ class NavForeGroundUpperStrokeBorderPainterStatic extends CustomPainter {
       ..moveTo(-size.height, 0) // Moves to a point outside the canvas on the left side
       ..lineTo((loc - 0.03) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
-        (loc + s * 0.20) * size.width, // First control point for the curve
+        (loc + s * 0.10) * size.width, // First control point for the curve
         -size.height * 0.02, // Second control point for the curve
         loc * size.width, // Ending point of the curve
-        -size.height * 0.30, // Ending control point of the curve
+        -size.height * 0.20, // Ending control point of the curve
         (loc + s * 0.50) * size.width, // Starting control point of the next curve
-        -size.height * 0.30, // Ending control point of the next curve
+        -size.height * 0.20, // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width, // First control point for the next curve
-        -size.height * 0.30, // Second control point for the next curve
-        (loc + s - s * 0.20) * size.width, // Ending point of the next curve
+        -size.height * 0.20, // Second control point for the next curve
+        (loc + s - s * 0.10) * size.width, // Ending point of the next curve
         -size.height * 0.02, // Ending control point of the next curve
         (loc + s + 0.03) * size.width, // Starting point of the next curve
         0, // Draws a line from the previous point to the right side of the curve

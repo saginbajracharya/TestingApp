@@ -1,9 +1,12 @@
+import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_genius_scan/flutter_genius_scan.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../widgets/barcode_scanner_with_zoom.dart';
 import '../widgets/mobile_scanner_widget.dart';
 import '../services/notification_service.dart';
@@ -18,6 +21,18 @@ class Page3 extends StatefulWidget {
 
 class _Page3State extends State<Page3> {
   NotificationService notificationsServices = NotificationService();
+  bool isListenerOn = false;
+
+  @override
+  void initState() {
+    setBluetoothPermission();
+    super.initState();
+  }
+
+  setBluetoothPermission() async {
+    await Permission.bluetooth.request().isGranted;
+    log("permission");
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -136,7 +151,16 @@ class _Page3State extends State<Page3> {
               );
             },
             child: const Text("Mobile Scanner with zoom"),
-          )
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(grey), // Change the color here
+            ),
+            onPressed: () async {
+              
+            },
+            child: const Text("Bluetooth On/Off"),
+          ),
         ],
       ),
     );
