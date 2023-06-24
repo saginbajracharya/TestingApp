@@ -33,8 +33,8 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
 
   final List<IconData> icons = [
     Icons.favorite, 
-    Icons.home, 
     Icons.wallet, 
+    Icons.home, 
     Icons.ac_unit_outlined, 
     Icons.access_alarm_rounded, 
   ];
@@ -176,10 +176,10 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         titles                       : title,                                // Title list<String>
         letIndexChange               : true,                                 // On Tap Icon if true => changes index , False => dose not changes index
         currentIndex                 : currentIndex,                         // Current selected index
-        backgroundColor              : lightBlue,                            // NavBar BackGround Color [backgroundGradient ovrerides color]
-        foregroundColor              : green,                                // NavBar ForeGround Color with Curve 
-        foregroundStrokeBorderColor  : red,                                  // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
-        backgroundStrokeBorderColor  : red,                                  // nav background stroke color [seems like when border width is 0.0 still shows the color but transparent solves it]
+        backgroundColor              : transparent,                          // NavBar BackGround Color [backgroundGradient ovrerides color]
+        foregroundColor              : white,                                // NavBar ForeGround Color with Curve 
+        foregroundStrokeBorderColor  : black,                                // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
+        backgroundStrokeBorderColor  : black,                                // nav background stroke color [seems like when border width is 0.0 still shows the color but transparent solves it]
         backgroundStrokeBorderWidth  : 0.0,                                  // Nav BackGround Stroke Border Width
         foregroundStrokeBorderWidth  : 2.0,                                  // Nav ForeGround Stroke Border Width  
         backgroundGradient           : null,                                 // Nav background Gradient [No Gradient if Null Overrides backgroundColor if given]
@@ -188,7 +188,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         selectedIconColor            : red,                                  // Selected Item Icon Color
         selectedIconSize             : 25,                                   // Selected Item Icon Size
         selectedTextSize             : 10,                                   // Selected Item Text Size
-        selectedTextColor            : red,                                  // Selected Item Text Color
+        selectedTextColor            : white,                                // Selected Item Text Color
         unselectedIconColor          : black,                                // UnSelected Item Icon Color
         unselectedIconSize           : 25,                                   // UnSelected Item Icon Size
         unselectedTextSize           : 10,                                   // UnSelected Item Text Size

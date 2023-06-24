@@ -1,4 +1,3 @@
-//=========================== Bottom Curve ===========================//
 import 'package:flutter/material.dart';
 
 Shader defaultGradientShader = const LinearGradient(
@@ -198,7 +197,7 @@ class NavForeGroundCurvePainterUnderStatic extends CustomPainter {
         loc * size.width-8,                  // Ending point of the curve // to make wider
         size.height * 0.72,                  // Ending control point of the curve
         (loc + s * 0.50) * size.width,       // Starting control point of the next curve
-        size.height * 0.70,                  // Ending control point of the next curve
+        size.height * 0.72,                  // Ending control point of the next curve
       )
       ..cubicTo(
         (loc + s) * size.width +8,           // First control point for the next curve // to make wider

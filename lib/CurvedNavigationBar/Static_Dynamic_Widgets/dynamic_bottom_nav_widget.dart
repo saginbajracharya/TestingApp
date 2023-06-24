@@ -152,7 +152,9 @@ class _DynamicBottomnavWidgetState extends State<DynamicBottomnavWidget> with Ti
     return Container(
       decoration: BoxDecoration(
         color: widget.backgroundColor,
-        border: Border(
+        border: widget.backgroundStrokeBorderWidth==0.0
+        ?null
+        :Border(
           top: BorderSide(
             color : widget.backgroundStrokeBorderColor,
             width : widget.backgroundStrokeBorderWidth??0.0,

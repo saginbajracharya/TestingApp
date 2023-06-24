@@ -3,19 +3,6 @@ import '../utils/styles.dart';
 import 'Static_Dynamic_Widgets/dynamic_bottom_nav_widget.dart';
 import 'Static_Dynamic_Widgets/static_bottom_nav_widget.dart';
 
-const Gradient defaultGradient = LinearGradient(
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
-  colors: [
-    Colors.white,
-    Colors.grey,
-    Colors.green,
-    Colors.grey,
-    Colors.white,
-  ],
-  stops: [0.1, 0.3, 0.5, 0.7, 1.0],
-);
-
 class MultiNavigationBar extends StatefulWidget {
   final List<IconData> icons;
   final List<String> titles;
@@ -67,7 +54,7 @@ class MultiNavigationBar extends StatefulWidget {
     this.foregroundColor             = grey,  // Default foreground Color White
     this.foregroundStrokeBorderColor = white, // Default foreground Stroke Border Color White
     this.backgroundStrokeBorderColor = white, // Default background Stroke Border Color White
-    this.backgroundStrokeBorderWidth = 1.0,   // Default Nav BackGround Stroke Border Width
+    this.backgroundStrokeBorderWidth = 0.0,   // Default Nav BackGround Stroke Border Width
     this.foregroundStrokeBorderWidth = 1.0,   // Default Nav ForeGround Stroke Border Width
     this.backgroundGradient,                  // Default Null
     this.foreGroundGradientShader,
