@@ -210,7 +210,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         customUnSelectedItemDecor          : customUnselectedItem(),               // Custom UnSelected Item Decor
 
         animationType                      : Curves.ease,                          // Index change animation curves
-        animationDuration                  : const Duration(milliseconds: 1000),   // Index Change Animation duration for curve only
+        animationDuration                  : const Duration(milliseconds: 500),    // Index Change Animation duration for curve only
         onTap                              : (index) async => onItemTapped(index), // Custom OnTap CallBacks
       ),
     );
