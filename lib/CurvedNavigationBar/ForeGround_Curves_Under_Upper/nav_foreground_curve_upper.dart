@@ -57,17 +57,17 @@ class NavForeGroundCurvePainterUpper extends CustomPainter {
       ..lineTo((loc - 0.03) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
         (loc + s * 0.20) * size.width,       // First control point for the curve
-        -size.height * 0.02,                 // Second control point for the curve
-        loc * size.width+10,                    // Ending point of the curve
-        -size.height * 0.14,                 // Ending control point of the curve
-        (loc + s * 0.50) * size.width,       // Starting control point of the next curve
+        -0.0,                                // Second control point for the curve
+        loc * size.width + 6,                // Ending point of the curve
+        -size.height * 0.12,                 // Ending control point of the curve
+        (loc + s * 0.5) * size.width,        // Starting control point of the next curve
         -size.height * 0.14,                 // Ending control point of the next curve
       )
       ..cubicTo(
-        (loc + s) * size.width-10,              // First control point for the next curve
-        -size.height * 0.14,                 // Second control point for the next curve
+        (loc + s) * size.width-6,            // First control point for the next curve
+        -size.height * 0.12,                 // Second control point for the next curve
         (loc + s - s * 0.20) * size.width,   // Ending point of the next curve
-        -size.height * 0.02,                 // Ending control point of the next curve
+        -0.0,                                // Ending control point of the next curve
         (loc + s + 0.03) * size.width,       // Starting point of the next curve
         0,                                   // Draws a line from the previous point to the right side of the curve
       )
@@ -127,17 +127,17 @@ class NavForeGroundUpperStrokeBorderPainter extends CustomPainter {
       ..lineTo((loc - 0.03) * size.width, 0) // Draws a line from the previous point to the left side of the curve
       ..cubicTo(
         (loc + s * 0.20) * size.width,       // First control point for the curve
-        -size.height * 0.0,                  // Second control point for the curve
-        loc * size.width+10,                 // Ending point of the curve
-        -size.height * 0.14,                 // Ending control point of the curve
-        (loc + s * 0.50) * size.width,       // Starting control point of the next curve
+        -0.0,                                // Second control point for the curve
+        loc * size.width + 6,                // Ending point of the curve
+        -size.height * 0.12,                 // Ending control point of the curve
+        (loc + s * 0.5) * size.width,        // Starting control point of the next curve
         -size.height * 0.14,                 // Ending control point of the next curve
       )
       ..cubicTo(
-        (loc + s) * size.width-10,           // First control point for the next curve
-        -size.height * 0.14,                 // Second control point for the next curve
+        (loc + s) * size.width-6,            // First control point for the next curve
+        -size.height * 0.12,                 // Second control point for the next curve
         (loc + s - s * 0.20) * size.width,   // Ending point of the next curve
-        -size.height * 0.0,                  // Ending control point of the next curve
+        -0.0,                                // Ending control point of the next curve
         (loc + s + 0.03) * size.width,       // Starting point of the next curve
         0,                                   // Draws a line from the previous point to the right side of the curve
       )

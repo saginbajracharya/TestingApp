@@ -17,6 +17,8 @@ class DynamicNavBarButton extends StatelessWidget {
   final double? unselectedIconSize;   
   final double? unselectedTextSize;  
   final Color? unselectedTextColor;
+  final Widget? customSelectedItemDecor;
+  final Widget? customUnSelectedItemDecor;
 
   const DynamicNavBarButton({super.key, 
     required this.onTap,
@@ -35,6 +37,8 @@ class DynamicNavBarButton extends StatelessWidget {
     required this.unselectedIconSize,   
     required this.unselectedTextSize,  
     required this.unselectedTextColor,
+    required this.customSelectedItemDecor,
+    required this.customUnSelectedItemDecor,
   });
 
   @override
@@ -56,7 +60,8 @@ class DynamicNavBarButton extends StatelessWidget {
           selectedIconColor: selectedIconColor,
           selectedIconSize:selectedIconSize,
           selectedTextSize:selectedTextSize,
-          selectedTextColor:selectedTextColor,
+          selectedTextColor:selectedTextColor, 
+          customSelectedItemDecor: customSelectedItemDecor,
         )
         :UnSelectedButtonWidget(
           showForeGround: showForeGround, 
@@ -67,7 +72,8 @@ class DynamicNavBarButton extends StatelessWidget {
           unselectedIconColor: unselectedIconColor,
           unselectedIconSize: unselectedIconSize,
           unselectedTextSize: unselectedTextSize,
-          unselectedTextColor: unselectedTextColor,
+          unselectedTextColor: unselectedTextColor, 
+          customUnselectedItemDecor: customUnSelectedItemDecor,
         ),
       ),
     );
@@ -75,11 +81,9 @@ class DynamicNavBarButton extends StatelessWidget {
 }
 
 class StaticNavBarButton extends StatelessWidget {
-  final double position;
   final int length;
   final int index;
   final bool showForeGround;
-  final bool showCircleStaticMidItem;
   final ValueChanged<int> onTap;
   final IconData icon;
   final String title;
@@ -92,20 +96,20 @@ class StaticNavBarButton extends StatelessWidget {
   final double? unselectedIconSize;   
   final double? unselectedTextSize;  
   final Color? unselectedTextColor;
-  final Color? midItemCircleColor;
-  final Color? midItemCircleBorderColor;
+  final Color? midItemCircleColorStatic;
+  final Color? midItemCircleBorderColorStatic;
   final bool showMidCircleStatic;
   final double midCircleRadiusStatic;
   final double midCircleBorderRadiusStatic;
+  final Widget? customSelectedItemDecor;
+  final Widget? customUnSelectedItemDecor;
 
   const StaticNavBarButton({
     super.key, 
     required this.onTap,
-    required this.position,
     required this.length,
     required this.index,
     required this.showForeGround,
-    required this.showCircleStaticMidItem,
     required this.icon,
     required this.title,
     required this.currentIndex,
@@ -117,11 +121,13 @@ class StaticNavBarButton extends StatelessWidget {
     required this.unselectedIconSize,   
     required this.unselectedTextSize,  
     required this.unselectedTextColor,
-    required this.midItemCircleColor,
-    required this.midItemCircleBorderColor,
+    required this.midItemCircleColorStatic,
+    required this.midItemCircleBorderColorStatic,
     required this.showMidCircleStatic,
     required this.midCircleRadiusStatic,
     required this.midCircleBorderRadiusStatic,
+    required this.customSelectedItemDecor,
+    required this.customUnSelectedItemDecor,
   });
 
   @override
@@ -140,9 +146,9 @@ class StaticNavBarButton extends StatelessWidget {
             index == midItem && showMidCircleStatic
             ?CircleAvatar(
               radius: midCircleRadiusStatic+midCircleBorderRadiusStatic,
-              backgroundColor: midItemCircleBorderColor,
+              backgroundColor: midItemCircleBorderColorStatic,
               child: CircleAvatar(
-                backgroundColor: midItemCircleColor,
+                backgroundColor: midItemCircleColorStatic,
                 radius: midCircleRadiusStatic,
               ),
             )
@@ -157,7 +163,8 @@ class StaticNavBarButton extends StatelessWidget {
               selectedIconColor: selectedIconColor,
               selectedIconSize:selectedIconSize, 
               selectedTextSize:selectedTextSize,  
-              selectedTextColor:selectedTextColor,
+              selectedTextColor:selectedTextColor, 
+              customSelectedItemDecor: customSelectedItemDecor,
             )
             :UnSelectedButtonWidget(
               showForeGround: showForeGround, 
@@ -168,7 +175,8 @@ class StaticNavBarButton extends StatelessWidget {
               unselectedIconColor: unselectedIconColor,
               unselectedIconSize:unselectedIconSize, 
               unselectedTextSize:unselectedTextSize,  
-              unselectedTextColor:unselectedTextColor,
+              unselectedTextColor:unselectedTextColor, 
+              customUnselectedItemDecor: customUnSelectedItemDecor,
             ),
           ],
         ),
@@ -189,6 +197,7 @@ class SelectedButtonWidget extends StatelessWidget {
     required this.selectedIconSize,
     required this.selectedTextSize,
     required this.selectedTextColor,
+    required this.customSelectedItemDecor,
   });
 
   final IconData icon;
@@ -200,23 +209,30 @@ class SelectedButtonWidget extends StatelessWidget {
   final double? selectedIconSize;   
   final double? selectedTextSize;  
   final Color? selectedTextColor;
+  final Widget? customSelectedItemDecor;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: kBottomNavigationBarHeight,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: selectedIconColor??Colors.red, // Change the color to your desired color
-            size: selectedIconSize??30, // Change the size to your desired size
-          ),
-          title=="" ? const SizedBox() : Text(title,style: TextStyle(color: selectedTextColor,fontSize: selectedTextSize))
-        ],
-      )
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        customSelectedItemDecor??const SizedBox(),
+        SizedBox(
+          height: kBottomNavigationBarHeight,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: selectedIconColor??Colors.red, // Change the color to your desired color
+                size: selectedIconSize??30, // Change the size to your desired size
+              ),
+              Flexible(child: title=="" ? const SizedBox() : Text(title,style: TextStyle(color: selectedTextColor,fontSize: selectedTextSize)))
+            ],
+          )
+        ),
+      ],
     );
   }
 }
@@ -233,6 +249,7 @@ class UnSelectedButtonWidget extends StatelessWidget {
     required this.unselectedIconSize,
     required this.unselectedTextSize,
     required this.unselectedTextColor,
+    required this.customUnselectedItemDecor,
   });
 
   final IconData icon;
@@ -244,23 +261,30 @@ class UnSelectedButtonWidget extends StatelessWidget {
   final double? unselectedIconSize;   
   final double? unselectedTextSize;  
   final Color? unselectedTextColor;
+  final Widget? customUnselectedItemDecor;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: kBottomNavigationBarHeight,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: unselectedIconColor??Colors.red, // Change the color to your desired color
-            size: unselectedIconSize??30, // Change the size to your desired size
-          ),
-          title=="" ? const SizedBox() : Text(title,style: TextStyle(color: unselectedTextColor,fontSize: unselectedTextSize??18))
-        ],
-      )
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        customUnselectedItemDecor??const SizedBox(),
+        SizedBox(
+          height: kBottomNavigationBarHeight,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: unselectedIconColor??Colors.red, // Change the color to your desired color
+                size: unselectedIconSize??30, // Change the size to your desired size
+              ),
+              Flexible(child: title=="" ? const SizedBox() : Text(title,style: TextStyle(color: unselectedTextColor,fontSize: unselectedTextSize??18)))
+            ],
+          )
+        ),
+      ],
     );
   }
 }
