@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../CurvedNavigationBar/multi_navigation_bar.dart';
+import '../CurvedNavigationBar/ultimate__bottom_nav_bar.dart';
 import '../utils/styles.dart';
 import 'page_1.dart';
 import 'page_2.dart';
@@ -171,7 +171,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           )
         ],
       ),
-      bottomNavigationBar: MultiNavigationBar(
+      bottomNavigationBar: UltimateBottomNavBar(
         icons                              : icons,                                // Icon list<Widget>
         titles                             : title,                                // Title list<String>
         currentIndex                       : currentIndex,                         // Current selected index

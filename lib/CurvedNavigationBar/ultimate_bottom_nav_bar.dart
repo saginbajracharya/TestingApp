@@ -4,7 +4,7 @@ import 'Button_Widgets/nav_button_widget.dart';
 import 'ForeGround_Curves_Under_Upper/nav_foreground_curve_under.dart';
 import 'ForeGround_Curves_Under_Upper/nav_foreground_curve_upper.dart';
 
-class MultiNavigationBar extends StatefulWidget {
+class UltimateBottomNavBar extends StatefulWidget {
   final List<IconData> icons;
   final List<String> titles;
   final int currentIndex;
@@ -46,7 +46,7 @@ class MultiNavigationBar extends StatefulWidget {
   final ValueChanged<int>? onTap;
 
   
-  const MultiNavigationBar({
+  const UltimateBottomNavBar({
     super.key,
     required this.icons,                                                        // Required
     required this.titles,                                                       // Required
@@ -93,7 +93,7 @@ class MultiNavigationBar extends StatefulWidget {
   MultiNavigationBarState createState() => MultiNavigationBarState();
 }
 
-class MultiNavigationBarState extends State<MultiNavigationBar> with TickerProviderStateMixin{
+class MultiNavigationBarState extends State<UltimateBottomNavBar> with TickerProviderStateMixin{
   late double _startingPos;
   int _endingIndex = 0;
   late double _pos;
@@ -121,7 +121,7 @@ class MultiNavigationBarState extends State<MultiNavigationBar> with TickerProvi
   }
 
   @override
-  void didUpdateWidget (MultiNavigationBar oldWidget) {
+  void didUpdateWidget (UltimateBottomNavBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentIndex != widget.currentIndex) {
       setState(() {
