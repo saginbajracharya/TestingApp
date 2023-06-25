@@ -28,14 +28,12 @@ class _Page1State extends State<Page1> {
   Widget build(BuildContext context) { // 4 build()
     setState(() { // 6 setState()
     });
-    return const CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          child: Center(
-            child: Text("PAGE 1",style: TextStyle(color: white))
-          )
-        )
-      ],
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: kBottomNavigationBarHeight+50,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.only(top:kBottomNavigationBarHeight),
+      child: const Text("PAGE 1",style: TextStyle(color: black,fontSize: 40.0)),
     );
   }
 

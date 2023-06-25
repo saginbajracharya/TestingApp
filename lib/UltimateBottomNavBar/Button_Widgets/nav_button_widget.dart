@@ -19,6 +19,14 @@ class DynamicNavBarButton extends StatelessWidget {
   final Color? unselectedTextColor;
   final Widget? customSelectedItemDecor;
   final Widget? customUnSelectedItemDecor;
+  final List<Map<String,dynamic>>? badgeData;
+  final Color? badgeColor;
+  final TextStyle? badgeTextStyle;
+  final double? badgeCircleRadius;
+  final double? badgeTopPosition;
+  final double? badgeBottomPosition;
+  final double? badgeLeftPosition;
+  final double? badgeRightPosition;
 
   const DynamicNavBarButton({super.key, 
     required this.onTap,
@@ -39,6 +47,14 @@ class DynamicNavBarButton extends StatelessWidget {
     required this.unselectedTextColor,
     required this.customSelectedItemDecor,
     required this.customUnSelectedItemDecor,
+    required this.badgeData,
+    required this.badgeColor,
+    required this.badgeTextStyle, 
+    required this.badgeCircleRadius,
+    required this.badgeTopPosition,
+    required this.badgeBottomPosition,
+    required this.badgeLeftPosition,
+    required this.badgeRightPosition,
   });
 
   @override
@@ -50,30 +66,51 @@ class DynamicNavBarButton extends StatelessWidget {
         onTap: () {
           onTap(index);
         },
-        child: isSelected
-        ?SelectedButtonWidget(
-          showForeGround: showForeGround, 
-          index: index, 
-          length: length, 
-          title: title,
-          icon: icon,
-          selectedIconColor: selectedIconColor,
-          selectedIconSize:selectedIconSize,
-          selectedTextSize:selectedTextSize,
-          selectedTextColor:selectedTextColor, 
-          customSelectedItemDecor: customSelectedItemDecor,
-        )
-        :UnSelectedButtonWidget(
-          showForeGround: showForeGround, 
-          index: index, 
-          length: length, 
-          title: title,
-          icon: icon,
-          unselectedIconColor: unselectedIconColor,
-          unselectedIconSize: unselectedIconSize,
-          unselectedTextSize: unselectedTextSize,
-          unselectedTextColor: unselectedTextColor, 
-          customUnselectedItemDecor: customUnSelectedItemDecor,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            isSelected
+            ?SelectedButtonWidget(
+              showForeGround: showForeGround, 
+              index: index, 
+              length: length, 
+              title: title,
+              icon: icon,
+              selectedIconColor: selectedIconColor,
+              selectedIconSize:selectedIconSize,
+              selectedTextSize:selectedTextSize,
+              selectedTextColor:selectedTextColor, 
+              customSelectedItemDecor: customSelectedItemDecor,
+            )
+            :UnSelectedButtonWidget(
+              showForeGround: showForeGround, 
+              index: index, 
+              length: length, 
+              title: title,
+              icon: icon,
+              unselectedIconColor: unselectedIconColor,
+              unselectedIconSize: unselectedIconSize,
+              unselectedTextSize: unselectedTextSize,
+              unselectedTextColor: unselectedTextColor, 
+              customUnselectedItemDecor: customUnSelectedItemDecor,
+            ),
+            shouldShowBadge(index, badgeData)
+            ?Positioned(
+              top: badgeTopPosition,
+              right: badgeRightPosition,
+              bottom: badgeBottomPosition,
+              left: badgeLeftPosition,
+              child: CircleAvatar(
+                radius: badgeCircleRadius,
+                backgroundColor: badgeColor,
+                child:Padding(
+                  padding: const EdgeInsets.all(1.0),
+                  child: Text(getValueForIndex(index,badgeData),style: badgeTextStyle),
+                ),
+              ),
+            )
+            :const SizedBox(),
+          ],
         ),
       ),
     );
@@ -103,6 +140,14 @@ class StaticNavBarButton extends StatelessWidget {
   final double midCircleBorderRadiusStatic;
   final Widget? customSelectedItemDecor;
   final Widget? customUnSelectedItemDecor;
+  final List<Map<String,dynamic>>? badgeData;
+  final Color? badgeColor;
+  final TextStyle? badgeTextStyle;
+  final double? badgeCircleRadius;
+  final double? badgeTopPosition;
+  final double? badgeBottomPosition;
+  final double? badgeLeftPosition;
+  final double? badgeRightPosition;
 
   const StaticNavBarButton({
     super.key, 
@@ -128,6 +173,14 @@ class StaticNavBarButton extends StatelessWidget {
     required this.midCircleBorderRadiusStatic,
     required this.customSelectedItemDecor,
     required this.customUnSelectedItemDecor,
+    required this.badgeData,
+    required this.badgeColor,
+    required this.badgeTextStyle, 
+    required this.badgeCircleRadius,
+    required this.badgeTopPosition,
+    required this.badgeBottomPosition,
+    required this.badgeLeftPosition,
+    required this.badgeRightPosition,
   });
 
   @override
@@ -178,6 +231,22 @@ class StaticNavBarButton extends StatelessWidget {
               unselectedTextColor:unselectedTextColor, 
               customUnselectedItemDecor: customUnSelectedItemDecor,
             ),
+            shouldShowBadge(index, badgeData)
+            ?Positioned(
+              top: badgeTopPosition,
+              right: badgeRightPosition,
+              bottom: badgeBottomPosition,
+              left: badgeLeftPosition,
+              child: CircleAvatar(
+                radius: badgeCircleRadius,
+                backgroundColor: badgeColor,
+                child:Padding(
+                  padding: const EdgeInsets.all(1.0),
+                  child: Text(getValueForIndex(currentIndex,badgeData),style: badgeTextStyle),
+                ),
+              ),
+            )
+            :const SizedBox(),
           ],
         ),
       ),
@@ -287,4 +356,25 @@ class UnSelectedButtonWidget extends StatelessWidget {
       ],
     );
   }
+}
+
+bool shouldShowBadge(int index,badgeData) {
+  if (badgeData == null || badgeData.isEmpty) {
+    return false;
+  }
+  for (var badge in badgeData) {
+    if (badge['index'] == index && badge['value'] != null && badge['value'] != '0') {
+      return true;
+    }
+  }
+  return false;
+}
+
+String getValueForIndex(int index,badgeData) {
+  for (var badge in badgeData) {
+    if (badge['index'] == index) {
+      return badge['value'].toString();
+    }
+  }
+  return '';
 }
