@@ -90,10 +90,10 @@ class UltimateBottomNavBar extends StatefulWidget {
   });
 
   @override
-  MultiNavigationBarState createState() => MultiNavigationBarState();
+  UltimateBottomNavBarState createState() => UltimateBottomNavBarState();
 }
 
-class MultiNavigationBarState extends State<UltimateBottomNavBar> with TickerProviderStateMixin{
+class UltimateBottomNavBarState extends State<UltimateBottomNavBar> with TickerProviderStateMixin{
   late double _startingPos;
   int _endingIndex = 0;
   late double _pos;
