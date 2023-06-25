@@ -157,7 +157,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                       child: Text(backgroundStrokeBorderWidth==0.0?'Show Background Stroke':'Hide Background Stroke',style: const TextStyle(color: white))
                     ),
                   ),
-                  //ForeGround Gradient
+                  //ForeGround Gradient / Solod Color
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical :8.0),
                     child: ElevatedButton(
@@ -174,7 +174,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                           }
                         });
                       }, 
-                      child: const Text('Use ForeGround Gradient',style: TextStyle(color: white))
+                      child: Text(useForeGroundGradient?'ForeGround Solid Color':'ForeGround Gradient Color',style: const TextStyle(color: white))
                     ),
                   ),
                   //Show Hide ForeGround
@@ -214,7 +214,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                           }
                         });
                       }, 
-                      child: const Text('Use ForeGround Shader Stroke',style: TextStyle(color: white))
+                      child: Text(useShaderStroke?'ForeGround Solid Color Stroke':'ForeGround Shader Gradient Stroke',style: const TextStyle(color: white))
                     ),
                   ),
                   //Under Upper Curve
@@ -234,7 +234,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                           }
                         });
                       }, 
-                      child: const Text('Under Curve',style: TextStyle(color: white))
+                      child: Text(underCurve?'Upper Curve':'Under Curve',style: const TextStyle(color: white))
                     ),
                   ),
                   //Static Dynamic Curve
@@ -254,7 +254,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
                           }
                         });
                       }, 
-                      child: const Text('Static Curve',style: TextStyle(color: white))
+                      child: Text(staticCurve?'Dynamic Curve':'Static Curve',style: const TextStyle(color: white))
                     ),
                   ),
                   //Change Badge value 1
