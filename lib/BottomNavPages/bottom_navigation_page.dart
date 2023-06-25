@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../CurvedNavigationBar/ultimate_bottom_nav_bar.dart';
+import '../UltimateBottomNavBar/ultimate_bottom_nav_bar.dart';
 import '../utils/styles.dart';
 import 'page_1.dart';
 import 'page_2.dart';
