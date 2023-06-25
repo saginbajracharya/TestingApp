@@ -28,13 +28,7 @@ class _Page1State extends State<Page1> {
   Widget build(BuildContext context) { // 4 build()
     setState(() { // 6 setState()
     });
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: kBottomNavigationBarHeight+50,
-      alignment: Alignment.center,
-      padding: const EdgeInsets.only(top:kBottomNavigationBarHeight),
-      child: const Text("PAGE 1",style: TextStyle(color: black,fontSize: 40.0)),
-    );
+    return const Text("PAGE 1",style: TextStyle(color: black,fontSize: 40.0));
   }
 
   // 5 didUpdateWidget()

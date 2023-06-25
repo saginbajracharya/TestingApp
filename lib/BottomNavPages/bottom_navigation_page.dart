@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import '../UltimateBottomNavBar/ultimate_bottom_nav_bar.dart';
 import '../utils/styles.dart';
@@ -15,15 +17,18 @@ class BottomNavigationPage extends StatefulWidget {
 }
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
-  bool staticCurve             = false;
-  bool useForeGroundGradient   = false;
-  bool showForeGround          = true;
-  bool useShaderStroke         = false;
-  bool underCurve              = true;
-  bool showCircleStaticMidItem = true;   
-  int currentIndex             = 0;
-  var badgeVal1 = '5';
-  var badgeVal2 = '55';
+  Random random                      = Random();
+  int currentIndex                   = 0;
+  bool staticCurve                   = false;
+  bool useForeGroundGradient         = false;
+  bool showForeGround                = true;
+  bool useShaderStroke               = false;
+  bool underCurve                    = true;
+  bool showCircleStaticMidItem       = true;
+  Color backgroundColor              = transparent; 
+  double backgroundStrokeBorderWidth = 0.0;  
+  var badgeVal1                      = '5';
+  var badgeVal2                      = '55';
 
   final List<String> title = [
     "",
@@ -92,116 +97,232 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      extendBody: true,
       backgroundColor: blue.withOpacity(0.6),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Flexible(
-            child: pages[currentIndex]
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: kBottomNavigationBarHeight+50,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.only(top:kBottomNavigationBarHeight),
+            child: pages[currentIndex],
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    if(useForeGroundGradient==false)
-                    {
-                      useForeGroundGradient=true;
-                    }else{
-                      useForeGroundGradient=false;
-                    }
-                  });
-                }, 
-                child: const Text('Use Fore Ground Gradient',style: TextStyle(color: white))
+          Container(
+            height: MediaQuery.of(context).size.height-kBottomNavigationBarHeight-kBottomNavigationBarHeight,
+            padding: const EdgeInsets.only(left:10.0,right:10.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //Random Background Color
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          backgroundColor = Color.fromARGB(
+                            255,
+                            random.nextInt(256),
+                            random.nextInt(256),
+                            random.nextInt(256),
+                          );
+                        });
+                      }, 
+                      child: const Text('Random Background Color',style: TextStyle(color: white))
+                    ),
+                  ),
+                  //Show Hide Background Stroke
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          if(backgroundStrokeBorderWidth==0.0){
+                            backgroundStrokeBorderWidth=2.0;
+                          }else{
+                            backgroundStrokeBorderWidth=0.0;
+                          }
+                        });
+                      }, 
+                      child: Text(backgroundStrokeBorderWidth==0.0?'Show Background Stroke':'Hide Background Stroke',style: const TextStyle(color: white))
+                    ),
+                  ),
+                  //ForeGround Gradient
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          if(useForeGroundGradient==false)
+                          {
+                            useForeGroundGradient=true;
+                          }else{
+                            useForeGroundGradient=false;
+                          }
+                        });
+                      }, 
+                      child: const Text('Use ForeGround Gradient',style: TextStyle(color: white))
+                    ),
+                  ),
+                  //Show Hide ForeGround
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          if(showForeGround==false)
+                          {
+                            showForeGround=true;
+                          }else{
+                            showForeGround=false;
+                          }
+                        });
+                      }, 
+                      child: Text(showForeGround?'Hide ForeGround':'Show ForeGround',style: const TextStyle(color: white))
+                    ),
+                  ),
+                  //Foreground Shader Stroke
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          if(useShaderStroke==false)
+                          {
+                            useShaderStroke=true;
+                          }else{
+                            useShaderStroke=false;
+                          }
+                        });
+                      }, 
+                      child: const Text('Use ForeGround Shader Stroke',style: TextStyle(color: white))
+                    ),
+                  ),
+                  //Under Upper Curve
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          if(underCurve==false)
+                          {
+                            underCurve=true;
+                          }else{
+                            underCurve=false;
+                          }
+                        });
+                      }, 
+                      child: const Text('Under Curve',style: TextStyle(color: white))
+                    ),
+                  ),
+                  //Static Dynamic Curve
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          if(staticCurve==false)
+                          {
+                            staticCurve=true;
+                          }else{
+                            staticCurve=false;
+                          }
+                        });
+                      }, 
+                      child: const Text('Static Curve',style: TextStyle(color: white))
+                    ),
+                  ),
+                  //Change Badge value 1
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          badgeVal1 = (int.parse(badgeVal1)+1).toString();
+                        });
+                      }, 
+                      child: const Text('Change Badge value 1',style: TextStyle(color: white))
+                    ),
+                  ),
+                  //Change Badge value 2
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          badgeVal2 = (int.parse(badgeVal2)+1).toString();
+                        });
+                      }, 
+                      child: const Text('Change Badge value 2',style: TextStyle(color: white))
+                    ),
+                  ),
+                  //Reset Badge value 1
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          badgeVal1 = '0';
+                        });
+                      }, 
+                      child: const Text('Reset Badge value 1',style: TextStyle(color: white))
+                    ),
+                  ),
+                  //Reset Badge value 2
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical :8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: ()async{
+                        setState(() {
+                          badgeVal2 = '0';
+                        });
+                      }, 
+                      child: const Text('Reset Badge value 2',style: TextStyle(color: white))
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  )
+                ],
               ),
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    if(showForeGround==false)
-                    {
-                      showForeGround=true;
-                    }else{
-                      showForeGround=false;
-                    }
-                  });
-                }, 
-                child: const Text('Show Fore Ground',style: TextStyle(color: white))
-              ),
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    if(useShaderStroke==false)
-                    {
-                      useShaderStroke=true;
-                    }else{
-                      useShaderStroke=false;
-                    }
-                  });
-                }, 
-                child: const Text('Use Shader Stroke',style: TextStyle(color: white))
-              ),
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    if(underCurve==false)
-                    {
-                      underCurve=true;
-                    }else{
-                      underCurve=false;
-                    }
-                  });
-                }, 
-                child: const Text('Under Curve',style: TextStyle(color: white))
-              ),
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    if(staticCurve==false)
-                    {
-                      staticCurve=true;
-                    }else{
-                      staticCurve=false;
-                    }
-                  });
-                }, 
-                child: const Text('Static Curve',style: TextStyle(color: white))
-              ),
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    badgeVal1 = (int.parse(badgeVal1)+1).toString();
-                  });
-                }, 
-                child: const Text('Change Badge value 1',style: TextStyle(color: white))
-              ),
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    badgeVal2 = (int.parse(badgeVal2)+1).toString();
-                  });
-                }, 
-                child: const Text('Change Badge value 2',style: TextStyle(color: white))
-              ),
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    badgeVal1 = '0';
-                  });
-                }, 
-                child: const Text('Reset Badge value 1',style: TextStyle(color: white))
-              ),
-              ElevatedButton(
-                onPressed: ()async{
-                  setState(() {
-                    badgeVal2 = '0';
-                  });
-                }, 
-                child: const Text('Reset Badge value 2',style: TextStyle(color: white))
-              )
-            ],
+            ),
           ),
         ],
       ),
@@ -209,11 +330,11 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         icons                              : icons,                                                                       // Icon list<Widget>
         titles                             : title,                                                                       // Title list<String>
         currentIndex                       : currentIndex,                                                                // Current selected index
-        backgroundColor                    : transparent,                                                                 // NavBar BackGround Color [backgroundGradient ovrerides color]
+        backgroundColor                    : backgroundColor,                                                             // NavBar BackGround Color [backgroundGradient ovrerides color]
         foregroundColor                    : white,                                                                       // NavBar ForeGround Color with Curve 
         foregroundStrokeBorderColor        : black,                                                                       // Nav Stroke Border Color [useShaderStroke = false , strokeBorderWidth != 0]
         backgroundStrokeBorderColor        : black,                                                                       // nav background stroke color [seems like when border width is 0.0 still shows the color but transparent solves it]
-        backgroundStrokeBorderWidth        : 0.0,                                                                         // Nav BackGround Stroke Border Width
+        backgroundStrokeBorderWidth        : backgroundStrokeBorderWidth,                                                 // Nav BackGround Stroke Border Width
         foregroundStrokeBorderWidth        : 2.0,                                                                         // Nav ForeGround Stroke Border Width  
         backgroundGradient                 : null,                                                                        // Nav background Gradient [No Gradient if Null Overrides backgroundColor if given]
         foreGroundGradientShader           : foreGroundGradientShader,                                                    // Nav ForeGround Gradient Shader [foregroundColor or foreGroundGradientShader determined by Bool useForeGroundGradient]
